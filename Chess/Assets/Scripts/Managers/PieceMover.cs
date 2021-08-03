@@ -8,19 +8,6 @@ public class PieceMover : MonoBehaviour
     private Square _squareWithPiece;
     private Square _squareWherePieceWillGo;
 
-    private void MoveChessPiece()
-    {
-        //Piece selectedPiece = GameManager.Instance.GetSelectedChessPiece();
-        //Square oldCell = Chessboard.Instance.GetCellOnWhichPieceStands(selectedPiece);
-
-        //oldCell.PieceOnThis = null;
-        //cell.PieceOnThis = selectedPiece;
-        //selectedPiece.Move(cell);
-
-        Piece piece = _squareWithPiece.PieceOnThis;
-        piece.Move(_squareWherePieceWillGo);
-    }
-
     private void SelectSquareWithPiece(Square square)
     {
         _squareWithPiece = square;
@@ -37,7 +24,10 @@ public class PieceMover : MonoBehaviour
         }
 
         if (_squareWithPiece != null)
+        {
             MoveChessPiece();
+            UpdateStateOnChessboard();
+        }    
     }
 
     private bool SquareIsPieceTurn(Square square)
@@ -54,6 +44,24 @@ public class PieceMover : MonoBehaviour
     private void ResetSquareFields()
     {
         _squareWithPiece = _squareWherePieceWillGo = null;
+    }
+
+    private void MoveChessPiece()
+    {
+        Piece piece = _squareWithPiece.PieceOnThis;
+        piece.Move(_squareWherePieceWillGo);
+    }
+
+    private void UpdateStateOnChessboard()
+    {
+        _pieceTurnDisplayer.HideTurnsOfPiece();
+
+        Piece piece = _squareWithPiece.PieceOnThis;
+
+        _squareWithPiece.PieceOnThis = null;
+        _squareWherePieceWillGo.PieceOnThis = piece;
+
+        ResetSquareFields();
     }
 
     #region Events
