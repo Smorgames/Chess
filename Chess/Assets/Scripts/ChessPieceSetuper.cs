@@ -15,8 +15,6 @@ public class ChessPieceSetuper : MonoBehaviour
         PieceStorage.AddPieceInArrayOfAllPieces(BlackPawn);
         SetChessPieceOnCell(WhitePawn, 1, 1);
         SetChessPieceOnCell(BlackPawn, 2, 2);
-
-        GameManager.Instance.IsBlackTurn = false;
     }
 
     private void SetChessPieceOnCell(Piece chessPiece, int x, int y)

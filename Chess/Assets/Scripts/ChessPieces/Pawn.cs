@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class Pawn : Piece
 {
@@ -62,7 +61,7 @@ public class Pawn : Piece
 
     private bool PieceOnSquareHasOppositeColor(Square square)
     {
-        return square.PieceOnThis.ColorData.IsBlack != ColorData.IsBlack;
+        return square.PieceOnThis.ColorData.Color != ColorData.Color;
     }
 
     public override void Move(Square cell)

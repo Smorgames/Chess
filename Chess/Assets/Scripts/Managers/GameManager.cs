@@ -9,15 +9,17 @@ public class GameManager : MonoBehaviour
         Instance = this;    
     }
 
-    public bool IsBlackTurn { get => _isBlackTurn; set => _isBlackTurn = value; }
-    private bool _isBlackTurn = true;
+    public PieceColor WhoseTurn { get => _whoseTurn; }
+    private PieceColor _whoseTurn;
+
+    public void ChangeTurn()
+    {
+        if (_whoseTurn == PieceColor.Black)
+            _whoseTurn = PieceColor.White;
+        else if (_whoseTurn == PieceColor.White)
+            _whoseTurn = PieceColor.Black;
+    }
 
     public delegate void ChangeTurnHandler(bool isBlackTurn);
     public static event ChangeTurnHandler OnTurnChangedToBlack;
-
-    public void IsNowBlackTurn(bool isBlackTurn)
-    {
-        _isBlackTurn = isBlackTurn;
-        OnTurnChangedToBlack?.Invoke(_isBlackTurn);
-    }
 }

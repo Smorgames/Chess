@@ -63,8 +63,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colorData:
-    _isBlack: 0
-  _collider: {fileID: 0}
+    _color: 1
+  _collider: {fileID: 4320856288629659872}
 --- !u!1001 &3306743089541358420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,13 +130,19 @@ PrefabInstance:
     - target: {fileID: 2477917854985525061, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_Name
-      value: WhitePawn
+      value: WhitePawn Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab262a3a0172854eb42489d4c4065b7, type: 3}
 --- !u!1 &1117099935306986513 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2477917854985525061, guid: 5ab262a3a0172854eb42489d4c4065b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3306743089541358420}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &4320856288629659872 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1591225009867570100, guid: 5ab262a3a0172854eb42489d4c4065b7,
     type: 3}
   m_PrefabInstance: {fileID: 3306743089541358420}
   m_PrefabAsset: {fileID: 0}
