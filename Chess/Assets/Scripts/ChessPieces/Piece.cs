@@ -3,9 +3,13 @@ using UnityEngine;
 
 public abstract class Piece : MonoBehaviour
 {
-    public delegate void PieceMoveHandler(Piece chessPiece);
+    public delegate void PieceMoveHandler();
     public static event PieceMoveHandler OnPieceMoved;
-    public static event PieceMoveHandler OnPieceDied;
+
+    public delegate void PieceDeadHandler(Piece chessPiece);
+    public static event PieceDeadHandler OnPieceDied;
+
+    public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
     public ColorData ColorData { get => _colorData; }
     [SerializeField] private ColorData _colorData;
@@ -28,8 +32,8 @@ public abstract class Piece : MonoBehaviour
 
     public virtual void Move(Square cell)
     {
-        transform.position = cell.transform.position;
-        OnPieceMoved?.Invoke(this);
+        transform.position = cell.transform.position + Offset;
+        OnPieceMoved?.Invoke();
     }
 
     public void Death()

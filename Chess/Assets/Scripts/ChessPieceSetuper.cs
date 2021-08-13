@@ -8,6 +8,13 @@ public class ChessPieceSetuper : MonoBehaviour
     public Pawn BlackPawn;
     public Pawn WhitePawn;
 
+    private Vector3 _offset;
+
+    private void Awake()
+    {
+        _offset = Piece.Offset;
+    }
+
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(0.1f);
@@ -20,6 +27,6 @@ public class ChessPieceSetuper : MonoBehaviour
     private void SetChessPieceOnCell(Piece chessPiece, int x, int y)
     {
         SquareHandler.GetSquareWithCoordinates(x, y).PieceOnThis = chessPiece;
-        chessPiece.transform.position = SquareHandler.GetSquareWithCoordinates(x, y).transform.position;
+        chessPiece.transform.position = SquareHandler.GetSquareWithCoordinates(x, y).transform.position + _offset;
     }
 }
