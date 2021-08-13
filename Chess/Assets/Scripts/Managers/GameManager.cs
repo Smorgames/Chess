@@ -6,7 +6,13 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;    
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(this);
+            return;
+        }
     }
 
     public PieceColor WhoseTurn { get => _whoseTurn; }
@@ -18,8 +24,10 @@ public class GameManager : MonoBehaviour
             _whoseTurn = PieceColor.White;
         else if (_whoseTurn == PieceColor.White)
             _whoseTurn = PieceColor.Black;
+
+        OnTurnChanged?.Invoke(_whoseTurn);
     }
 
-    public delegate void ChangeTurnHandler(bool isBlackTurn);
-    public static event ChangeTurnHandler OnTurnChangedToBlack;
+    public delegate void ChangeTurnHandler(PieceColor color);
+    public event ChangeTurnHandler OnTurnChanged;
 }

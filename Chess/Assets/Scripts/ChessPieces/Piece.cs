@@ -13,7 +13,10 @@ public abstract class Piece : MonoBehaviour
     public bool IsUnderAttack { get => _underAttack; }
     protected bool _underAttack = false;
 
+    protected bool _thisColorTurn = false;
+
     protected SquareHandler _squareHandler;
+    protected GameManager _gameManager;
 
     [SerializeField] private Collider2D _collider;
 
@@ -37,6 +40,23 @@ public abstract class Piece : MonoBehaviour
 
     private void Start()
     {
+        Init();
+        _gameManager.OnTurnChanged += ChangeTurn;
+    }
+
+    private void Init()
+    {
         _squareHandler = SquareHandler.Instance;
+        _gameManager = GameManager.Instance;
+    }
+
+    private void OnDestroy()
+    {
+        _gameManager.OnTurnChanged -= ChangeTurn;
+    }
+
+    private void ChangeTurn(PieceColor color)
+    {
+        _thisColorTurn = color == GameManager.Instance.WhoseTurn;
     }
 }
