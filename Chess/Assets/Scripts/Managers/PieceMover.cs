@@ -15,7 +15,7 @@ public class PieceMover : MonoBehaviour
 
     private void SelectSquareWhereWillGo(Square square)
     {
-        if (SquareIsPieceTurn(square))
+        if (ThisSquareIsPossiblePieceTurn(square))
             _squareWherePieceWillGo = square;
         else
         {
@@ -30,7 +30,7 @@ public class PieceMover : MonoBehaviour
         }    
     }
 
-    private bool SquareIsPieceTurn(Square square)
+    private bool ThisSquareIsPossiblePieceTurn(Square square)
     {
         List<Square> possibleTurns = _pieceTurnDisplayer.PieceTurns.GetPossibleTurns();
 

@@ -38,6 +38,22 @@ public abstract class Piece : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Piece enemyPiece = collision.GetComponent<Piece>();
+
+        if (enemyPiece != null)
+        {
+            PieceColor pieceColor = enemyPiece.ColorData.Color;
+
+            if (pieceColor != _colorData.Color && _thisColorTurn)
+            {
+                Debug.Log(enemyPiece.name);
+                enemyPiece.Death();
+            }
+        }
+    }
+
     private void Start()
     {
         Init();
@@ -57,6 +73,6 @@ public abstract class Piece : MonoBehaviour
 
     private void ChangeTurn(PieceColor color)
     {
-        _thisColorTurn = color == GameManager.Instance.WhoseTurn;
+        _thisColorTurn = color == _colorData.Color;
     }
 }

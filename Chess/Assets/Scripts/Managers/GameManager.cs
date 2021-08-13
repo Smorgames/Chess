@@ -4,6 +4,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public delegate void ChangeTurnHandler(PieceColor color);
+    public event ChangeTurnHandler OnTurnChanged;
+
     private void Awake()
     {
         if (Instance == null)
@@ -16,7 +19,7 @@ public class GameManager : MonoBehaviour
     }
 
     public PieceColor WhoseTurn { get => _whoseTurn; }
-    private PieceColor _whoseTurn;
+    private PieceColor _whoseTurn = PieceColor.Black;
 
     public void ChangeTurn()
     {
@@ -28,6 +31,5 @@ public class GameManager : MonoBehaviour
         OnTurnChanged?.Invoke(_whoseTurn);
     }
 
-    public delegate void ChangeTurnHandler(PieceColor color);
-    public event ChangeTurnHandler OnTurnChanged;
+    
 }

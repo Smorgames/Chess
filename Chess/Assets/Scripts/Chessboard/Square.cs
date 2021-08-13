@@ -28,16 +28,19 @@ public class Square : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (_pieceOnThis != null)
+        if (_pieceOnThis != null && NowTurnOfThisPiece())
         {
-            Debug.Log(_pieceOnThis);
             OnSquareWithPieceClicked?.Invoke(this);
         }
         else
         {
-            Debug.Log(this);
             OnEmptySquareClicked?.Invoke(this);
         }
+    }
+
+    private bool NowTurnOfThisPiece()
+    {
+        return _pieceOnThis.ColorData.Color == GameManager.Instance.WhoseTurn;
     }
 
     public void SetCoordinates(int x, int y)
