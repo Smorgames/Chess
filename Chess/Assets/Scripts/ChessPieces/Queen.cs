@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Bishop : Piece
+public class Queen : Piece
 {
     private List<Square> _attackTurns;
 
@@ -19,20 +20,28 @@ public class Bishop : Piece
 
         List<Square> turns = new List<Square>();
 
+        Vector2Int upDir = new Vector2Int(0, 1);
+        Vector2Int downDir = new Vector2Int(0, -1);
+        Vector2Int rightDir = new Vector2Int(1, 0);
+        Vector2Int leftDir = new Vector2Int(-1, 0);
         Vector2Int upRightDir = new Vector2Int(1, 1);
         Vector2Int upLeftDir = new Vector2Int(1, -1);
         Vector2Int downRightDir = new Vector2Int(-1, -1);
         Vector2Int downLeftDir = new Vector2Int(-1, 1);
 
-        AddPossibleTurnsInDiagonal(turns, squareWithThis.Coordinates, upRightDir);
-        AddPossibleTurnsInDiagonal(turns, squareWithThis.Coordinates, upLeftDir);
-        AddPossibleTurnsInDiagonal(turns, squareWithThis.Coordinates, downLeftDir);
-        AddPossibleTurnsInDiagonal(turns, squareWithThis.Coordinates, downRightDir);
+        AddPossibleTurnsInLine(turns, squareWithThis.Coordinates, upDir);
+        AddPossibleTurnsInLine(turns, squareWithThis.Coordinates, downDir);
+        AddPossibleTurnsInLine(turns, squareWithThis.Coordinates, rightDir);
+        AddPossibleTurnsInLine(turns, squareWithThis.Coordinates, leftDir);
+        AddPossibleTurnsInLine(turns, squareWithThis.Coordinates, upRightDir);
+        AddPossibleTurnsInLine(turns, squareWithThis.Coordinates, upLeftDir);
+        AddPossibleTurnsInLine(turns, squareWithThis.Coordinates, downLeftDir);
+        AddPossibleTurnsInLine(turns, squareWithThis.Coordinates, downRightDir);
 
         return turns;
     }
 
-    private void AddPossibleTurnsInDiagonal(List<Square> turns, Vector2Int pieceCoordinats, Vector2Int rowDirection)
+    private void AddPossibleTurnsInLine(List<Square> turns, Vector2Int pieceCoordinats, Vector2Int rowDirection)
     {
         for (int i = 1; i < Chessboard.Instance.Length; i++)
         {
