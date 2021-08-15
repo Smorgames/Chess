@@ -59,12 +59,7 @@ public abstract class Piece : MonoBehaviour
 
     protected bool PieceStandsOnSquare(Square square)
     {
-        return !square || ChessPieceStandOn(square);
-    }
-
-    private bool ChessPieceStandOn(Square cell)
-    {
-        if (cell.PieceOnThis)
+        if (square.PieceOnThis)
             return true;
 
         return false;
