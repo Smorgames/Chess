@@ -24,11 +24,5 @@ public class ColorData
 public enum PieceColor
 {
     Black,
-    White,
-    Green,
-    Blue,
-    Red,
-    Yellow,
-    Purple,
-    Orange
+    White
 }
