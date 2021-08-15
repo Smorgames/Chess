@@ -5,8 +5,8 @@ public class ChessPieceSetuper : MonoBehaviour
 {
     public SquareHandler SquareHandler;
     public AllPiecesStorage PieceStorage;
-    public Pawn BlackPawn;
-    public Pawn WhitePawn;
+    public Piece Black;
+    public Piece White;
 
     private Vector3 _offset;
 
@@ -18,10 +18,10 @@ public class ChessPieceSetuper : MonoBehaviour
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(0.1f);
-        PieceStorage.AddPieceInArrayOfAllPieces(WhitePawn);
-        PieceStorage.AddPieceInArrayOfAllPieces(BlackPawn);
-        SetChessPieceOnCell(WhitePawn, 1, 1);
-        SetChessPieceOnCell(BlackPawn, 2, 2);
+        PieceStorage.AddPieceInArrayOfAllPieces(White);
+        PieceStorage.AddPieceInArrayOfAllPieces(Black);
+        SetChessPieceOnCell(White, 1, 1);
+        SetChessPieceOnCell(Black, 2, 2);
     }
 
     private void SetChessPieceOnCell(Piece chessPiece, int x, int y)
