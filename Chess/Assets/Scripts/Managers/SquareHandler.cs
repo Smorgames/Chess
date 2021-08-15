@@ -5,6 +5,8 @@ public class SquareHandler : MonoBehaviour
 {
     public static SquareHandler Instance;
 
+    [SerializeField] private Square _ghostSquare;
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,7 +31,7 @@ public class SquareHandler : MonoBehaviour
             }
         }
 
-        return null;
+        return _ghostSquare;
     }
 
     public Square GetSquareWithCoordinates(int x, int y)
@@ -37,7 +39,7 @@ public class SquareHandler : MonoBehaviour
         if (x >= 0 && x < _chessboard.Length && y >= 0 && y < _chessboard.Height)
             return _chessboard.Squares[x, y];
         else
-            return null;
+            return _ghostSquare;
     }
 
     public void ActivateListOfSquares(List<Square> squares)
