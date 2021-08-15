@@ -2,6 +2,19 @@
 
 public class Chessboard : MonoBehaviour
 {
+    public static Chessboard Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(this);
+            return;
+        }
+    }
+
     public int Length { get => _length; }
     private int _length;
     public int Height { get => _height; }

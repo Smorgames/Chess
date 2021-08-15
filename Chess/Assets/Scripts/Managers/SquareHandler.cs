@@ -5,6 +5,7 @@ public class SquareHandler : MonoBehaviour
 {
     public static SquareHandler Instance;
 
+    public Square GhostSquare { get => _ghostSquare; }
     [SerializeField] private Square _ghostSquare;
 
     private void Awake()
