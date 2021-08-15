@@ -57,7 +57,7 @@ public abstract class Piece : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected bool PieceStandsOnSquare(Square square)
+    protected bool IsPieceStandsOnSquare(Square square)
     {
         if (square.PieceOnThis)
             return true;
@@ -65,7 +65,7 @@ public abstract class Piece : MonoBehaviour
         return false;
     }
 
-    protected bool PieceOnSquareHasOppositeColor(Square square)
+    protected bool IsPieceOnSquareHasOppositeColor(Square square)
     {
         return square.PieceOnThis.ColorData.Color != ColorData.Color;
     }

@@ -16,10 +16,10 @@ public class Pawn : Piece
         Square firstSquare = _squareHandler.GetSquareWithCoordinates(x + 1 * colorMultiplyer, y + 1 * colorMultiplyer);
         Square secondSquare = _squareHandler.GetSquareWithCoordinates(x - 1 * colorMultiplyer, y + 1 * colorMultiplyer);
 
-        if (PieceStandsOnSquare(firstSquare) && PieceOnSquareHasOppositeColor(firstSquare))
+        if (IsPieceStandsOnSquare(firstSquare) && IsPieceOnSquareHasOppositeColor(firstSquare))
             attackTurns.Add(firstSquare);
 
-        if (PieceStandsOnSquare(secondSquare) && PieceOnSquareHasOppositeColor(secondSquare))
+        if (IsPieceStandsOnSquare(secondSquare) && IsPieceOnSquareHasOppositeColor(secondSquare))
             attackTurns.Add(secondSquare);
 
         return attackTurns;
@@ -36,7 +36,7 @@ public class Pawn : Piece
 
         Square firstSquare = _squareHandler.GetSquareWithCoordinates(x, y + 1 * colorMultiplyer);
 
-        if (PieceStandsOnSquare(firstSquare))
+        if (IsPieceStandsOnSquare(firstSquare))
             return moveTurns;
 
         moveTurns.Add(firstSquare);
@@ -45,7 +45,7 @@ public class Pawn : Piece
         {
             Square secondSquare = _squareHandler.GetSquareWithCoordinates(x, y + 2 * colorMultiplyer);
 
-            if (PieceStandsOnSquare(secondSquare))
+            if (IsPieceStandsOnSquare(secondSquare))
                 return moveTurns;
 
             moveTurns.Add(secondSquare);
