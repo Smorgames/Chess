@@ -54,29 +54,11 @@ public class Pawn : Piece
         return moveTurns;
     }
 
-    private bool PieceStandsOnSquare(Square square)
-    {
-        return !square || ChessPieceStandOn(square);
-    }
-
-    private bool PieceOnSquareHasOppositeColor(Square square)
-    {
-        return square.PieceOnThis.ColorData.Color != ColorData.Color;
-    }
-
     public override void Move(Square cell)
     {
         base.Move(cell);
 
         if (_isFirstTurn)
             _isFirstTurn = false;
-    }
-
-    private bool ChessPieceStandOn(Square cell)
-    {
-        if (cell.PieceOnThis)
-            return true;
-
-        return false;
     }
 }

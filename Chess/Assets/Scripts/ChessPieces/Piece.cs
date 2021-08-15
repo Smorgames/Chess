@@ -57,6 +57,24 @@ public abstract class Piece : MonoBehaviour
         Destroy(gameObject);
     }
 
+    protected bool PieceStandsOnSquare(Square square)
+    {
+        return !square || ChessPieceStandOn(square);
+    }
+
+    private bool ChessPieceStandOn(Square cell)
+    {
+        if (cell.PieceOnThis)
+            return true;
+
+        return false;
+    }
+
+    protected bool PieceOnSquareHasOppositeColor(Square square)
+    {
+        return square.PieceOnThis.ColorData.Color != ColorData.Color;
+    }
+
     private void Start()
     {
         Init();
