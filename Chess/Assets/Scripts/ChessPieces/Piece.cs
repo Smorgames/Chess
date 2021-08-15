@@ -17,8 +17,6 @@ public abstract class Piece : MonoBehaviour
     public bool IsUnderAttack { get => _underAttack; }
     protected bool _underAttack = false;
 
-    protected bool _thisColorTurn = false;
-
     protected SquareHandler _squareHandler;
     protected GameManager _gameManager;
 
@@ -33,6 +31,23 @@ public abstract class Piece : MonoBehaviour
     public virtual void Move(Square cell)
     {
         transform.position = cell.transform.position + Offset;
+
+        float overlapRadius = 0.2f;
+        Collider2D[] collidersInOverlapArea = Physics2D.OverlapCircleAll(transform.position, overlapRadius);
+
+        for (int i = 0; i < collidersInOverlapArea.Length; i++)
+        {
+            Piece enemyPiece = collidersInOverlapArea[i].GetComponent<Piece>();
+
+            if (enemyPiece != null)
+            {
+                PieceColor pieceColor = enemyPiece.ColorData.Color;
+
+                if (_gameManager.WhoseTurn == _colorData.Color)
+                    enemyPiece.Death();
+            }
+        }
+
         OnPieceMoved?.Invoke();
     }
 
@@ -42,41 +57,14 @@ public abstract class Piece : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Piece enemyPiece = collision.GetComponent<Piece>();
-
-        if (enemyPiece != null)
-        {
-            PieceColor pieceColor = enemyPiece.ColorData.Color;
-
-            if (pieceColor != _colorData.Color && _thisColorTurn)
-            {
-                Debug.Log(enemyPiece.name);
-                enemyPiece.Death();
-            }
-        }
-    }
-
     private void Start()
     {
         Init();
-        _gameManager.OnTurnChanged += ChangeTurn;
     }
 
     private void Init()
     {
         _squareHandler = SquareHandler.Instance;
         _gameManager = GameManager.Instance;
-    }
-
-    private void OnDestroy()
-    {
-        _gameManager.OnTurnChanged -= ChangeTurn;
-    }
-
-    private void ChangeTurn(PieceColor color)
-    {
-        _thisColorTurn = color == _colorData.Color;
     }
 }
