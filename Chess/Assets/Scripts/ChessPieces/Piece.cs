@@ -14,8 +14,8 @@ public abstract class Piece : MonoBehaviour
     public ColorData ColorData { get => _colorData; }
     [SerializeField] private ColorData _colorData;
 
-    //public bool IsUnderAttack { get => _underAttack; }
-    //protected bool _underAttack = false;
+    public bool IsUnderAttack { get => _underAttack; }
+    protected bool _underAttack = false;
 
     protected SquareHandler _squareHandler;
     protected GameManager _gameManager;

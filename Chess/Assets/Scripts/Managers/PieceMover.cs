@@ -32,7 +32,7 @@ public class PieceMover : MonoBehaviour
 
     private bool ThisSquareIsPossiblePieceTurn(Square square)
     {
-        List<Square> possibleTurns = _pieceTurnDisplayer.PieceTurns.GetPossibleTurns();
+        List<Square> possibleTurns = _pieceTurnDisplayer.PieceTurns.GetAllPossibleTurns();
 
         for (int i = 0; i < possibleTurns.Count; i++)
             if (square == possibleTurns[i])

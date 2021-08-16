@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public PieceColor WhoseTurn { get => _whoseTurn; }
     private PieceColor _whoseTurn;
+
+    [SerializeField] private PiecesStorage _pieceStorage;
 
     [SerializeField] private PieceColor _whoseTurnFirst;
 
@@ -51,6 +55,24 @@ public class GameManager : MonoBehaviour
             _whoseTurn = PieceColor.White;
         else if (_whoseTurn == PieceColor.White)
             _whoseTurn = PieceColor.Black;
+    }
+
+    private bool IsCheckState()
+    {
+        List<Piece> allPieces = _pieceStorage.AllPieces;
+        List<Piece> piecesWhoseTurn = new List<Piece>();
+
+        foreach (var piece in allPieces)
+            if (piece.ColorData.Color == _whoseTurn)
+                piecesWhoseTurn.Add(piece);
+
+        
+        List<Square> allPossibleTurns = new List<Square>();
+
+        foreach (var piece in piecesWhoseTurn)
+        {
+
+        }
     }
 
     private void OnDestroy()

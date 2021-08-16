@@ -11,7 +11,7 @@ public class PiecePossibleTurns
 
     private List<Square> _possibleTurns;
 
-    public List<Square> GetPossibleTurns()
+    public List<Square> GetAllPossibleTurns()
     {
         List<Square> turns = new List<Square>();
 
