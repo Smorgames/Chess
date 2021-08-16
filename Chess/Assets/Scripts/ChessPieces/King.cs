@@ -1,18 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
-public class King : MonoBehaviour
+public class King : Piece
 {
-    // Start is called before the first frame update
-    void Start()
+    private List<Square> _attackTurns;
+
+    public override List<Square> GetPossibleAttackTurns(Square squareWithThis)
     {
-        
+        return _attackTurns;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override List<Square> GetPossibleMoveTurns(Square squareWithThis)
     {
-        
+        _attackTurns = new List<Square>();
+
+        int x = squareWithThis.Coordinates.x;
+        int y = squareWithThis.Coordinates.y;
+
+        List<Square> turns = new List<Square>();
+
+        Square upSquare = _squareHandler.GetSquareWithCoordinates(x, y + 1);
+        Square upRightSquare = _squareHandler.GetSquareWithCoordinates(x + 1, y + 1);
+        Square rightSquare = _squareHandler.GetSquareWithCoordinates(x + 1, y);
+        Square downRightSquare = _squareHandler.GetSquareWithCoordinates(x + 1, y - 1);
+        Square downSquare = _squareHandler.GetSquareWithCoordinates(x, y - 1);
+        Square downLeftSquare = _squareHandler.GetSquareWithCoordinates(x - 1, y - 1);
+        Square leftSquare = _squareHandler.GetSquareWithCoordinates(x - 1, y);
+        Square upLeftSquare = _squareHandler.GetSquareWithCoordinates(x - 1, y + 1);
+
+        Square[] predictTurns = 
+            { upSquare, upRightSquare, rightSquare, downRightSquare, downSquare, downLeftSquare, leftSquare, upLeftSquare};
+
+        for (int i = 0; i < predictTurns.Length; i++)
+        {
+            if (IsPieceStandsOnSquare(predictTurns[i]))
+            {
+                if (IsPieceOnSquareHasOppositeColor(predictTurns[i]))
+                {
+                    _attackTurns.Add(predictTurns[i]);
+                    continue;
+                }
+            }
+            else
+                turns.Add(predictTurns[i]);
+        }
+
+        return turns;
     }
 }
