@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public delegate void ChangeTurnHandler(PieceColor color);
+    public delegate void ChangeTurnHandler();
     public event ChangeTurnHandler OnTurnChanged;
 
     public PieceColor WhoseTurn { get => _whoseTurn; }
@@ -47,7 +46,8 @@ public class GameManager : MonoBehaviour
     public void TriggerChangeTurn()
     {
         ChangeColorOrderOfTurn();
-        OnTurnChanged?.Invoke(_whoseTurn);
+        VerifyIfIsCheck();
+        OnTurnChanged?.Invoke();
     }
 
     private void ChangeColorOrderOfTurn()
@@ -58,24 +58,46 @@ public class GameManager : MonoBehaviour
             _whoseTurn = PieceColor.Black;
     }
 
-    private bool IsCheckState()
+    public void VerifyIfIsCheck()
     {
         List<Piece> allPieces = _pieceStorage.AllPieces;
-        List<Piece> piecesWhoseTurn = new List<Piece>();
+
+        List<Square> allWhitePossibleAttackTurns = new List<Square>();
+        List<Square> allBlackPossibleAttackTurns = new List<Square>();
 
         foreach (var piece in allPieces)
-            if (piece.ColorData.Color == _whoseTurn)
-                piecesWhoseTurn.Add(piece);
-
-        
-        List<Square> allPossibleAttackTurns = new List<Square>();
-
-        foreach (var piece in piecesWhoseTurn)
-            allPossibleAttackTurns.AddRange(piece.GetPossibleAttackTurns(_squareHandler.GetSquareWithPiece(piece)));
-
-        foreach (var square in allPossibleAttackTurns)
         {
-            if (square.PieceOnThis
+            Square squareWithPiece = _squareHandler.GetSquareWithPiece(piece);
+            List<Square> pieceAttackTurns = new List<Square>();
+
+            if (piece.GetType() == typeof(Rook) || piece.GetType() == typeof(Bishop) || piece.GetType() == typeof(Queen))
+            {
+                piece.GetPossibleMoveTurns(squareWithPiece);
+                pieceAttackTurns = piece.GetPossibleAttackTurns(squareWithPiece);
+            }
+
+            pieceAttackTurns = piece.GetPossibleAttackTurns(squareWithPiece);
+
+            if (piece.ColorData.Color == PieceColor.White)
+                allWhitePossibleAttackTurns.AddRange(pieceAttackTurns);
+            else
+                allBlackPossibleAttackTurns.AddRange(pieceAttackTurns);
+        }
+
+        foreach (var square in allWhitePossibleAttackTurns)
+        {
+            Piece piece = square.PieceOnThis;
+
+            if (piece.GetType() == typeof(King))
+                Debug.Log("Check for black");
+        }
+
+        foreach (var square in allBlackPossibleAttackTurns)
+        {
+            Piece piece = square.PieceOnThis;
+
+            if (piece.GetType() == typeof(King))
+                Debug.Log("Check for white");
         }
     }
 

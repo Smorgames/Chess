@@ -29,13 +29,9 @@ public class Square : MonoBehaviour
     private void OnMouseDown()
     {
         if (_pieceOnThis != null && NowTurnOfThisPiece())
-        {
             OnSquareWithPieceClicked?.Invoke(this);
-        }
         else
-        {
             OnEmptySquareClicked?.Invoke(this);
-        }
     }
 
     private bool NowTurnOfThisPiece()
