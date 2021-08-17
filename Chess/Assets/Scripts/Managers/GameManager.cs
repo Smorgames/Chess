@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private PieceColor _whoseTurn;
 
     [SerializeField] private PiecesStorage _pieceStorage;
+    [SerializeField] private SquareHandler _squareHandler;
 
     [SerializeField] private PieceColor _whoseTurnFirst;
 
@@ -67,11 +68,14 @@ public class GameManager : MonoBehaviour
                 piecesWhoseTurn.Add(piece);
 
         
-        List<Square> allPossibleTurns = new List<Square>();
+        List<Square> allPossibleAttackTurns = new List<Square>();
 
         foreach (var piece in piecesWhoseTurn)
-        {
+            allPossibleAttackTurns.AddRange(piece.GetPossibleAttackTurns(_squareHandler.GetSquareWithPiece(piece)));
 
+        foreach (var square in allPossibleAttackTurns)
+        {
+            if (square.PieceOnThis
         }
     }
 
