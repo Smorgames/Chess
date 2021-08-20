@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         ChangeColorOrderOfTurn();
         VerifyIfIsCheck();
-        OnTurnChanged?.Invoke();
+        //OnTurnChanged?.Invoke();
     }
 
     private void ChangeColorOrderOfTurn()
@@ -71,10 +71,7 @@ public class GameManager : MonoBehaviour
             List<Square> pieceAttackTurns = new List<Square>();
 
             if (piece.GetType() == typeof(Rook) || piece.GetType() == typeof(Bishop) || piece.GetType() == typeof(Queen))
-            {
                 piece.GetPossibleMoveTurns(squareWithPiece);
-                pieceAttackTurns = piece.GetPossibleAttackTurns(squareWithPiece);
-            }
 
             pieceAttackTurns = piece.GetPossibleAttackTurns(squareWithPiece);
 
@@ -85,18 +82,24 @@ public class GameManager : MonoBehaviour
         }
 
         foreach (var square in allWhitePossibleAttackTurns)
-        {
-            Piece piece = square.PieceOnThis;
+            square.Activate();
 
-            if (piece.GetType() == typeof(King))
+        foreach (var square in allBlackPossibleAttackTurns)
+            square.Activate();
+
+        foreach (var square in allWhitePossibleAttackTurns)
+        {
+            Piece pieceOnSquare = square.PieceOnThis;
+
+            if (pieceOnSquare.GetType() == typeof(King))
                 Debug.Log("Check for black");
         }
 
         foreach (var square in allBlackPossibleAttackTurns)
         {
-            Piece piece = square.PieceOnThis;
+            Piece pieceOnSquare = square.PieceOnThis;
 
-            if (piece.GetType() == typeof(King))
+            if (pieceOnSquare.GetType() == typeof(King))
                 Debug.Log("Check for white");
         }
     }

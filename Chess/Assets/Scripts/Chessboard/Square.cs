@@ -28,6 +28,9 @@ public class Square : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (_pieceOnThis != null)
+            Test.ShowPossibleTurns(this);
+
         if (_pieceOnThis != null && NowTurnOfThisPiece())
             OnSquareWithPieceClicked?.Invoke(this);
         else

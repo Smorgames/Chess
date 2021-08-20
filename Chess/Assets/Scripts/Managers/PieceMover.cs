@@ -13,7 +13,7 @@ public class PieceMover : MonoBehaviour
         _squareWithPiece = square;
     }
 
-    private void SelectSquareWhereWillGo(Square square)
+    private void SelectSquareWherePieceWillGo(Square square)
     {
         if (ThisSquareIsPossiblePieceTurn(square))
             _squareWherePieceWillGo = square;
@@ -49,18 +49,16 @@ public class PieceMover : MonoBehaviour
     private void MoveChessPiece()
     {
         Piece piece = _squareWithPiece.PieceOnThis;
+
+        _squareWithPiece.PieceOnThis = null;
+        _squareWherePieceWillGo.PieceOnThis = piece;
+
         piece.Move(_squareWherePieceWillGo);
     }
 
     private void UpdateStateOnChessboard()
     {
         _pieceTurnDisplayer.HideTurnsOfPiece();
-
-        Piece piece = _squareWithPiece.PieceOnThis;
-
-        _squareWithPiece.PieceOnThis = null;
-        _squareWherePieceWillGo.PieceOnThis = piece;
-
         ResetSquareFields();
     }
 
@@ -78,13 +76,13 @@ public class PieceMover : MonoBehaviour
     private void SubscrubeOnEvents()
     {
         Square.OnSquareWithPieceClicked += SelectSquareWithPiece;
-        Square.OnEmptySquareClicked += SelectSquareWhereWillGo;
+        Square.OnEmptySquareClicked += SelectSquareWherePieceWillGo;
     }
 
     private void UnsubscrubeOnEvents()
     {
         Square.OnSquareWithPieceClicked -= SelectSquareWithPiece;
-        Square.OnEmptySquareClicked -= SelectSquareWhereWillGo;
+        Square.OnEmptySquareClicked -= SelectSquareWherePieceWillGo;
     }
     #endregion
 }
