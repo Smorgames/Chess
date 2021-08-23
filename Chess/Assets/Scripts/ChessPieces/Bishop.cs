@@ -7,7 +7,7 @@ public class Bishop : Piece
 
     public override List<Square> GetPossibleAttackTurns(Square squareWithThis)
     {
-        _attackTurns = new List<Square>();
+        _attackTurns.Clear();
 
         int x = squareWithThis.Coordinates.x;
         int y = squareWithThis.Coordinates.y;
@@ -34,9 +34,11 @@ public class Bishop : Piece
             if (square == _squareHandler.GhostSquare)
                 break;
 
-            if (IsPieceStandsOnSquare(square) && IsPieceOnSquareHasOppositeColor(square))
+            if (IsPieceStandsOnSquare(square))
             {
-                _attackTurns.Add(square);
+                if (IsPieceOnSquareHasOppositeColor(square))
+                    _attackTurns.Add(square);
+
                 break;
             }
         }
