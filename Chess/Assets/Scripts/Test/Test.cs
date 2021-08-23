@@ -3,24 +3,12 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    private static bool _canShowPossibleTurns = false;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            _canShowPossibleTurns = !_canShowPossibleTurns;
-            Debug.Log($"T = {_canShowPossibleTurns}");
-        }
-    }
-
     public static void ShowPossibleTurns(Square square)
     {
         List<Square> turns = square.PieceOnThis.GetPossibleAttackTurns(square);
 
-        if (_canShowPossibleTurns)
-            foreach (var turn in turns)
-                turn.Activate();
+        foreach (var turn in turns)
+            turn.Activate();
     }
 
     public static void DebugTestInfo(string data)

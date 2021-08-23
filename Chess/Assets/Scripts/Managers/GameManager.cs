@@ -47,7 +47,41 @@ public class GameManager : MonoBehaviour
     {
         ChangeColorOrderOfTurn();
         VerifyIfIsCheck();
-        //OnTurnChanged?.Invoke();
+    }
+
+    public void VerifyIfIsCheck()
+    {
+        List<Piece> allPieces = _pieceStorage.AllPieces;
+        Dictionary<Piece, List<Square>> piecesAndTheirAttackTurns = new Dictionary<Piece, List<Square>>();
+
+        foreach (var piece in allPieces)
+        {
+            Square squareWithPiece = _squareHandler.GetSquareWithPiece(piece);
+            List<Square> attackTurns = new List<Square>();
+
+            if (piece.GetType() == typeof(Rook) || piece.GetType() == typeof(Bishop) || piece.GetType() == typeof(Queen))
+                piece.GetPossibleMoveTurns(squareWithPiece);
+
+            attackTurns = piece.GetPossibleAttackTurns(squareWithPiece);
+
+            piecesAndTheirAttackTurns.Add(piece, attackTurns);
+        }
+
+        foreach (var piece in piecesAndTheirAttackTurns.Keys)
+        {
+            foreach (var square in piecesAndTheirAttackTurns[piece])
+            {
+                Piece pieceOnSquare = square.PieceOnThis;
+
+                if (pieceOnSquare.GetType() == typeof(King))
+                {
+                    Debug.Log($"{piece.name} check {pieceOnSquare.name}");
+                    return;
+                }
+            }
+        }
+
+
     }
 
     private void ChangeColorOrderOfTurn()
@@ -58,7 +92,26 @@ public class GameManager : MonoBehaviour
             _whoseTurn = PieceColor.Black;
     }
 
-    public void VerifyIfIsCheck()
+    
+
+    private void OnDestroy()
+    {
+        UnsubscribeMethodsOnEvent();
+    }
+
+    private void SubscribeMethodsOnEvent()
+    {
+        Piece.OnPieceMoved += TriggerChangeTurn;
+    }
+
+    private void UnsubscribeMethodsOnEvent()
+    {
+        Piece.OnPieceMoved -= TriggerChangeTurn;
+    }
+}
+
+/*
+public void VerifyIfIsCheck()
     {
         List<Piece> allPieces = _pieceStorage.AllPieces;
 
@@ -82,12 +135,6 @@ public class GameManager : MonoBehaviour
         }
 
         foreach (var square in allWhitePossibleAttackTurns)
-            square.Activate();
-
-        foreach (var square in allBlackPossibleAttackTurns)
-            square.Activate();
-
-        foreach (var square in allWhitePossibleAttackTurns)
         {
             Piece pieceOnSquare = square.PieceOnThis;
 
@@ -102,20 +149,5 @@ public class GameManager : MonoBehaviour
             if (pieceOnSquare.GetType() == typeof(King))
                 Debug.Log("Check for white");
         }
-    }
-
-    private void OnDestroy()
-    {
-        UnsubscribeMethodsOnEvent();
-    }
-
-    private void SubscribeMethodsOnEvent()
-    {
-        Piece.OnPieceMoved += TriggerChangeTurn;
-    }
-
-    private void UnsubscribeMethodsOnEvent()
-    {
-        Piece.OnPieceMoved -= TriggerChangeTurn;
-    }
-}
+    } 
+*/

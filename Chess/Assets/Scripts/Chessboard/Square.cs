@@ -7,6 +7,10 @@ public class Square : MonoBehaviour
     public static event SquareClickHandler OnEmptySquareClicked;
 
     [SerializeField] private GameObject _highlight;
+
+    [SerializeField] private GameObject _blackHighlight;
+    [SerializeField] private GameObject _whiteHighlight;
+    
     [SerializeField] private Collider2D _collider;
 
     public Vector2Int Coordinates { get => _coordinates; }
