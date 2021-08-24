@@ -75,13 +75,14 @@ public class GameManager : MonoBehaviour
 
                 if (pieceOnSquare.GetType() == typeof(King))
                 {
-                    Debug.Log($"{piece.name} check {pieceOnSquare.name}");
+                    Test.DebugTestInfo($"{piece.name} check {pieceOnSquare.name}");
+                    Test.Instance.ConnectTwoPieceWithLine(piece, pieceOnSquare);
                     return;
                 }
             }
         }
 
-
+        Test.Instance.ResetLine();
     }
 
     private void ChangeColorOrderOfTurn()

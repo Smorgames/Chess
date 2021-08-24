@@ -40,6 +40,16 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 801320453
+      objectReference: {fileID: 0}
+    - target: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
+        type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
@@ -121,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 2477917854985525061, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_Name
-      value: WhiteBishop
+      value: WhiteBishop Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab262a3a0172854eb42489d4c4065b7, type: 3}

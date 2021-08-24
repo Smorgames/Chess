@@ -29,4 +29,29 @@ public class PiecesStorage : MonoBehaviour
 
         return true;
     }
+
+    private void UpdateAllPieces(Piece piece)
+    {
+        _allPieces.Remove(piece);
+    }
+
+    private void Start()
+    {
+        Subscribe();    
+    }
+
+    private void Subscribe()
+    {
+        Piece.OnPieceDied += UpdateAllPieces;
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
+
+    private void Unsubscribe()
+    {
+        Piece.OnPieceDied -= UpdateAllPieces;
+    }
 }

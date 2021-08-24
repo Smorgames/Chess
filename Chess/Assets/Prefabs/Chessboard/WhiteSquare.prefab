@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6221665650509939947}
   - component: {fileID: 3863680785828508115}
   m_Layer: 0
-  m_Name: WhiteCell
+  m_Name: WhiteSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _highlight: {fileID: 7877402310290964889}
+  _blackHighlight: {fileID: 0}
+  _whiteHighlight: {fileID: 0}
   _collider: {fileID: 3863680785828508115}
 --- !u!212 &6221665650509939947
 SpriteRenderer:
@@ -136,11 +138,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CellHighlight
-      objectReference: {fileID: 0}
-    - target: {fileID: 182051610733015576, guid: ad67f4aaf6789dd49a5a3c61617e6b56,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3858378632672134072, guid: ad67f4aaf6789dd49a5a3c61617e6b56,
         type: 3}
