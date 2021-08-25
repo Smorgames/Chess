@@ -139,6 +139,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CellHighlight
       objectReference: {fileID: 0}
+    - target: {fileID: 182051610733015576, guid: ad67f4aaf6789dd49a5a3c61617e6b56,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3858378632672134072, guid: ad67f4aaf6789dd49a5a3c61617e6b56,
         type: 3}
       propertyPath: m_RootOrder

@@ -13,7 +13,7 @@ public class Queen : Piece
 
     public override List<Square> GetPossibleMoveTurns(Square squareWithThis)
     {
-        _attackTurns = new List<Square>();
+        _attackTurns.Clear();
 
         int x = squareWithThis.Coordinates.x;
         int y = squareWithThis.Coordinates.y;
@@ -63,5 +63,10 @@ public class Queen : Piece
 
             turns.Add(square);
         }
+    }
+
+    protected override void ResetAttackTurns()
+    {
+        _attackTurns.Clear();
     }
 }

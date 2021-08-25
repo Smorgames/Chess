@@ -89,4 +89,9 @@ public class Bishop : Piece
             turns.Add(square);
         }
     }
+
+    protected override void ResetAttackTurns()
+    {
+        _attackTurns.Clear();
+    }
 }

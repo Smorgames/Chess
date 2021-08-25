@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _highlight: {fileID: 2936487533022675263}
+  _blackHighlight: {fileID: 0}
+  _whiteHighlight: {fileID: 0}
   _collider: {fileID: 8074062721619685749}
 --- !u!212 &1424707045255742541
 SpriteRenderer:
@@ -86,7 +88,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1673370685
   m_SortingLayer: -2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

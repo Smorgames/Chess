@@ -41,12 +41,20 @@ public abstract class Piece : MonoBehaviour
                 PieceColor pieceColor = enemyPiece.ColorData.Color;
 
                 if (_gameManager.WhoseTurn == _colorData.Color)
+                {
+                    Square square = _squareHandler.GetSquareWithPiece(enemyPiece);
+                    square.PieceOnThis = null;
+
                     enemyPiece.Death();
+                }
             }
         }
 
+        ResetAttackTurns();
         OnPieceMoved?.Invoke();
     }
+
+    protected virtual void ResetAttackTurns() { }
 
     public void Death()
     {
