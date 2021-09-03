@@ -25,9 +25,9 @@ public abstract class Piece : MonoBehaviour
     public abstract List<Square> GetPossibleMoveTurns(Square squareWithThis);
     public abstract List<Square> GetPossibleAttackTurns(Square squareWithThis);
 
-    public virtual void Move(Square cell)
+    public virtual void Move(Square square)
     {
-        transform.position = cell.transform.position + Offset;
+        transform.position = square.transform.position + Offset;
 
         float overlapRadius = 0.2f;
         Collider2D[] collidersInOverlapArea = Physics2D.OverlapCircleAll(transform.position, overlapRadius);
@@ -42,8 +42,8 @@ public abstract class Piece : MonoBehaviour
 
                 if (_gameManager.WhoseTurn == _colorData.Color)
                 {
-                    Square square = _squareHandler.GetSquareWithPiece(enemyPiece);
-                    square.PieceOnThis = null;
+                    Square squareWithPiece = _squareHandler.GetSquareWithPiece(enemyPiece);
+                    squareWithPiece.PieceOnThis = null;
 
                     enemyPiece.Death();
                 }
