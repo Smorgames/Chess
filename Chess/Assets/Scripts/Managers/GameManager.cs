@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         VerifyIfIsCheck();
     }
 
-    public void VerifyIfIsCheck()
+    public King VerifyIfIsCheck()
     {
         List<Piece> allPieces = _pieceStorage.AllPieces;
         Dictionary<Piece, List<Square>> piecesAndTheirAttackTurns = new Dictionary<Piece, List<Square>>();
@@ -77,12 +77,13 @@ public class GameManager : MonoBehaviour
                 {
                     Test.DebugTestInfo($"{piece.name} check {pieceOnSquare.name}");
                     Test.Instance.ConnectTwoPieceWithLine(piece, pieceOnSquare);
-                    return;
+                    return (King)pieceOnSquare;
                 }
             }
         }
 
         Test.Instance.ResetLine();
+        return null;
     }
 
     private void ChangeColorOrderOfTurn()
