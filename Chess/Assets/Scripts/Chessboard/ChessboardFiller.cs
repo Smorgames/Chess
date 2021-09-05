@@ -24,21 +24,24 @@ public class ChessboardFiller : MonoBehaviour
         {
             for (int y = 0; y < _chessBoardHeight; y++)
             {
-                Square cell = Instantiate(_squarePrefabs[(x + y) % _squarePrefabs.Length], transform.position, Quaternion.identity).GetComponent<Square>();
+                Square square = 
+                    Instantiate(_squarePrefabs[(x + y) % _squarePrefabs.Length], transform.position, Quaternion.identity).GetComponent<Square>();
 
-                cell.SetCoordinates(x, y);
+                SquareSetup(square, x, y);
 
-                cell.transform.position = transform.position + new Vector3(x * _offset.x, y * _offset.y, transform.position.z);
-
-                cell.transform.parent = _squareHandler.Board.transform;
-
-                cell.name = $"Cell №{x * _chessBoardLength + y}";
-
-                _squareHandler.Board.Squares[x, y] = cell;
+                _squareHandler.Board.Squares[x, y] = square;
             }
         }
 
         _squareHandler.DeactivateAllSquares();
+    }
+
+    private void SquareSetup(Square square, int x, int y)
+    {
+        square.SetCoordinates(x, y);
+        square.transform.position = transform.position + new Vector3(x * _offset.x, y * _offset.y, transform.position.z);
+        square.transform.parent = _squareHandler.Board.transform;
+        square.name = $"Cell №{x * _chessBoardLength + y}";
     }
 
     private void Start()
