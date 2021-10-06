@@ -50,7 +50,7 @@ public class Pawn : Piece
 
             moveTurns.Add(secondSquare);
         }
-
+        
         return moveTurns;
     }
 

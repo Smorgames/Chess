@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour
     public delegate void ChangeTurnHandler();
     public event ChangeTurnHandler OnTurnChanged;
 
-    public PieceColor WhoseTurn { get => _whoseTurn; }
-    private PieceColor _whoseTurn;
+    public Piece.Color WhoseTurn { get => _whoseTurn; }
+    private Piece.Color _whoseTurn;
 
     [SerializeField] private PiecesStorage _pieceStorage;
     [SerializeField] private SquareHandler _squareHandler;
 
-    [SerializeField] private PieceColor _whoseTurnFirst;
+    [SerializeField] private Piece.Color _whoseTurnFirst;
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         SetWhichColorTurnFirst(_whoseTurnFirst);
     }
 
-    private void SetWhichColorTurnFirst(PieceColor color)
+    private void SetWhichColorTurnFirst(Piece.Color color)
     {
         _whoseTurn = color;
     }
@@ -88,10 +88,10 @@ public class GameManager : MonoBehaviour
 
     private void ChangeColorOrderOfTurn()
     {
-        if (_whoseTurn == PieceColor.Black)
-            _whoseTurn = PieceColor.White;
-        else if (_whoseTurn == PieceColor.White)
-            _whoseTurn = PieceColor.Black;
+        if (_whoseTurn == Piece.Color.Black)
+            _whoseTurn = Piece.Color.White;
+        else if (_whoseTurn == Piece.Color.White)
+            _whoseTurn = Piece.Color.Black;
     }
 
     

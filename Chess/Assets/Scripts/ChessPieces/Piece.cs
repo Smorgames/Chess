@@ -11,8 +11,20 @@ public abstract class Piece : MonoBehaviour
 
     public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
-    public ColorData ColorData { get => _colorData; }
+    public ColorData ColorData
+    {
+        get => _colorData;
+        set
+        {
+            if (!_isColorDataInitialized)
+            {
+                _colorData.Color = value.Color;
+                _isColorDataInitialized = true;
+            }
+        }
+    }
     [SerializeField] private ColorData _colorData;
+    private bool _isColorDataInitialized;
 
     protected SquareHandler _squareHandler;
     protected GameManager _gameManager;
@@ -38,7 +50,7 @@ public abstract class Piece : MonoBehaviour
 
             if (enemyPiece != null)
             {
-                PieceColor pieceColor = enemyPiece.ColorData.Color;
+                Color pieceColor = enemyPiece.ColorData.Color;
 
                 if (_gameManager.WhoseTurn == _colorData.Color)
                 {
@@ -85,31 +97,44 @@ public abstract class Piece : MonoBehaviour
         _squareHandler = SquareHandler.Instance;
         _gameManager = GameManager.Instance;
     }
+    
+    [System.Serializable]
+    public enum Color
+    {
+        None,
+        Black,
+        White
+    }
 }
 
 [System.Serializable]
 public class ColorData
 {
-    public PieceColor Color { get { return _color; } }
-    [SerializeField] private PieceColor _color;
+    public Piece.Color Color
+    {
+        get => _color;
+        set
+        {
+            if (!_isColorInitialized)
+            {
+                _color = value;
+                _isColorInitialized = true;
+            }
+        }
+    }
+    [SerializeField] private Piece.Color _color;
+    private bool _isColorInitialized;
 
     public int Multiplier
     {
         get
         {
-            if (_color == PieceColor.Black)
+            if (_color == Piece.Color.Black)
                 return -1;
-            else if (_color == PieceColor.White)
+            else if (_color == Piece.Color.White)
                 return 1;
             return 0;
         }
     }
     private int _colorMultiplier;
-}
-
-[System.Serializable]
-public enum PieceColor
-{
-    Black,
-    White
 }

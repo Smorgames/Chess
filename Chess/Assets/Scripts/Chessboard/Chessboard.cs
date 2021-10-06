@@ -6,21 +6,16 @@ public class Chessboard : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-        {
-            Destroy(this);
-            return;
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(this);
     }
 
-    public int Length { get => _length; }
+    public int Length => _length;
     private int _length;
-    public int Height { get => _height; }
+    public int Height => _height;
     private int _height;
 
-    public Square[,] Squares { get => _squares; }
+    public Square[,] Squares => _squares;
     private Square[,] _squares;
 
     public void InitializeChessboard(int length, int height)

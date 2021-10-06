@@ -6,7 +6,7 @@ public class PiecesStorage : MonoBehaviour
     public List<Piece> AllPieces { get => _allPieces; }
     private List<Piece> _allPieces = new List<Piece>();
 
-    public King GetKing(PieceColor pieceColor)
+    public King GetKing(Piece.Color pieceColor)
     {
         foreach (var piece in _allPieces)
             if (piece.GetType() == typeof(King) && piece.ColorData.Color == pieceColor)
