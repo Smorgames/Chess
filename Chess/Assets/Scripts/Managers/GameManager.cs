@@ -10,7 +10,13 @@ public class GameManager : MonoBehaviour
 
     public Piece.Color WhoseTurn { get => _whoseTurn; }
     private Piece.Color _whoseTurn;
-
+    
+    [Header("Chessboards")]
+    [SerializeField] private Chessboard _realChessboard;
+    [SerializeField] private Chessboard _abstractChessboard;
+    
+    [Header("Handlers and managers")]
+    [SerializeField] private ChessboardFiller _filler;
     [SerializeField] private PiecesStorage _pieceStorage;
     [SerializeField] private SquareHandler _squareHandler;
 
@@ -18,22 +24,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        SetInstance();
-    }
-
-    private void SetInstance()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-        {
-            Destroy(this);
-            return;
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(this);
     }
 
     private void Start()
     {
+        _filler.InitializeChessboard(_realChessboard);
+        _filler.InitializeChessboard(_abstractChessboard);
+        
         SubscribeMethodsOnEvent();
         SetWhichColorTurnFirst(_whoseTurnFirst);
     }

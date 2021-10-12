@@ -8,6 +8,9 @@ public class SquareHandler : MonoBehaviour
     public Square GhostSquare { get => _ghostSquare; }
     [SerializeField] private Square _ghostSquare;
 
+    public Chessboard Chessboard => _chessboard;
+    [SerializeField] private Chessboard _chessboard;
+
     private void Awake()
     {
         if (Instance == null)
@@ -15,9 +18,6 @@ public class SquareHandler : MonoBehaviour
         else
             Destroy(this);
     }
-
-    public Chessboard Board { get => _chessboard; }
-    [SerializeField] private Chessboard _chessboard;
 
     public Square GetSquareWithPiece(Piece piece)
     {

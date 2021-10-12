@@ -34,7 +34,7 @@ public class Rook : Piece
 
     private void AddPossibleTurnsInRow(List<Square> turns, Vector2Int pieceCoordinats, Vector2Int rowDirection)
     {
-        for (int i = 1; i < Chessboard.Instance.Length; i++)
+        for (int i = 1; i < _squareHandler.Chessboard.Length; i++)
         {
             Square square = _squareHandler.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
 
@@ -44,15 +44,13 @@ public class Rook : Piece
             if (IsPieceStandsOnSquare(square))
             {
                 if (IsPieceOnSquareHasOppositeColor(square))
-                {
                     _attackTurns.Add(square);
-                    break;
-                }
-                else
-                    break;
+                
+                break;
             }
 
-            turns.Add(square);
+            if (!turns.Contains(square))
+                turns.Add(square);
         }
     }
 

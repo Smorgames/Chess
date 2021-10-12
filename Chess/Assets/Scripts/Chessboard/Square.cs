@@ -20,10 +20,10 @@ public class Square : MonoBehaviour
     {
         get
         {
-            if (_highlight.activeSelf)
+            if (_highlight.activeSelf) 
                 return true;
-            else 
-                return false;
+            
+            return false;
         }
     }
 

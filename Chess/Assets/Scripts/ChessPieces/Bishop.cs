@@ -27,7 +27,7 @@ public class Bishop : Piece
 
     private void FindPossibleAttackTurns(Vector2Int pieceCoordinats, Vector2Int rowDirection)
     {
-        for (int i = 1; i < Chessboard.Instance.Length; i++)
+        for (int i = 1; i < _squareHandler.Chessboard.Length; i++)
         {
             Square square = _squareHandler.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
 
@@ -68,7 +68,7 @@ public class Bishop : Piece
 
     private void AddPossibleTurnsInDiagonal(List<Square> turns, Vector2Int pieceCoordinats, Vector2Int rowDirection)
     {
-        for (int i = 1; i < Chessboard.Instance.Length; i++)
+        for (int i = 1; i < _squareHandler.Chessboard.Length; i++)
         {
             Square square = _squareHandler.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
 
