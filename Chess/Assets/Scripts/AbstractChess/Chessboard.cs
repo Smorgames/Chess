@@ -1,23 +1,32 @@
-﻿using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace AbstractChess
 {
     public class Chessboard
     {
         public int Length => _length;
-        private readonly int _length;
+        private int _length;
     
         public int Height => _height;
-        private readonly int _height;
+        private int _height;
     
         public Square[,] Squares => _squares;
-        private readonly Square[,] _squares;
+        private Square[,] _squares;
     
         public Square GhostSquare => _ghostSquare;
         private static Square _ghostSquare;
     
-        public Chessboard(int length, int height, Square[,] squares)
+        public Chessboard(int length, int height)
+        {
+            ConstructorInitialization(length, height);
+        }
+
+        public Chessboard(Vector2Int boardSize)
+        {
+            ConstructorInitialization(boardSize.x, boardSize.y);
+        }
+
+        private void ConstructorInitialization(int length, int height)
         {
             _length = length;
             _height = height;
@@ -26,9 +35,12 @@ namespace AbstractChess
                 _ghostSquare = new Square(-1, -1, this) { Board = this };
             
             _squares = new Square[length, height];
-            _squares = squares;
+
+            for (int x = 0; x < length; x++)
+            for (int y = 0; y < height; y++)
+                _squares[x, y] = new Square(x, y);
         }
-    
+
         public Square GetSquareBasedOnCoordinates(Vector2Int coordinates)
         {
             var xCorrect = coordinates.x >= 0 && coordinates.x < _length;
@@ -43,21 +55,6 @@ namespace AbstractChess
             
             Debug.Log($"In method [{className}.{methodName}()] coordinates are equal ({coordinates.x};{coordinates.y})! Returned {ghostSquareName}");
             return _ghostSquare;
-        }
-    
-        public void TestLogAboutChessboard()
-        {
-            var stringBuilder = new StringBuilder();
-    
-            for (int y = _height - 1; y >= 0; y--)
-            {
-                stringBuilder.Clear();
-    
-                for (int x = 0; x < _length; x++)
-                    stringBuilder.Append($"{_squares[x,y]} ");
-    
-                Debug.Log(stringBuilder.ToString());
-            }
         }
     }
 }

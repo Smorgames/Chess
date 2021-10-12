@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using AbstractBoard = AbstractChess.Chessboard;
+
 namespace AbstractChess
 {
     public class CheckAnalyzer
@@ -7,20 +9,13 @@ namespace AbstractChess
         private readonly ChessStateParser _parser;
         private readonly ChessboardArranger _arranger;
 
-        public CheckAnalyzer(ChessStateParser _chessStateParser, ChessboardArranger _chessboardArranger)
+        public CheckAnalyzer()
         {
-            _parser = _chessStateParser;
-            _arranger = _chessboardArranger;
+            _parser = new ChessStateParser();
+            _arranger = new ChessboardArranger();
         }
         
-        public bool IsCheckForKing(string chessState, Chessboard chessboard, Piece.Color kingColor)
-        {
-            var chessTokens = _parser.Parse(chessState);
-            _arranger.ArrangeChessPiecesOnBoard(chessTokens, chessboard);
-            return AnalyzeIsCheckForKing(kingColor, chessboard);
-        }
-
-        private bool AnalyzeIsCheckForKing(Piece.Color kingColor, Chessboard chessboard)
+        public bool IsCheckForKing(AbstractBoard chessboard, Piece.Color kingColor)
         {
             var allAttackTurns = new List<Square>();
             

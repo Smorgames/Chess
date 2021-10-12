@@ -6,10 +6,10 @@ namespace AbstractChess
 {
     public class ChessStateParser
     {
-        public List<Token> Parse(string chessState)
+        public List<PieceToken> Parse(string chessState)
         {
             chessState = chessState.Trim(' ');
-            var tokens = new List<Token>(); 
+            var tokens = new List<PieceToken>(); 
 
             for (int i = 0; i < chessState.Length; i += 4)
             {
@@ -92,7 +92,7 @@ namespace AbstractChess
                 }
 
                 var coordinates = new Vector2Int(x, y);
-                var chessToken = new Token(coordinates, piece);
+                var chessToken = new PieceToken(coordinates, piece);
                 tokens.Add(chessToken);
             }
 
