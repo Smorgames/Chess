@@ -49,11 +49,11 @@ namespace AbstractChess
             if (xCorrect && yCorrect)
                 return _squares[coordinates.x, coordinates.y];
     
-            var className = nameof(Chessboard);
-            var methodName = nameof(GetSquareBasedOnCoordinates);
-            var ghostSquareName = nameof(GhostSquare);
+            // var className = nameof(Chessboard);
+            // var methodName = nameof(GetSquareBasedOnCoordinates);
+            // var ghostSquareName = nameof(GhostSquare);
             
-            Debug.Log($"In method [{className}.{methodName}()] coordinates are equal ({coordinates.x};{coordinates.y})! Returned {ghostSquareName}");
+            //Debug.Log($"In method [{className}.{methodName}()] coordinates are equal ({coordinates.x};{coordinates.y})! Returned {ghostSquareName}");
             return _ghostSquare;
         }
     }

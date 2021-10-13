@@ -12,6 +12,7 @@ public class TestAbstractChess : MonoBehaviour
     private void Start()
     {
         ChessSystemTesting.Test1();
+        ChessSystemTesting.Test2();
     }
 }
 
@@ -30,9 +31,28 @@ public static class ChessSystemTesting
         var checkAnalyzer = new CheckAnalyzer();
         var isCheck = checkAnalyzer.IsCheckForKing(chessboard, ChessPiece.Color.Black);
         
-        var checkText = isCheck ? "checks".Bold() : "didn't check".Bold();
+        var isPassed = isCheck ? "[Passed]".Color("Green") : "[Failed]".Color("Red");
         var testName = $"[{nameof(Test1)}]:".Bold().Color("Blue");
         
-        Debug.Log($"{testName} White bishop {checkText} black king");
+        Debug.Log($"{testName} Check for black king {isPassed}");
+    }
+    
+    public static void Test2()
+    {
+        var boardSize = new Vector2Int(3, 4);
+        var chessboard = new AbstractBoard(boardSize);
+        
+        var chessStateToken = "00br02wp03wK13wp23bQ";
+        var chessInterpreter = new ChessInterpreter();
+
+        chessInterpreter.ArrangePiecesOnBoardBasedOnToken(chessStateToken, chessboard);
+        
+        var checkAnalyzer = new CheckAnalyzer();
+        var isCheck = checkAnalyzer.IsCheckForKing(chessboard, ChessPiece.Color.White);
+        
+        var checkText = isCheck ? "[Failed]".Color("Red") : "[Passed]".Color("Green");
+        var testName = $"[{nameof(Test2)}]:".Bold().Color("Blue");
+        
+        Debug.Log($"{testName} White king is saved from danger {checkText}");
     }
 }
