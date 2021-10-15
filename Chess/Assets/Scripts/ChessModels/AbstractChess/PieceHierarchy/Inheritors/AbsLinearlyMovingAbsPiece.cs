@@ -8,12 +8,12 @@ namespace AbstractChess
         protected AbsLinearlyMovingAbsPiece(PieceColor color) : base(color) { }
 
         protected void IterativelyDirectionallyFillPossibleMoves(
-            List<Square> listToFill, Square pieceSquare, Vector2Int moveDirection, PieceAction actionType)
+            List<AbsSquare> listToFill, AbsSquare pieceAbsSquare, Vector2Int moveDirection, PieceAction actionType)
         {
-            var x = pieceSquare.Coordinates.x;
-            var y = pieceSquare.Coordinates.y;
+            var x = pieceAbsSquare.Coordinates.x;
+            var y = pieceAbsSquare.Coordinates.y;
 
-            var chessboard = pieceSquare.Board;
+            var chessboard = pieceAbsSquare.Board;
 
             var boardLenght = GetLongSideOfChessboard(chessboard);
         
@@ -22,7 +22,7 @@ namespace AbstractChess
                 var coordinates = new Vector2Int(x + i * moveDirection.x, y + i * moveDirection.y);
                 var square = chessboard.GetSquareBasedOnCoordinates(coordinates);
 
-                if (square == chessboard.GhostSquare)
+                if (square == chessboard.GhostAbsSquare)
                     break;
 
                 var pieceOnSquare = square.AbsPieceOnThisSquare;
@@ -43,10 +43,10 @@ namespace AbstractChess
             }
         }
 
-        private int GetLongSideOfChessboard(Chessboard chessboard)
+        private int GetLongSideOfChessboard(AbsChessboard absChessboard)
         {
-            var boardLenght = chessboard.Length;
-            var boardHeight = chessboard.Height;
+            var boardLenght = absChessboard.Length;
+            var boardHeight = absChessboard.Height;
 
             return boardLenght > boardHeight ? boardLenght : boardHeight;
         }

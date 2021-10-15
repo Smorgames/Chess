@@ -14,9 +14,9 @@ namespace AbstractChess
 
         public AbsKing(PieceColor color) : base(color) { }
 
-        public override List<Square> PossibleMoves(Square square)
+        public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
         {
-            var moves = new List<Square>();
+            var moves = new List<AbsSquare>();
             var directions = new List<Vector2Int>()
             {
                 _upRightDir, _upLeftDir, _downLeftDir, _downRightDir,
@@ -24,23 +24,23 @@ namespace AbstractChess
             };
 
             foreach (var dir in directions)
-                moves = SetMoves(MovesType.Movement, square, directions);
+                moves = SetMoves(MovesType.Movement, absSquare, directions);
             
             return moves;
         }
 
-        private List<Square> SetMoves(MovesType movesType, Square squareWithChessPiece, List<Vector2Int> moveDirections)
+        private List<AbsSquare> SetMoves(MovesType movesType, AbsSquare absSquareWithChessPiece, List<Vector2Int> moveDirections)
         {
-            var squares = new List<Square>();
+            var squares = new List<AbsSquare>();
 
             foreach (var dir in moveDirections)
             {
-                var x = squareWithChessPiece.Coordinates.x;
-                var y = squareWithChessPiece.Coordinates.y;
+                var x = absSquareWithChessPiece.Coordinates.x;
+                var y = absSquareWithChessPiece.Coordinates.y;
                 var coordinates = new Vector2Int(x + dir.x, y + dir.y);
 
-                var square = squareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
-                var pieceOnSquare = squareWithChessPiece.AbsPieceOnThisSquare;
+                var square = absSquareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
+                var pieceOnSquare = absSquareWithChessPiece.AbsPieceOnThisSquare;
                 
                 var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && MyColor != pieceOnSquare.MyColor;
                 
@@ -56,9 +56,9 @@ namespace AbstractChess
             return squares;
         }
 
-        public override List<Square> PossibleAttackMoves(Square square)
+        public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
         {
-            var moves = new List<Square>();
+            var moves = new List<AbsSquare>();
             var directions = new List<Vector2Int>()
             {
                 _upRightDir, _upLeftDir, _downLeftDir, _downRightDir,
@@ -66,7 +66,7 @@ namespace AbstractChess
             };
 
             foreach (var dir in directions)
-                moves = SetMoves(MovesType.Attack, square, directions);
+                moves = SetMoves(MovesType.Attack, absSquare, directions);
             
             return moves;
         }

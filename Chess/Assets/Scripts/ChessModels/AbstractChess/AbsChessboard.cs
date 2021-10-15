@@ -2,7 +2,7 @@
 
 namespace AbstractChess
 {
-    public class Chessboard
+    public class AbsChessboard
     {
         public int Length => _length;
         private int _length;
@@ -10,18 +10,18 @@ namespace AbstractChess
         public int Height => _height;
         private int _height;
     
-        public Square[,] Squares => _squares;
-        private Square[,] _squares;
+        public AbsSquare[,] Squares => _squares;
+        private AbsSquare[,] _squares;
     
-        public Square GhostSquare => _ghostSquare;
-        private static Square _ghostSquare;
+        public AbsSquare GhostAbsSquare => _ghostAbsSquare;
+        private static AbsSquare _ghostAbsSquare;
     
-        public Chessboard(int length, int height)
+        public AbsChessboard(int length, int height)
         {
             ConstructorInitialization(length, height);
         }
 
-        public Chessboard(Vector2Int boardSize)
+        public AbsChessboard(Vector2Int boardSize)
         {
             ConstructorInitialization(boardSize.x, boardSize.y);
         }
@@ -31,17 +31,17 @@ namespace AbstractChess
             _length = length;
             _height = height;
     
-            if (_ghostSquare == null)
-                _ghostSquare = new Square(-1, -1, this) { Board = this };
+            if (_ghostAbsSquare == null)
+                _ghostAbsSquare = new AbsSquare(-1, -1, this) { Board = this };
             
-            _squares = new Square[length, height];
+            _squares = new AbsSquare[length, height];
 
             for (int x = 0; x < length; x++)
             for (int y = 0; y < height; y++)
-                _squares[x, y] = new Square(x, y);
+                _squares[x, y] = new AbsSquare(x, y);
         }
 
-        public Square GetSquareBasedOnCoordinates(Vector2Int coordinates)
+        public AbsSquare GetSquareBasedOnCoordinates(Vector2Int coordinates)
         {
             var xCorrect = coordinates.x >= 0 && coordinates.x < _length;
             var yCorrect = coordinates.y >= 0 && coordinates.y < _height;
@@ -54,7 +54,7 @@ namespace AbstractChess
             // var ghostSquareName = nameof(GhostSquare);
             
             //Debug.Log($"In method [{className}.{methodName}()] coordinates are equal ({coordinates.x};{coordinates.y})! Returned {ghostSquareName}");
-            return _ghostSquare;
+            return _ghostAbsSquare;
         }
     }
 }

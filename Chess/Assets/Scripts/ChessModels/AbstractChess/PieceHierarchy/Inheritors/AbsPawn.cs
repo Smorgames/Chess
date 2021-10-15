@@ -23,11 +23,11 @@ namespace AbstractChess
         
         public AbsPawn(PieceColor color) : base(color) { }
 
-        public override List<Square> PossibleMoves(Square square)
+        public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
         {
-            var moves = new List<Square>();
+            var moves = new List<AbsSquare>();
 
-            var firstMoveSquare = GetSquareToMove(square, 1);
+            var firstMoveSquare = GetSquareToMove(absSquare, 1);
             
             if (firstMoveSquare.AbsPieceOnThisSquare != null) 
                 return moves;
@@ -36,7 +36,7 @@ namespace AbstractChess
 
             if (_isFirstMove)
             {
-                var secondMoveSquare = GetSquareToMove(square, 2);
+                var secondMoveSquare = GetSquareToMove(absSquare, 2);
                 
                 if (secondMoveSquare.AbsPieceOnThisSquare != null) 
                     return moves;
@@ -46,23 +46,23 @@ namespace AbstractChess
 
             return moves;
         }
-        private Square GetSquareToMove(Square squareWithChessPiece, int moveDistance)
+        private AbsSquare GetSquareToMove(AbsSquare absSquareWithChessPiece, int moveDistance)
         {
-            var x = squareWithChessPiece.Coordinates.x + moveDistance * MoveDirection.x;
-            var y = squareWithChessPiece.Coordinates.y + moveDistance * MoveDirection.y;
+            var x = absSquareWithChessPiece.Coordinates.x + moveDistance * MoveDirection.x;
+            var y = absSquareWithChessPiece.Coordinates.y + moveDistance * MoveDirection.y;
             
             var coordinates = new Vector2Int(x, y);
 
-            return squareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
+            return absSquareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
         }
 
-        public override List<Square> PossibleAttackMoves(Square square)
+        public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
         {
-            var attackSquares = new List<Square>();
+            var attackSquares = new List<AbsSquare>();
             
-            var firstAttackSquare = GetAttackSquare(square, 1);
-            var secondAttackSquare = GetAttackSquare(square, -1);
-            var supposedAttackSquares = new List<Square>() { firstAttackSquare, secondAttackSquare };
+            var firstAttackSquare = GetAttackSquare(absSquare, 1);
+            var secondAttackSquare = GetAttackSquare(absSquare, -1);
+            var supposedAttackSquares = new List<AbsSquare>() { firstAttackSquare, secondAttackSquare };
 
             foreach (var s in supposedAttackSquares)
                 if (s.AbsPieceOnThisSquare != null)
@@ -75,13 +75,13 @@ namespace AbstractChess
 
             return attackSquares;
         }
-        private Square GetAttackSquare(Square squareWithChessPiece, int xOffset)
+        private AbsSquare GetAttackSquare(AbsSquare absSquareWithChessPiece, int xOffset)
         {
-            var x = squareWithChessPiece.Coordinates.x + xOffset;
-            var y = squareWithChessPiece.Coordinates.y + MoveDirection.y;
+            var x = absSquareWithChessPiece.Coordinates.x + xOffset;
+            var y = absSquareWithChessPiece.Coordinates.y + MoveDirection.y;
             var coordinates = new Vector2Int(x, y);
             
-            return squareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
+            return absSquareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
         }
         
         public override string ToString() => $"{MyColor} pawn";

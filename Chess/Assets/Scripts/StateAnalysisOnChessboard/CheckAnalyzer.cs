@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
+using AbstractChess;
 
-using AbstractChessboard = AbstractChess.Chessboard;
-
-namespace AbstractChess
+namespace AnalysisOfChessState.Analyzer
 {
     public class CheckAnalyzer
     {
-        public bool IsCheckForAbsKing(AbstractChessboard abstractChessboard, PieceColor kingColor)
+        public bool IsCheckForAbsKing(AbsChessboard abstractAbsChessboard, PieceColor kingColor)
         {
-            var allAttackTurns = new List<Square>();
+            var allAttackTurns = new List<AbsSquare>();
             
-            foreach (var square in abstractChessboard.Squares)
+            foreach (var square in abstractAbsChessboard.Squares)
             {
                 var pieceOnSquare = square.AbsPieceOnThisSquare;
 

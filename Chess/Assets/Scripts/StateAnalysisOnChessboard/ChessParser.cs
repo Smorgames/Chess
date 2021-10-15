@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using AbstractChess;
 using UnityEngine;
 
-using AbstractChessboard = AbstractChess.Chessboard;
-
-namespace AbstractChess
+namespace AnalysisOfChessState.Parser
 {
     public class ChessParser
     {
@@ -101,11 +100,11 @@ namespace AbstractChess
             return chessTokens;
         }
 
-        public List<ChessToken> Parse(AbstractChessboard abstractChessboard)
+        public List<ChessToken> Parse(AbsChessboard abstractAbsChessboard)
         {
             var chessTokens = new List<ChessToken>();
 
-            foreach (var square in abstractChessboard.Squares)
+            foreach (var square in abstractAbsChessboard.Squares)
             {
                 var pieceOnSquare = square.AbsPieceOnThisSquare;
                 
@@ -123,9 +122,9 @@ namespace AbstractChess
             return chessTokens;
         }
 
-        public string GetChessStateCode(Chessboard abstractChessboard)
+        public string GetChessStateCode(AbsChessboard abstractAbsChessboard)
         {
-            var chessTokens = Parse(abstractChessboard);
+            var chessTokens = Parse(abstractAbsChessboard);
             return GetChessStateCode(chessTokens);
         }
         

@@ -14,19 +14,19 @@ namespace AbstractChess
 
         public AbsQueen(PieceColor color) : base(color) { }
 
-        public override List<Square> PossibleMoves(Square square)
+        public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
         {
-            return GetMovesBasedOnActionType(square, PieceAction.Movement);
+            return GetMovesBasedOnActionType(absSquare, PieceAction.Movement);
         }
 
-        public override List<Square> PossibleAttackMoves(Square square)
+        public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
         {
-            return GetMovesBasedOnActionType(square, PieceAction.Attack);
+            return GetMovesBasedOnActionType(absSquare, PieceAction.Attack);
         }
 
-        private List<Square> GetMovesBasedOnActionType(Square squareWithPiece, PieceAction actionType)
+        private List<AbsSquare> GetMovesBasedOnActionType(AbsSquare absSquareWithPiece, PieceAction actionType)
         {
-            var moves = new List<Square>();
+            var moves = new List<AbsSquare>();
             var directions = new List<Vector2Int>()
             {
                 _upRightDir, _upLeftDir, _downLeftDir, _downRightDir,
@@ -34,7 +34,7 @@ namespace AbstractChess
             };
 
             foreach (var dir in directions)
-                IterativelyDirectionallyFillPossibleMoves(moves, squareWithPiece, dir, actionType);
+                IterativelyDirectionallyFillPossibleMoves(moves, absSquareWithPiece, dir, actionType);
 
             return moves;
         }

@@ -1,4 +1,4 @@
-﻿namespace AbstractChess
+﻿namespace AnalysisOfChessState
 {
     public static class StorageOfChessState
     {

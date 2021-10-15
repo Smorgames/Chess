@@ -12,29 +12,29 @@ namespace AbstractChess
         private static Vector2Int _downRightDir = new Vector2Int(1, -1);
         private static Vector2Int _downLeftDir = new Vector2Int(-1, -1);
     
-        private List<Square> _attackMoves = new List<Square>();
+        private List<AbsSquare> _attackMoves = new List<AbsSquare>();
     
         public AbsBishop(PieceColor color) : base(color) { }
 
-        public override List<Square> PossibleMoves(Square square)
+        public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
         {
-            var moves = GetPossibleMoves(square, PieceAction.Movement);
+            var moves = GetPossibleMoves(absSquare, PieceAction.Movement);
             return moves;
         }
 
-        public override List<Square> PossibleAttackMoves(Square square)
+        public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
         {
-            var moves = GetPossibleMoves(square, PieceAction.Attack);
+            var moves = GetPossibleMoves(absSquare, PieceAction.Attack);
             return moves;
         }
 
-        private List<Square> GetPossibleMoves(Square pieceSquare, PieceAction actionType)
+        private List<AbsSquare> GetPossibleMoves(AbsSquare pieceAbsSquare, PieceAction actionType)
         {
-            var possibleMoves = new List<Square>();
+            var possibleMoves = new List<AbsSquare>();
             var directions = new List<Vector2Int>() { _upRightDir, _upLeftDir, _downLeftDir, _downRightDir };
 
             foreach (var dir in directions)
-                IterativelyDirectionallyFillPossibleMoves(possibleMoves, pieceSquare, dir, actionType);
+                IterativelyDirectionallyFillPossibleMoves(possibleMoves, pieceAbsSquare, dir, actionType);
 
             return possibleMoves;
         }

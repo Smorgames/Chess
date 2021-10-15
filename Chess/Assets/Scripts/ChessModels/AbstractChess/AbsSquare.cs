@@ -2,17 +2,17 @@
 
 namespace AbstractChess
 {
-    public class Square
+    public class AbsSquare
     {
-        public Chessboard Board { get => _board; set => _board = value; }
-        private static Chessboard _board;
+        public AbsChessboard Board { get => _board; set => _board = value; }
+        private static AbsChessboard _board;
 
         public AbsPiece AbsPieceOnThisSquare;
 
         public Vector2Int Coordinates => new Vector2Int(_x, _y);
         private readonly int _x, _y;
 
-        public Square(int x, int y, Chessboard board)
+        public AbsSquare(int x, int y, AbsChessboard board)
         {
             _x = x;
             _y = y;
@@ -21,7 +21,7 @@ namespace AbstractChess
                 _board = board;
         }
     
-        public Square(int x, int y)
+        public AbsSquare(int x, int y)
         {
             _x = x;
             _y = y;

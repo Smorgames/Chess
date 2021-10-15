@@ -15,8 +15,8 @@ namespace AbstractChess
             MyColor = color;
         }
     
-        public abstract List<Square> PossibleMoves(Square square);
-        public abstract List<Square> PossibleAttackMoves(Square square);
+        public abstract List<AbsSquare> PossibleMoves(AbsSquare absSquare);
+        public abstract List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare);
 
         public enum Color
         {
