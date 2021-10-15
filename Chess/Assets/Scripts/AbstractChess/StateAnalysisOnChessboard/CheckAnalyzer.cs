@@ -1,27 +1,18 @@
 ﻿using System.Collections.Generic;
 
-using AbstractBoard = AbstractChess.Chessboard;
+using AbstractChessboard = AbstractChess.Chessboard;
 
 namespace AbstractChess
 {
     public class CheckAnalyzer
     {
-        private readonly ChessStateParser _parser;
-        private readonly ChessboardArranger _arranger;
-
-        public CheckAnalyzer()
-        {
-            _parser = new ChessStateParser();
-            _arranger = new ChessboardArranger();
-        }
-        
-        public bool IsCheckForKing(AbstractBoard chessboard, Piece.Color kingColor)
+        public bool IsCheckForAbsKing(AbstractChessboard abstractChessboard, PieceColor kingColor)
         {
             var allAttackTurns = new List<Square>();
             
-            foreach (var square in chessboard.Squares)
+            foreach (var square in abstractChessboard.Squares)
             {
-                var pieceOnSquare = square.PieceOnThisSquare;
+                var pieceOnSquare = square.AbsPieceOnThisSquare;
 
                 if (pieceOnSquare != null && pieceOnSquare.MyColor != kingColor)
                 {
@@ -35,7 +26,7 @@ namespace AbstractChess
             }
 
             foreach (var turn in allAttackTurns)
-                if (turn.PieceOnThisSquare is King)
+                if (turn.AbsPieceOnThisSquare is AbsKing)
                     return true;
             
             return false;

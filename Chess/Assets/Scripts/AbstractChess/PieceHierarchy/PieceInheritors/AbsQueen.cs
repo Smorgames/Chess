@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public class Queen : LinearlyMovingPiece
+    public class AbsQueen : AbsLinearlyMovingAbsPiece
     {
+        public override PieceType MyType => PieceType.Queen;
+        
         private static Vector2Int _upRightDir = new Vector2Int(1, 1);
         private static Vector2Int _upLeftDir = new Vector2Int(-1, 1);
         private static Vector2Int _downRightDir = new Vector2Int(1, -1);
         private static Vector2Int _downLeftDir = new Vector2Int(-1, -1);
 
-        public Queen(Color color) : base(color) { }
+        public AbsQueen(PieceColor color) : base(color) { }
 
         public override List<Square> PossibleMoves(Square square)
         {

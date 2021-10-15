@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public abstract class LinearlyMovingPiece : Piece
+    public abstract class AbsLinearlyMovingAbsPiece : AbsPiece
     {
-        protected LinearlyMovingPiece(Color color) : base(color) { }
+        protected AbsLinearlyMovingAbsPiece(PieceColor color) : base(color) { }
 
         protected void IterativelyDirectionallyFillPossibleMoves(
             List<Square> listToFill, Square pieceSquare, Vector2Int moveDirection, PieceAction actionType)
@@ -25,7 +25,7 @@ namespace AbstractChess
                 if (square == chessboard.GhostSquare)
                     break;
 
-                var pieceOnSquare = square.PieceOnThisSquare;
+                var pieceOnSquare = square.AbsPieceOnThisSquare;
             
                 if (pieceOnSquare != null)
                 {

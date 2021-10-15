@@ -7,7 +7,7 @@ namespace AbstractChess
         public Chessboard Board { get => _board; set => _board = value; }
         private static Chessboard _board;
 
-        public Piece PieceOnThisSquare;
+        public AbsPiece AbsPieceOnThisSquare;
 
         public Vector2Int Coordinates => new Vector2Int(_x, _y);
         private readonly int _x, _y;
@@ -29,7 +29,7 @@ namespace AbstractChess
 
         public override string ToString()
         {
-            var pieceText = PieceOnThisSquare == null ? "Empty square" : $"[{PieceOnThisSquare}]";
+            var pieceText = AbsPieceOnThisSquare == null ? "Empty square" : $"[{AbsPieceOnThisSquare}]";
             return $"[{_x};{_y} {pieceText}]";
         }
     }

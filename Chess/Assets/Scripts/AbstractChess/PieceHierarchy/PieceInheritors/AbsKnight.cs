@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public class Knight : Piece
+    public class AbsKnight : AbsPiece
     {
+        public override PieceType MyType => PieceType.Knight;
+        
         private Vector2Int _upLeftDir = new Vector2Int(-1, 2);
         private Vector2Int _upRightDir = new Vector2Int(1, 2);
         
@@ -19,7 +21,7 @@ namespace AbstractChess
 
         private List<Vector2Int> _directions;
 
-        public Knight(Color color) : base(color)
+        public AbsKnight(PieceColor color) : base(color)
         { 
             _directions = new List<Vector2Int>()
             {
@@ -45,7 +47,7 @@ namespace AbstractChess
             foreach (var dir in _directions)
             {
                 var square = squareWithChessPiece.Board.GetSquareBasedOnCoordinates(dir);
-                var pieceOnSquare = square.PieceOnThisSquare;
+                var pieceOnSquare = square.AbsPieceOnThisSquare;
 
                 var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && MyColor != pieceOnSquare.MyColor;
                 

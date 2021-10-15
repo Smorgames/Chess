@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public class Bishop : LinearlyMovingPiece
+    public class AbsBishop : AbsLinearlyMovingAbsPiece
     {
+        public override PieceType MyType => PieceType.Bishop;
+        
         private static Vector2Int _upRightDir = new Vector2Int(1, 1);
         private static Vector2Int _upLeftDir = new Vector2Int(-1, 1);
         private static Vector2Int _downRightDir = new Vector2Int(1, -1);
@@ -12,7 +14,7 @@ namespace AbstractChess
     
         private List<Square> _attackMoves = new List<Square>();
     
-        public Bishop(Color color) : base(color) { }
+        public AbsBishop(PieceColor color) : base(color) { }
 
         public override List<Square> PossibleMoves(Square square)
         {

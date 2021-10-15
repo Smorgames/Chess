@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public abstract class Piece
+    public abstract class AbsPiece
     {
-        public Color MyColor => _myColor;
-        private Color _myColor;
+        public readonly PieceColor MyColor;
+        public abstract PieceType MyType { get; }
     
         protected bool _isFirstMove = true;
 
-        public Piece(Color color)
+        public AbsPiece(PieceColor color)
         {
-            _myColor = color;
+            MyColor = color;
         }
     
         public abstract List<Square> PossibleMoves(Square square);

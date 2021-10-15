@@ -3,9 +3,11 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public class Rook : LinearlyMovingPiece
+    public class AbsRook : AbsLinearlyMovingAbsPiece
     {
-        public Rook(Color color) : base(color) { }
+        public override PieceType MyType => PieceType.Rook;
+        
+        public AbsRook(PieceColor color) : base(color) { }
 
         public override List<Square> PossibleMoves(Square square)
         {

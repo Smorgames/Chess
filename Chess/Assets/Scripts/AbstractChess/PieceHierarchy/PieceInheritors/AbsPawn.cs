@@ -3,23 +3,25 @@ using UnityEngine;
 
 namespace AbstractChess
 { 
-    public class Pawn : Piece, IMoveDirection
+    public class AbsPawn : AbsPiece, IMoveDirection
     {
+        public override PieceType MyType => PieceType.Pawn;
+        
         public Vector2Int MoveDirection
         {
             get
             {
-                if (MyColor == Color.White)
+                if (MyColor == PieceColor.White)
                     return Vector2Int.up;
                 
-                if (MyColor == Color.Black)
+                if (MyColor == PieceColor.Black)
                     return Vector2Int.down;
                 
                 return Vector2Int.zero;
             }
         }
         
-        public Pawn(Color color) : base(color) { }
+        public AbsPawn(PieceColor color) : base(color) { }
 
         public override List<Square> PossibleMoves(Square square)
         {
@@ -27,7 +29,7 @@ namespace AbstractChess
 
             var firstMoveSquare = GetSquareToMove(square, 1);
             
-            if (firstMoveSquare.PieceOnThisSquare != null) 
+            if (firstMoveSquare.AbsPieceOnThisSquare != null) 
                 return moves;
             
             moves.Add(firstMoveSquare);
@@ -36,7 +38,7 @@ namespace AbstractChess
             {
                 var secondMoveSquare = GetSquareToMove(square, 2);
                 
-                if (secondMoveSquare.PieceOnThisSquare != null) 
+                if (secondMoveSquare.AbsPieceOnThisSquare != null) 
                     return moves;
                 
                 moves.Add(secondMoveSquare);
@@ -63,9 +65,9 @@ namespace AbstractChess
             var supposedAttackSquares = new List<Square>() { firstAttackSquare, secondAttackSquare };
 
             foreach (var s in supposedAttackSquares)
-                if (s.PieceOnThisSquare != null)
+                if (s.AbsPieceOnThisSquare != null)
                 {
-                    var squareChessPieceColor = s.PieceOnThisSquare.MyColor;
+                    var squareChessPieceColor = s.AbsPieceOnThisSquare.MyColor;
 
                     if (MyColor != squareChessPieceColor)
                         attackSquares.Add(s);

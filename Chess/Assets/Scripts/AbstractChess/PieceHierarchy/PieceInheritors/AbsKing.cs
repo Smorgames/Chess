@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public class King : Piece
+    public class AbsKing : AbsPiece
     {
+        public override PieceType MyType => PieceType.King;
+        
         private static Vector2Int _upRightDir = new Vector2Int(1, 1);
         private static Vector2Int _upLeftDir = new Vector2Int(-1, 1);
         private static Vector2Int _downRightDir = new Vector2Int(1, -1);
         private static Vector2Int _downLeftDir = new Vector2Int(-1, -1);
 
-        public King(Color color) : base(color) { }
+        public AbsKing(PieceColor color) : base(color) { }
 
         public override List<Square> PossibleMoves(Square square)
         {
@@ -38,7 +40,7 @@ namespace AbstractChess
                 var coordinates = new Vector2Int(x + dir.x, y + dir.y);
 
                 var square = squareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
-                var pieceOnSquare = squareWithChessPiece.PieceOnThisSquare;
+                var pieceOnSquare = squareWithChessPiece.AbsPieceOnThisSquare;
                 
                 var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && MyColor != pieceOnSquare.MyColor;
                 
