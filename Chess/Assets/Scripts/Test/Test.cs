@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Test : MonoBehaviour
@@ -23,7 +22,7 @@ public class Test : MonoBehaviour
 
     public static void ShowPossibleTurns(Square square)
     {
-        List<Square> turns = square.PieceOnThis.GetPossibleAttackTurns(square);
+        List<Square> turns = square.PieceOnSquare.GetPossibleAttackTurns(square);
 
         foreach (var turn in turns)
             turn.Activate();

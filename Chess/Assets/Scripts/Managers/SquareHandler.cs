@@ -27,7 +27,7 @@ public class SquareHandler : MonoBehaviour
             {
                 Square square = _chessboard.Squares[x, y];
 
-                if (square.PieceOnThis == piece)
+                if (square.PieceOnSquare == piece)
                     return square;
             }
         }

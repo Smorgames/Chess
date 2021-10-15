@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colorData:
-    _color: 1
+    _color: 0
   _collider: {fileID: 3571866486610537117}
 --- !u!1001 &2847676919692169513
 PrefabInstance:

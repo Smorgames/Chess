@@ -23,6 +23,11 @@ namespace AnalysisOfChessState
         {
             return _analyzer.IsCheckForAbsKing(abstractBoard, kingColor);
         }
+        
+        public bool IsCheckForAbstractKing(Chessboard board, PieceColor kingColor)
+        {
+            return _analyzer.IsCheckForAbsKing(board, kingColor);
+        }
 
         public bool IsCheckForAbstractKing(string chessStateCode, Vector2Int boardSize, PieceColor kingColor)
         {

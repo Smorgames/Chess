@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PieceTurnsDisplayer : MonoBehaviour
 {
@@ -10,7 +9,7 @@ public class PieceTurnsDisplayer : MonoBehaviour
 
     public void ShowTurnsOfPieceStandsOnSquare(Square square)
     {
-        _pieceTurns.Piece = square.PieceOnThis;
+        _pieceTurns.Piece = square.PieceOnSquare;
 
         _pieceTurns.MoveTurns = _pieceTurns.Piece.GetPossibleMoveTurns(square);
         _pieceTurns.AttackTurns = _pieceTurns.Piece.GetPossibleAttackTurns(square);

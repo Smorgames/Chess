@@ -2,6 +2,8 @@
 
 public class King : Piece
 {
+    public override PieceType MyType => PieceType.King;
+    
     private List<Square> _attackTurns = new List<Square>();
 
     public override List<Square> GetPossibleAttackTurns(Square squareWithThis)

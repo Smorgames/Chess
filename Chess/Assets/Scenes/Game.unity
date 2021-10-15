@@ -1894,38 +1894,6 @@ Transform:
   m_Father: {fileID: 1476477272}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &602605555
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 602605556}
-  m_Layer: 0
-  m_Name: Chessboards
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &602605556
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 602605555}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1612124788}
-  - {fileID: 2139506759}
-  m_Father: {fileID: 1172318027}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &614458354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3449,8 +3417,6 @@ MonoBehaviour:
   _squarePrefabs:
   - {fileID: 7714463600364054774, guid: 5031778bf1d6b7c43bfc8148e8acc234, type: 3}
   - {fileID: 6221665650509939946, guid: aa6af32af3b37f34392f8fdf2fc7a20e, type: 3}
-  _abctractSquarePrefab: {fileID: 8451763487902512041, guid: 81886ed9488b26e47a5b94751791a385,
-    type: 3}
   _squareHandler: {fileID: 2070420378}
 --- !u!4 &1079150641
 Transform:
@@ -3608,7 +3574,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 602605556}
+  - {fileID: 1612124788}
   m_Father: {fileID: 719009711}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3625,7 +3591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _realChessboard: {fileID: 1612124787}
-  _abstractChessboard: {fileID: 2139506760}
   _filler: {fileID: 1079150640}
   _pieceStorage: {fileID: 131663106}
   _squareHandler: {fileID: 2070420378}
@@ -3871,7 +3836,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1307795085 stripped
 Transform:
@@ -3934,7 +3899,7 @@ GameObject:
   - component: {fileID: 1357042648}
   - component: {fileID: 1357042647}
   m_Layer: 0
-  m_Name: ------TEST------
+  m_Name: TEST
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3964,7 +3929,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1397346580 stripped
 MonoBehaviour:
@@ -4521,7 +4486,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 602605556}
+  m_Father: {fileID: 1172318027}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1615363376
@@ -6068,49 +6033,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2105000727}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2139506758
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2139506759}
-  - component: {fileID: 2139506760}
-  m_Layer: 0
-  m_Name: AbstractChessboard
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2139506759
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139506758}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 602605556}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2139506760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139506758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f1282cf058b0a7499b81276731a47d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &429513994222129008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6832,7 +6754,7 @@ PrefabInstance:
     - target: {fileID: 4238350137893926982, guid: 6ac20f6d7c844c74a938c05412981f84,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4238350137893926982, guid: 6ac20f6d7c844c74a938c05412981f84,
         type: 3}

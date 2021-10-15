@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Queen : Piece
 {
+    public override PieceType MyType => PieceType.Queen;
+    
     private List<Square> _attackTurns = new List<Square>();
 
     public override List<Square> GetPossibleAttackTurns(Square squareWithThis)

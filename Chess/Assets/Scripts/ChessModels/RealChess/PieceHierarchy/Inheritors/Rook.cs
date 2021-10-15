@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Rook : Piece
 {
+    public override PieceType MyType => PieceType.Rook;
     private List<Square> _attackTurns = new List<Square>();
 
     public override List<Square> GetPossibleAttackTurns(Square squareWithThis)

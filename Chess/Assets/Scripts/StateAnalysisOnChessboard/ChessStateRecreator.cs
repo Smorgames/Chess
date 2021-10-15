@@ -16,7 +16,11 @@ namespace AnalysisOfChessState.Recreator
         public AbsChessboard RecreateChessState(AbsChessboard abstractAbsChessboard, List<ChessToken> chessTokens)
         {
             var dict = _chessPieceCreator.GetDictionaryOfAbstractPieces(chessTokens);
-                
+
+            foreach (var square in abstractAbsChessboard.Squares)
+                square.AbsPieceOnThisSquare = null;
+            
+            
             foreach (var pair in dict)
             {
                 var square = abstractAbsChessboard.GetSquareBasedOnCoordinates(pair.Key);

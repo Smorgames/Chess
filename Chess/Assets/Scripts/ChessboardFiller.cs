@@ -9,7 +9,6 @@ public class ChessboardFiller : MonoBehaviour
     [SerializeField] private Vector2 _offset;
 
     [SerializeField] private GameObject[] _squarePrefabs;
-    [SerializeField] private GameObject _abctractSquarePrefab;
 
     [Header("References")]
     [SerializeField] private SquareHandler _squareHandler;
@@ -26,7 +25,6 @@ public class ChessboardFiller : MonoBehaviour
                 var coordinates = new Vector2Int(x, y);
                 
                 CreateAndSetSquare(coordinates, chessboard);
-                CreateAndSetAbstractSquare(coordinates, chessboard);
             }
         }
 
@@ -41,15 +39,6 @@ public class ChessboardFiller : MonoBehaviour
         SetSquare(square, coordinates, squareName, chessboard);
 
         chessboard.Squares[coordinates.x, coordinates.y] = square;
-    }
-
-    private void CreateAndSetAbstractSquare(Vector2Int coordinates, Chessboard abstractChessboard)
-    {
-        var abstractSquare = Instantiate(_abctractSquarePrefab, transform.position, Quaternion.identity).GetComponent<Square>();
-        var squareName = $"Abstract square {coordinates.x * _chessBoardLength + coordinates.y}";
-        SetSquare(abstractSquare, coordinates, squareName, abstractChessboard);
-        
-        abstractChessboard.Squares[coordinates.x, coordinates.y] = abstractSquare;
     }
 
     private void SetSquare(Square square, Vector2Int coordinates, string squareName, Chessboard chessboard)

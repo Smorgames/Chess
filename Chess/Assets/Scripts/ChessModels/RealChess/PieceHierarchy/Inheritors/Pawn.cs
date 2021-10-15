@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using AnalysisOfChessState;
 
 public class Pawn : Piece
 {
+    public override PieceType MyType => PieceType.Pawn;
+
     private bool _isFirstTurn = true;
 
     public override List<Square> GetPossibleAttackTurns(Square squareWithThis)
@@ -24,7 +27,7 @@ public class Pawn : Piece
 
         return attackTurns;
     }
-
+    
     public override List<Square> GetPossibleMoveTurns(Square square)
     {
         int x = square.Coordinates.x;
@@ -54,9 +57,9 @@ public class Pawn : Piece
         return moveTurns;
     }
 
-    public override void Move(Square cell)
+    public override void Move(Square square)
     {
-        base.Move(cell);
+        base.Move(square);
 
         if (_isFirstTurn)
             _isFirstTurn = false;

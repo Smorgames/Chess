@@ -111,7 +111,7 @@ public class ChessPieceSetuper : MonoBehaviour
 
     private void PutPieceOnSquare(Piece piece, int x, int y)
     {
-        _suareHandler.GetSquareWithCoordinates(x, y).PieceOnThis = piece;
+        _suareHandler.GetSquareWithCoordinates(x, y).PieceOnSquare = piece;
         piece.transform.position = _suareHandler.GetSquareWithCoordinates(x, y).transform.position + _offset;
 
         AddPieceInAllPieceArray(piece);

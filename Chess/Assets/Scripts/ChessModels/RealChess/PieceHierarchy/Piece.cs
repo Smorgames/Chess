@@ -8,6 +8,8 @@ public abstract class Piece : MonoBehaviour
 
     public delegate void PieceDeadHandler(Piece chessPiece);
     public static event PieceDeadHandler OnPieceDied;
+    
+    public abstract PieceType MyType { get; }
 
     public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
@@ -48,17 +50,12 @@ public abstract class Piece : MonoBehaviour
         {
             Piece enemyPiece = collidersInOverlapArea[i].GetComponent<Piece>();
 
-            if (enemyPiece != null)
+            if (enemyPiece != null && _gameManager.WhoseTurn == _colorData.Color)
             {
-                Color pieceColor = enemyPiece.ColorData.Color;
+                Square squareWithPiece = _squareHandler.GetSquareWithPiece(enemyPiece);
+                squareWithPiece.PieceOnSquare = null;
 
-                if (_gameManager.WhoseTurn == _colorData.Color)
-                {
-                    Square squareWithPiece = _squareHandler.GetSquareWithPiece(enemyPiece);
-                    squareWithPiece.PieceOnThis = null;
-
-                    enemyPiece.Death();
-                }
+                enemyPiece.Death();
             }
         }
 
@@ -76,7 +73,7 @@ public abstract class Piece : MonoBehaviour
 
     protected bool IsPieceStandsOnSquare(Square square)
     {
-        if (square.PieceOnThis)
+        if (square.PieceOnSquare)
             return true;
 
         return false;
@@ -84,7 +81,7 @@ public abstract class Piece : MonoBehaviour
 
     protected bool IsPieceOnSquareHasOppositeColor(Square square)
     {
-        return square.PieceOnThis.ColorData.Color != ColorData.Color;
+        return square.PieceOnSquare.ColorData.Color != ColorData.Color;
     }
 
     private void Start()
@@ -97,20 +94,12 @@ public abstract class Piece : MonoBehaviour
         _squareHandler = SquareHandler.Instance;
         _gameManager = GameManager.Instance;
     }
-    
-    [System.Serializable]
-    public enum Color
-    {
-        None,
-        Black,
-        White
-    }
 }
 
 [System.Serializable]
 public class ColorData
 {
-    public Piece.Color Color
+    public PieceColor Color
     {
         get => _color;
         set
@@ -122,16 +111,16 @@ public class ColorData
             }
         }
     }
-    [SerializeField] private Piece.Color _color;
+    [SerializeField] private PieceColor _color;
     private bool _isColorInitialized;
 
     public int Multiplier
     {
         get
         {
-            if (_color == Piece.Color.Black)
+            if (_color == PieceColor.Black)
                 return -1;
-            else if (_color == Piece.Color.White)
+            if (_color == PieceColor.White)
                 return 1;
             return 0;
         }

@@ -100,11 +100,11 @@ namespace AnalysisOfChessState.Parser
             return chessTokens;
         }
 
-        public List<ChessToken> Parse(AbsChessboard abstractAbsChessboard)
+        public List<ChessToken> Parse(AbsChessboard abstractChessboard)
         {
             var chessTokens = new List<ChessToken>();
 
-            foreach (var square in abstractAbsChessboard.Squares)
+            foreach (var square in abstractChessboard.Squares)
             {
                 var pieceOnSquare = square.AbsPieceOnThisSquare;
                 
@@ -112,6 +112,28 @@ namespace AnalysisOfChessState.Parser
                 {
                     var coordinates = square.Coordinates;
                     var color = pieceOnSquare.MyColor;
+                    var type = pieceOnSquare.MyType;
+                    
+                    var token = new ChessToken(coordinates, color, type);
+                    chessTokens.Add(token);
+                }
+            }
+
+            return chessTokens;
+        }
+        
+        public List<ChessToken> Parse(Chessboard realBoard)
+        {
+            var chessTokens = new List<ChessToken>();
+
+            foreach (var square in realBoard.Squares)
+            {
+                var pieceOnSquare = square.PieceOnSquare;
+                
+                if (pieceOnSquare != null)
+                {
+                    var coordinates = square.Coordinates;
+                    var color = pieceOnSquare.ColorData.Color;
                     var type = pieceOnSquare.MyType;
                     
                     var token = new ChessToken(coordinates, color, type);

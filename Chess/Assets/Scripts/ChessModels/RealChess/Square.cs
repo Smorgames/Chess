@@ -13,8 +13,8 @@ public class Square : MonoBehaviour
     public Vector2Int Coordinates { get => _coordinates; }
     private Vector2Int _coordinates;
 
-    public Piece PieceOnThis { get => _pieceOnThis; set => _pieceOnThis = value; }
-    private Piece _pieceOnThis;
+    public Piece PieceOnSquare { get => _pieceOnSquare; set => _pieceOnSquare = value; }
+    private Piece _pieceOnSquare;
 
     public bool IsActive
     {
@@ -29,10 +29,10 @@ public class Square : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (_pieceOnThis != null)
+        if (_pieceOnSquare != null)
             Test.ShowPossibleTurns(this);
 
-        if (_pieceOnThis != null && NowTurnOfThisPiece())
+        if (_pieceOnSquare != null && NowTurnOfThisPiece())
             OnSquareWithPieceClicked?.Invoke(this);
         else
             OnEmptySquareClicked?.Invoke(this);
@@ -40,7 +40,7 @@ public class Square : MonoBehaviour
 
     private bool NowTurnOfThisPiece()
     {
-        return _pieceOnThis.ColorData.Color == GameManager.Instance.WhoseTurn;
+        return _pieceOnSquare.ColorData.Color == GameManager.Instance.WhoseTurn;
     }
 
     public void SetCoordinates(int x, int y)

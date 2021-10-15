@@ -2,6 +2,7 @@
 
 public class Knight : Piece
 {
+    public override PieceType MyType => PieceType.Knight;
     public override List<Square> GetPossibleAttackTurns(Square squareWithThis)
     {
         int x = squareWithThis.Coordinates.x;

@@ -48,10 +48,10 @@ public class PieceMover : MonoBehaviour
 
     private void MoveChessPiece()
     {
-        Piece piece = _squareWithPiece.PieceOnThis;
+        Piece piece = _squareWithPiece.PieceOnSquare;
 
-        _squareWithPiece.PieceOnThis = null;
-        _squareWherePieceWillGo.PieceOnThis = piece;
+        _squareWithPiece.PieceOnSquare = null;
+        _squareWherePieceWillGo.PieceOnSquare = piece;
 
         piece.Move(_squareWherePieceWillGo);
     }
