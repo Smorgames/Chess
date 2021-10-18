@@ -1,26 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using AbstractChess;
 using UnityEngine;
 
-namespace AnalysisOfChessState.Parser
+namespace AnalysisOfChessState.CodeHandler
 {
-    public class ChessParser
+    public class StateCodeHandler
     {
-        public List<ChessToken> Parse(string chessStateCode)
+        public List<PieceToken> GetTokens(StateCode stateCode)
         {
-            chessStateCode = chessStateCode.Trim(' ');
-            var chessTokens = new List<ChessToken>(); 
+            var code = stateCode.Value.Trim(' ');
+            var chessTokens = new List<PieceToken>(); 
 
-            for (int i = 0; i < chessStateCode.Length; i += 4)
+            for (int i = 0; i < code.Length; i += 4)
             {
-                var xString = chessStateCode[i].ToString();
+                var xString = code[i].ToString();
                 var xIsInt = int.TryParse(xString, out var x);
 
                 if (!xIsInt)
                 {
-                    var className = nameof(ChessParser);
-                    var methodName = nameof(Parse);
+                    var className = nameof(StateCodeHandler);
+                    var methodName = nameof(GetTokens);
                     var variableName = nameof(xString);
 
                     Debug.LogError(
@@ -28,13 +27,13 @@ namespace AnalysisOfChessState.Parser
                     return null;
                 }
 
-                var yString = chessStateCode[i + 1].ToString();
+                var yString = code[i + 1].ToString();
                 var yIsInt = int.TryParse(yString, out var y);
 
                 if (!yIsInt)
                 {
-                    var className = nameof(ChessParser);
-                    var methodName = nameof(Parse);
+                    var className = nameof(StateCodeHandler);
+                    var methodName = nameof(GetTokens);
                     var variableName = nameof(yString);
 
                     Debug.LogError(
@@ -42,7 +41,7 @@ namespace AnalysisOfChessState.Parser
                     return null;
                 }
 
-                var colorString = chessStateCode[i + 2];
+                var colorString = code[i + 2];
                 PieceColor pieceColor;
 
                 if (colorString == 'w')
@@ -51,8 +50,8 @@ namespace AnalysisOfChessState.Parser
                     pieceColor = PieceColor.Black;
                 else
                 {
-                    var className = nameof(ChessParser);
-                    var methodName = nameof(Parse);
+                    var className = nameof(StateCodeHandler);
+                    var methodName = nameof(GetTokens);
                     var variableName = nameof(colorString);
 
                     Debug.LogError(
@@ -60,7 +59,7 @@ namespace AnalysisOfChessState.Parser
                     return null;
                 }
 
-                var pieceString = chessStateCode[i + 3].ToString();
+                var pieceString = code[i + 3].ToString();
                 PieceType pieceType;
 
                 switch (pieceString)
@@ -84,8 +83,8 @@ namespace AnalysisOfChessState.Parser
                         pieceType = PieceType.King;
                         break;
                     default:
-                        var className = nameof(ChessParser);
-                        var methodName = nameof(Parse);
+                        var className = nameof(StateCodeHandler);
+                        var methodName = nameof(GetTokens);
                         var variableName = nameof(pieceString);
                         
                         Debug.LogError($"In method {className}.{methodName}() token '{variableName}' = {pieceString}. It's incorrect value!");
@@ -93,68 +92,18 @@ namespace AnalysisOfChessState.Parser
                 }
 
                 var coordinates = new Vector2Int(x, y);
-                var chessToken = new ChessToken(coordinates, pieceColor, pieceType);
+                var chessToken = new PieceToken(coordinates, pieceColor, pieceType);
                 chessTokens.Add(chessToken);
             }
 
             return chessTokens;
         }
 
-        public List<ChessToken> Parse(AbsChessboard abstractChessboard)
-        {
-            var chessTokens = new List<ChessToken>();
-
-            foreach (var square in abstractChessboard.Squares)
-            {
-                var pieceOnSquare = square.AbsPieceOnThisSquare;
-                
-                if (pieceOnSquare != null)
-                {
-                    var coordinates = square.Coordinates;
-                    var color = pieceOnSquare.MyColor;
-                    var type = pieceOnSquare.MyType;
-                    
-                    var token = new ChessToken(coordinates, color, type);
-                    chessTokens.Add(token);
-                }
-            }
-
-            return chessTokens;
-        }
-        
-        public List<ChessToken> Parse(Chessboard realBoard)
-        {
-            var chessTokens = new List<ChessToken>();
-
-            foreach (var square in realBoard.Squares)
-            {
-                var pieceOnSquare = square.PieceOnSquare;
-                
-                if (pieceOnSquare != null)
-                {
-                    var coordinates = square.Coordinates;
-                    var color = pieceOnSquare.ColorData.Color;
-                    var type = pieceOnSquare.MyType;
-                    
-                    var token = new ChessToken(coordinates, color, type);
-                    chessTokens.Add(token);
-                }
-            }
-
-            return chessTokens;
-        }
-
-        public string GetChessStateCode(AbsChessboard abstractAbsChessboard)
-        {
-            var chessTokens = Parse(abstractAbsChessboard);
-            return GetChessStateCode(chessTokens);
-        }
-        
-        private string GetChessStateCode(List<ChessToken> chessTokens)
+        public StateCode GetStateCode(List<PieceToken> tokens)
         {
             var stringBuilder = new StringBuilder();
             
-            foreach (var token in chessTokens)
+            foreach (var token in tokens)
             {
                 stringBuilder.Append(token.Coordinates.x);
                 stringBuilder.Append(token.Coordinates.y);
@@ -192,7 +141,44 @@ namespace AnalysisOfChessState.Parser
                 }
             }
 
-            return stringBuilder.ToString();
+            return new StateCode(stringBuilder.ToString());
+        }
+        
+        public List<PieceToken> GetTokens(Chessboard chessboard)
+        {
+            var tokens = new List<PieceToken>();
+            
+            foreach (var square in chessboard.Squares)
+            {
+                if (square.PieceOnSquare != null)
+                {
+                    var token = GetTokenBasedOnSquare(square);
+                    tokens.Add(token);
+                }
+            }
+
+            return tokens;
+        }
+
+        private PieceToken GetTokenBasedOnSquare(Square square)
+        {
+            var piece = square.PieceOnSquare;
+            var coordinates = square.Coordinates;
+
+            if (piece is Pawn)
+                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Pawn);
+            if (piece is Rook)
+                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Rook);
+            if (piece is Knight)
+                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Knight);
+            if (piece is Bishop)
+                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Bishop);
+            if (piece is Queen)
+                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Queen);
+            if (piece is King)
+                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.King);
+
+            return null;
         }
     }
 }

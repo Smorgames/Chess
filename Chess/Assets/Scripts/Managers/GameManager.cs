@@ -12,16 +12,11 @@ public class GameManager : MonoBehaviour
     public PieceColor WhoseTurn { get => _whoseTurn; }
     private PieceColor _whoseTurn;
     
-    [Header("Chessboards")]
+    public Chessboard RealChessboard => _chessboard;
     [SerializeField] private Chessboard _chessboard;
-
-    public AbsChessboard AbstractBoard => _abstractBoard;
-    private AbsChessboard _abstractBoard;
 
     [Header("Handlers and managers")]
     [SerializeField] private ChessboardFiller _filler;
-    [SerializeField] private PiecesStorage _pieceStorage;
-    [SerializeField] private SquareHandler _squareHandler;
 
     [SerializeField] private PieceColor _whoseTurnFirst;
 
@@ -34,8 +29,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _filler.InitializeChessboard(_chessboard);
-        _abstractBoard = new AbsChessboard(_chessboard.Length, _chessboard.Length);
-        
+
         SubscribeMethodsOnEvent();
         SetWhichColorTurnFirst(_whoseTurnFirst);
     }
@@ -48,44 +42,6 @@ public class GameManager : MonoBehaviour
     public void TriggerChangeTurn()
     {
         ChangeColorOrderOfTurn();
-        VerifyIfIsCheck();
-    }
-
-    public King VerifyIfIsCheck()
-    {
-        List<Piece> allPieces = _pieceStorage.AllPieces;
-        Dictionary<Piece, List<Square>> piecesAndTheirAttackTurns = new Dictionary<Piece, List<Square>>();
-
-        foreach (var piece in allPieces)
-        {
-            Square squareWithPiece = _squareHandler.GetSquareWithPiece(piece);
-            List<Square> attackTurns = new List<Square>();
-
-            if (piece.GetType() == typeof(Rook) || piece.GetType() == typeof(Bishop) || piece.GetType() == typeof(Queen))
-                piece.GetPossibleMoveTurns(squareWithPiece);
-
-            attackTurns = piece.GetPossibleAttackTurns(squareWithPiece);
-
-            piecesAndTheirAttackTurns.Add(piece, attackTurns);
-        }
-
-        foreach (var piece in piecesAndTheirAttackTurns.Keys)
-        {
-            foreach (var square in piecesAndTheirAttackTurns[piece])
-            {
-                Piece pieceOnSquare = square.PieceOnSquare;
-
-                if (pieceOnSquare.GetType() == typeof(King))
-                {
-                    Test.DebugTestInfo($"{piece.name} check {pieceOnSquare.name}");
-                    Test.Instance.ConnectTwoPieceWithLine(piece, pieceOnSquare);
-                    return (King)pieceOnSquare;
-                }
-            }
-        }
-
-        //Test.Instance.ResetLine();
-        return null;
     }
 
     private void ChangeColorOrderOfTurn()

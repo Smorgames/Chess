@@ -16,7 +16,8 @@ public class ChessboardFiller : MonoBehaviour
     
     public void InitializeChessboard(Chessboard chessboard)
     {
-        chessboard.InitializeChessboard(_chessBoardLength, _chessBoardHeight);
+        var size = new Vector2Int(_chessBoardLength, _chessBoardHeight);
+        chessboard.InitializeChessboard(size);
         
         for (int x = 0; x < _chessBoardLength; x++)
         {
@@ -28,7 +29,7 @@ public class ChessboardFiller : MonoBehaviour
             }
         }
 
-        _squareHandler.DeactivateAllSquares();
+        SingletonRegistry.Instance.Board.DeactivateAllSquares();
     }
 
     private void CreateAndSetSquare(Vector2Int coordinates, Chessboard chessboard)

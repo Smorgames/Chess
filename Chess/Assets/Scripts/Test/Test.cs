@@ -50,9 +50,4 @@ public class Test : MonoBehaviour
         GameManager.Instance.TriggerChangeTurn();
         Debug.Log(GameManager.Instance.WhoseTurn);
     }
-
-    public void ShowAttackSquares()
-    {
-        GameManager.Instance.VerifyIfIsCheck();
-    }
 }

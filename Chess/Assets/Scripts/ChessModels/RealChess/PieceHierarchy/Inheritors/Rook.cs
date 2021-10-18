@@ -35,9 +35,9 @@ public class Rook : Piece
 
     private void AddPossibleTurnsInRow(List<Square> turns, Vector2Int pieceCoordinats, Vector2Int rowDirection)
     {
-        for (int i = 1; i < _squareHandler.Chessboard.Length; i++)
+        for (int i = 1; i < SingletonRegistry.Instance.Board.Size.x; i++)
         {
-            Square square = _squareHandler.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
+            Square square = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
 
             if (square == _squareHandler.GhostSquare)
                 break;

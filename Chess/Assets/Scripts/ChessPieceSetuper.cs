@@ -4,7 +4,6 @@ using UnityEngine;
 public class ChessPieceSetuper : MonoBehaviour
 {
     [SerializeField] private SquareHandler _suareHandler;
-    [SerializeField] private PiecesStorage _pieceStorage;
 
     [Header("White chess pieces")]
     [SerializeField] private Piece _firstWhPawn;
@@ -111,14 +110,7 @@ public class ChessPieceSetuper : MonoBehaviour
 
     private void PutPieceOnSquare(Piece piece, int x, int y)
     {
-        _suareHandler.GetSquareWithCoordinates(x, y).PieceOnSquare = piece;
-        piece.transform.position = _suareHandler.GetSquareWithCoordinates(x, y).transform.position + _offset;
-
-        AddPieceInAllPieceArray(piece);
-    }
-
-    private void AddPieceInAllPieceArray(Piece piece)
-    {
-        _pieceStorage.AddPieceInArrayOfAllPieces(piece);
+        SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x, y).PieceOnSquare = piece;
+        piece.transform.position = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x, y).transform.position + _offset;
     }
 }

@@ -16,8 +16,8 @@ public class Pawn : Piece
 
         List<Square> attackTurns = new List<Square>();
 
-        Square firstSquare = _squareHandler.GetSquareWithCoordinates(x + 1 * colorMultiplyer, y + 1 * colorMultiplyer);
-        Square secondSquare = _squareHandler.GetSquareWithCoordinates(x - 1 * colorMultiplyer, y + 1 * colorMultiplyer);
+        Square firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1 * colorMultiplyer, y + 1 * colorMultiplyer);
+        Square secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1 * colorMultiplyer, y + 1 * colorMultiplyer);
 
         if (IsPieceStandsOnSquare(firstSquare) && IsPieceOnSquareHasOppositeColor(firstSquare))
             attackTurns.Add(firstSquare);
@@ -37,7 +37,7 @@ public class Pawn : Piece
 
         List<Square> moveTurns = new List<Square>();
 
-        Square firstSquare = _squareHandler.GetSquareWithCoordinates(x, y + 1 * colorMultiplyer);
+        Square firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x, y + 1 * colorMultiplyer);
 
         if (IsPieceStandsOnSquare(firstSquare))
             return moveTurns;
@@ -46,15 +46,17 @@ public class Pawn : Piece
 
         if (_isFirstTurn)
         {
-            Square secondSquare = _squareHandler.GetSquareWithCoordinates(x, y + 2 * colorMultiplyer);
+            Square secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x, y + 2 * colorMultiplyer);
 
             if (IsPieceStandsOnSquare(secondSquare))
                 return moveTurns;
 
             moveTurns.Add(secondSquare);
         }
-        
-        return moveTurns;
+
+        var analyzer = new ChessStateAnalyzer();
+        var moves = analyzer.GetCorrectMoves(_gameManager.RealChessboard, square, moveTurns);
+        return moves;
     }
 
     public override void Move(Square square)

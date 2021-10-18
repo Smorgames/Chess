@@ -52,7 +52,7 @@ public abstract class Piece : MonoBehaviour
 
             if (enemyPiece != null && _gameManager.WhoseTurn == _colorData.Color)
             {
-                Square squareWithPiece = _squareHandler.GetSquareWithPiece(enemyPiece);
+                Square squareWithPiece = SingletonRegistry.Instance.Board.GetSquareWithPiece(enemyPiece);
                 squareWithPiece.PieceOnSquare = null;
 
                 enemyPiece.Death();

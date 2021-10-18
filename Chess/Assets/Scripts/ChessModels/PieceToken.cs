@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public class ChessToken
+public class PieceToken
 {
     public readonly Vector2Int Coordinates;
     public readonly PieceColor MyPieceColor;
     public readonly PieceType MyPieceType;
 
-    public ChessToken(Vector2Int coordinates, PieceColor myPieceColor, PieceType myPieceType)
+    public PieceToken(Vector2Int coordinates, PieceColor myPieceColor, PieceType myPieceType)
     {
         Coordinates = coordinates;
         MyPieceColor = myPieceColor;
