@@ -7,22 +7,22 @@ public class Bishop : Piece
     
     private List<Square> _attackTurns = new List<Square>();
 
-    public override List<Square> GetPossibleAttackTurns(Square squareWithThis)
+    public override List<Square> GetPossibleAttackTurns(Square square)
     {
         _attackTurns.Clear();
 
-        int x = squareWithThis.Coordinates.x;
-        int y = squareWithThis.Coordinates.y;
+        int x = square.Coordinates.x;
+        int y = square.Coordinates.y;
 
         Vector2Int upRightDir = new Vector2Int(1, 1);
         Vector2Int upLeftDir = new Vector2Int(1, -1);
         Vector2Int downRightDir = new Vector2Int(-1, -1);
         Vector2Int downLeftDir = new Vector2Int(-1, 1);
 
-        FindPossibleAttackTurns(squareWithThis.Coordinates, upRightDir);
-        FindPossibleAttackTurns(squareWithThis.Coordinates, upLeftDir);
-        FindPossibleAttackTurns(squareWithThis.Coordinates, downLeftDir);
-        FindPossibleAttackTurns(squareWithThis.Coordinates, downRightDir);
+        FindPossibleAttackTurns(square.Coordinates, upRightDir);
+        FindPossibleAttackTurns(square.Coordinates, upLeftDir);
+        FindPossibleAttackTurns(square.Coordinates, downLeftDir);
+        FindPossibleAttackTurns(square.Coordinates, downRightDir);
 
         return _attackTurns;
     }
@@ -33,7 +33,7 @@ public class Bishop : Piece
         {
             var square = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
 
-            if (square == _squareHandler.GhostSquare)
+            if (square == SingletonRegistry.Instance.Board.GhostSquare)
                 break;
 
             if (IsPieceStandsOnSquare(square))
@@ -46,12 +46,12 @@ public class Bishop : Piece
         }
     }
 
-    public override List<Square> GetPossibleMoveTurns(Square squareWithThis)
+    public override List<Square> GetPossibleMoveTurns(Square square)
     {
         _attackTurns = new List<Square>();
 
-        int x = squareWithThis.Coordinates.x;
-        int y = squareWithThis.Coordinates.y;
+        int x = square.Coordinates.x;
+        int y = square.Coordinates.y;
 
         List<Square> turns = new List<Square>();
 
@@ -60,12 +60,15 @@ public class Bishop : Piece
         Vector2Int downRightDir = new Vector2Int(-1, -1);
         Vector2Int downLeftDir = new Vector2Int(-1, 1);
 
-        AddPossibleTurnsInDiagonal(turns, squareWithThis.Coordinates, upRightDir);
-        AddPossibleTurnsInDiagonal(turns, squareWithThis.Coordinates, upLeftDir);
-        AddPossibleTurnsInDiagonal(turns, squareWithThis.Coordinates, downLeftDir);
-        AddPossibleTurnsInDiagonal(turns, squareWithThis.Coordinates, downRightDir);
+        AddPossibleTurnsInDiagonal(turns, square.Coordinates, upRightDir);
+        AddPossibleTurnsInDiagonal(turns, square.Coordinates, upLeftDir);
+        AddPossibleTurnsInDiagonal(turns, square.Coordinates, downLeftDir);
+        AddPossibleTurnsInDiagonal(turns, square.Coordinates, downRightDir);
 
-        return turns;
+        var moves = new List<Square>();
+        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, turns);
+        
+        return moves;
     }
 
     private void AddPossibleTurnsInDiagonal(List<Square> turns, Vector2Int pieceCoordinats, Vector2Int rowDirection)
@@ -74,7 +77,7 @@ public class Bishop : Piece
         {
             Square square = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
 
-            if (square == _squareHandler.GhostSquare)
+            if (square == SingletonRegistry.Instance.Board.GhostSquare)
                 break;
 
             if (IsPieceStandsOnSquare(square))

@@ -6,11 +6,11 @@ namespace AnalysisOfChessState.Recreator
 {
     public class StateRecreator
 {
-    private RealPiecePrefabsStorage _storage;
+    private PrefabsStorage _storage;
 
     public StateRecreator()
     {
-        _storage = SingletonRegistry.Instance.RealPiecePrefabsStorage;
+        _storage = SingletonRegistry.Instance.PrefabsStorage;
     }
 
     public void ArrangePiecesOnRealBoard(List<PieceToken> tokens, Chessboard realBoard)
@@ -19,10 +19,12 @@ namespace AnalysisOfChessState.Recreator
 
         foreach (var square in realBoard.Squares)
         {
-            Object.Destroy(square.PieceOnSquare);
-            var squareWithPiece = dict.TryGetValue(square.Coordinates, out var piece);
+            if (square.PieceOnSquare != null)
+                Object.Destroy(square.PieceOnSquare);
+            
+            var squareWithCertainCoordinatesHasPiece = dict.TryGetValue(square.Coordinates, out var piece);
 
-            if (squareWithPiece)
+            if (squareWithCertainCoordinatesHasPiece)
             {
                 square.PieceOnSquare = piece;
                 piece.transform.position = square.transform.position + Piece.Offset;

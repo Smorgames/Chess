@@ -10,10 +10,6 @@ public class ChessboardFiller : MonoBehaviour
 
     [SerializeField] private GameObject[] _squarePrefabs;
 
-    [Header("References")]
-    [SerializeField] private SquareHandler _squareHandler;
-    
-    
     public void InitializeChessboard(Chessboard chessboard)
     {
         var size = new Vector2Int(_chessBoardLength, _chessBoardHeight);

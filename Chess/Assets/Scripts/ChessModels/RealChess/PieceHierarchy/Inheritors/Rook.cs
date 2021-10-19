@@ -6,17 +6,17 @@ public class Rook : Piece
     public override PieceType MyType => PieceType.Rook;
     private List<Square> _attackTurns = new List<Square>();
 
-    public override List<Square> GetPossibleAttackTurns(Square squareWithThis)
+    public override List<Square> GetPossibleAttackTurns(Square square)
     {
         return _attackTurns;
     }
 
-    public override List<Square> GetPossibleMoveTurns(Square squareWithThis)
+    public override List<Square> GetPossibleMoveTurns(Square square)
     {
         _attackTurns.Clear();
 
-        int x = squareWithThis.Coordinates.x;
-        int y = squareWithThis.Coordinates.y;
+        int x = square.Coordinates.x;
+        int y = square.Coordinates.y;
 
         List<Square> turns = new List<Square>();
 
@@ -25,12 +25,15 @@ public class Rook : Piece
         Vector2Int rightDir = new Vector2Int(1, 0);
         Vector2Int leftDir = new Vector2Int(-1, 0);
 
-        AddPossibleTurnsInRow(turns, squareWithThis.Coordinates, upDir);
-        AddPossibleTurnsInRow(turns, squareWithThis.Coordinates, downDir);
-        AddPossibleTurnsInRow(turns, squareWithThis.Coordinates, rightDir);
-        AddPossibleTurnsInRow(turns, squareWithThis.Coordinates, leftDir);
+        AddPossibleTurnsInRow(turns, square.Coordinates, upDir);
+        AddPossibleTurnsInRow(turns, square.Coordinates, downDir);
+        AddPossibleTurnsInRow(turns, square.Coordinates, rightDir);
+        AddPossibleTurnsInRow(turns, square.Coordinates, leftDir);
 
-        return turns;
+        var moves = new List<Square>();
+        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, turns);
+        
+        return moves;
     }
 
     private void AddPossibleTurnsInRow(List<Square> turns, Vector2Int pieceCoordinats, Vector2Int rowDirection)
@@ -39,7 +42,7 @@ public class Rook : Piece
         {
             Square square = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
 
-            if (square == _squareHandler.GhostSquare)
+            if (square == SingletonRegistry.Instance.Board.GhostSquare)
                 break;
 
             if (IsPieceStandsOnSquare(square))

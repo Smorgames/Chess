@@ -5,7 +5,7 @@ namespace AbstractChess
     public class AbsSquare
     {
         public AbsChessboard Board { get => _board; set => _board = value; }
-        private static AbsChessboard _board;
+        private AbsChessboard _board;
 
         public AbsPiece AbsPieceOnThisSquare;
 
@@ -19,12 +19,6 @@ namespace AbstractChess
         
             if (_board == null)
                 _board = board;
-        }
-    
-        public AbsSquare(int x, int y)
-        {
-            _x = x;
-            _y = y;
         }
 
         public override string ToString()

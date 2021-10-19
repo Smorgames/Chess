@@ -28,7 +28,6 @@ public abstract class Piece : MonoBehaviour
     [SerializeField] private ColorData _colorData;
     private bool _isColorDataInitialized;
 
-    protected SquareHandler _squareHandler;
     protected GameManager _gameManager;
 
     [SerializeField] private Collider2D _collider;
@@ -36,8 +35,8 @@ public abstract class Piece : MonoBehaviour
     private Vector3 _normalSize;
     private Vector3 _selectedSize;
 
-    public abstract List<Square> GetPossibleMoveTurns(Square squareWithThis);
-    public abstract List<Square> GetPossibleAttackTurns(Square squareWithThis);
+    public abstract List<Square> GetPossibleMoveTurns(Square square);
+    public abstract List<Square> GetPossibleAttackTurns(Square square);
 
     public virtual void Move(Square square)
     {
@@ -91,7 +90,6 @@ public abstract class Piece : MonoBehaviour
 
     private void Init()
     {
-        _squareHandler = SquareHandler.Instance;
         _gameManager = GameManager.Instance;
     }
 }

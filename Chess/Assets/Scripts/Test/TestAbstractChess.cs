@@ -2,6 +2,8 @@
 using System.Text;
 using AbstractChess;
 using AnalysisOfChessState;
+using AnalysisOfChessState.CodeHandler;
+using AnalysisOfChessState.Recreator;
 using UnityEngine;
 using Instruments;
 
@@ -11,26 +13,9 @@ public class TestAbstractChess : MonoBehaviour
     
     private void Start()
     {
-        ChessSystemTesting.Test1();
-        ChessSystemTesting.Test2();
-
-        var code = "11wp54wQ12bB";
-        var index = code.IndexOf("12", StringComparison.Ordinal);
-        Debug.Log(index);
-        var sb = new StringBuilder();
-        
-        for (int i = 0; i < code.Length; i++)
-        {
-            var l = code[i].ToString();
-            if (i == index)
-            {
-                l = "55";
-                ++i;
-            }
-
-            sb.Append(l);
-        }
-        Debug.Log(sb.ToString());
+        //ChessSystemTesting.Test1();
+        //ChessSystemTesting.Test2();
+        //ChessSystemTesting.Test3();
     }
 }
 
@@ -65,5 +50,20 @@ public static class ChessSystemTesting
         var testName = $"[{nameof(Test2)}]:".Bold().Color("LightBlue");
         
         Debug.Log($"{testName} White king is saved from danger {checkText}");
+    }
+    
+    public static void Test3()
+    {
+        var center = new Vector2(7, 5);
+        var size = new Vector2Int(3, 3);
+
+        var board = SingletonRegistry.Instance.Builder.BuildArbitraryChessboard(center, size);
+        var code = new StateCode("00bK02br12wp22wK");
+
+        var codeHandler = new StateCodeHandler();
+        var tokens = codeHandler.GetTokens(code);
+        
+        var stateRecreator = new StateRecreator();
+        stateRecreator.ArrangePiecesOnRealBoard(tokens, board);
     }
 }

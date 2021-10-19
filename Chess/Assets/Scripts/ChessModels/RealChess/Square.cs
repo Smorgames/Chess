@@ -2,30 +2,19 @@
 
 public class Square : MonoBehaviour
 {
+    public bool IsGhost => _isGhost;
+    [SerializeField] private bool _isGhost; 
     public delegate void SquareClickHandler(Square square);
     public static event SquareClickHandler OnSquareWithPieceClicked;
     public static event SquareClickHandler OnEmptySquareClicked;
 
     [SerializeField] private GameObject _highlight;
-    
-    [SerializeField] private Collider2D _collider;
 
     public Vector2Int Coordinates { get => _coordinates; }
     private Vector2Int _coordinates;
 
     public Piece PieceOnSquare { get => _pieceOnSquare; set => _pieceOnSquare = value; }
     private Piece _pieceOnSquare;
-
-    public bool IsActive
-    {
-        get
-        {
-            if (_highlight.activeSelf) 
-                return true;
-            
-            return false;
-        }
-    }
 
     private void OnMouseDown()
     {
@@ -47,6 +36,12 @@ public class Square : MonoBehaviour
     {
         _coordinates.x = x;
         _coordinates.y = y;
+    }
+    
+    public void SetCoordinates(Vector2Int coordinates)
+    {
+        _coordinates.x = coordinates.x;
+        _coordinates.y = coordinates.y;
     }
 
     public void Activate()

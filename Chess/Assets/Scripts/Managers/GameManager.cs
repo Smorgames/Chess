@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AbstractChess;
+using AnalysisOfChessState;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,15 +11,10 @@ public class GameManager : MonoBehaviour
     public event ChangeTurnHandler OnTurnChanged;
 
     public PieceColor WhoseTurn { get => _whoseTurn; }
-    private PieceColor _whoseTurn;
-    
-    public Chessboard RealChessboard => _chessboard;
-    [SerializeField] private Chessboard _chessboard;
+    private PieceColor _whoseTurn = PieceColor.White;
 
-    [Header("Handlers and managers")]
-    [SerializeField] private ChessboardFiller _filler;
-
-    [SerializeField] private PieceColor _whoseTurnFirst;
+    public ChessStateAnalyzer Analyzer => _analyzer;
+    private ChessStateAnalyzer _analyzer;
 
     private void Awake()
     {
@@ -28,15 +24,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _filler.InitializeChessboard(_chessboard);
+        _analyzer = new ChessStateAnalyzer();
+
+        var board = SingletonRegistry.Instance.Builder.BuildMainChessboard();
+        //var board = SingletonRegistry.Instance.Builder.BuildArbitraryChessboard(Vector2.zero, new Vector2Int(4, 3));
+        SingletonRegistry.Instance.Board = board;
+        
+        _analyzer.ArrangePiecesOnChessboard(board, GameStates.Start);
 
         SubscribeMethodsOnEvent();
-        SetWhichColorTurnFirst(_whoseTurnFirst);
-    }
-
-    private void SetWhichColorTurnFirst(PieceColor color)
-    {
-        _whoseTurn = color;
     }
 
     public void TriggerChangeTurn()

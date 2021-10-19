@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class RealPiecePrefabsStorage : MonoBehaviour
+public class PrefabsStorage : MonoBehaviour
 {
     public Pawn BlackPawn => _blackPawn;
+    [Header("Black chess pieces")]
     [SerializeField] private Pawn _blackPawn;
     public Rook BlackRook => _blackRook;
     [SerializeField] private Rook _blackRook;
@@ -16,6 +19,7 @@ public class RealPiecePrefabsStorage : MonoBehaviour
     [SerializeField] private King _blackKing;
     
     public Pawn WhitePawn => _whitePawn;
+    [Header("White chess pieces")]
     [SerializeField] private Pawn _whitePawn;
     public Rook WhiteRook => _whiteRook;
     [SerializeField] private Rook _whiteRook;
@@ -28,4 +32,9 @@ public class RealPiecePrefabsStorage : MonoBehaviour
     public King WhiteKing => _whiteKing;
     [SerializeField] private King _whiteKing;
     
+    public List<GameObject> SquaresPrefabs => _squaresPrefabs;
+    [Header("Squares prefabs")]
+    [SerializeField] private List<GameObject> _squaresPrefabs;
+    public Square GhostSquare => _ghostSquare;
+    [SerializeField] private Square _ghostSquare;
 }

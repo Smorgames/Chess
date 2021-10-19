@@ -7,10 +7,10 @@ public class Pawn : Piece
 
     private bool _isFirstTurn = true;
 
-    public override List<Square> GetPossibleAttackTurns(Square squareWithThis)
+    public override List<Square> GetPossibleAttackTurns(Square square)
     {
-        int x = squareWithThis.Coordinates.x;
-        int y = squareWithThis.Coordinates.y;
+        int x = square.Coordinates.x;
+        int y = square.Coordinates.y;
 
         int colorMultiplyer = ColorData.Multiplier;
 
@@ -53,9 +53,10 @@ public class Pawn : Piece
 
             moveTurns.Add(secondSquare);
         }
-
-        var analyzer = new ChessStateAnalyzer();
-        var moves = analyzer.GetCorrectMoves(_gameManager.RealChessboard, square, moveTurns);
+        
+        var moves = new List<Square>();
+        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, moveTurns);
+        
         return moves;
     }
 

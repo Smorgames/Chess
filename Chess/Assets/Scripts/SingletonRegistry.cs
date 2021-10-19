@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using AnalysisOfChessState;
+using UnityEngine;
 
 public class SingletonRegistry : MonoBehaviour
 {
@@ -10,9 +11,24 @@ public class SingletonRegistry : MonoBehaviour
         else Destroy(this);
     }
 
-    public RealPiecePrefabsStorage RealPiecePrefabsStorage => _realPiecePrefabsStorage;
-    [SerializeField] private RealPiecePrefabsStorage _realPiecePrefabsStorage;
+    public PrefabsStorage PrefabsStorage => _prefabsStorage;
+    [SerializeField] private PrefabsStorage _prefabsStorage;
 
-    public Chessboard Board => _board;
+    public Chessboard Board
+    {
+        get => _board;
+        set
+        {
+            if (!_isBoardInit)
+            {
+                _board = value;
+                _isBoardInit = true;
+            }
+        }
+    }
     [SerializeField] private Chessboard _board;
+    private bool _isBoardInit;
+
+    public ChessboardBuilder Builder => _builder;
+    [SerializeField] private ChessboardBuilder _builder;
 }

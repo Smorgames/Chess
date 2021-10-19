@@ -22,13 +22,20 @@ namespace AnalysisOfChessState
             _recreator = new StateRecreator();
         }
 
-        public List<Square> GetCorrectMoves(Chessboard realBoard, Square squareWithPiece, List<Square> pieceMoves)
+        public Chessboard ArrangePiecesOnChessboard(Chessboard board, StateCode code)
+        {
+            var tokens = _codeHandler.GetTokens(code);
+            _recreator.ArrangePiecesOnRealBoard(tokens, board);
+            return board;
+        }
+
+        public List<Square> GetCorrectMoves(Chessboard board, Square squareWithPiece, List<Square> pieceMoves)
         {
             var correctMoves = new List<Square>();
             
-            var boardSize = new Vector2Int(realBoard.Size.x, realBoard.Size.y);
+            var boardSize = new Vector2Int(board.Size.x, board.Size.y);
             
-            var tokens = _codeHandler.GetTokens(realBoard);
+            var tokens = _codeHandler.GetTokens(board);
             var code = _codeHandler.GetStateCode(tokens);
         
             foreach (var move in pieceMoves)
@@ -63,16 +70,11 @@ namespace AnalysisOfChessState
             return correctMoves;
         }
 
-        public bool IsCheckForAbstractKing(AbsChessboard abstractBoard, PieceColor kingColor)
-        {
-            return _analyzer.IsCheckForAbsKing(abstractBoard, kingColor);
-        }
-
         public bool IsCheckForAbstractKing(StateCode chessStateCode, Vector2Int boardSize, PieceColor kingColor)
         {
             var tokens = _codeHandler.GetTokens(chessStateCode);
             var board = _recreator.GetAbsChessboard(boardSize, tokens);
-            return IsCheckForAbstractKing(board, kingColor);
+            return _analyzer.IsCheckForAbsKing(board, kingColor);
         }
     }
 }

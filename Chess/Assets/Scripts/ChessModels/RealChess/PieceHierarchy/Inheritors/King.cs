@@ -6,17 +6,17 @@ public class King : Piece
     
     private List<Square> _attackTurns = new List<Square>();
 
-    public override List<Square> GetPossibleAttackTurns(Square squareWithThis)
+    public override List<Square> GetPossibleAttackTurns(Square square)
     {
         return _attackTurns;
     }
 
-    public override List<Square> GetPossibleMoveTurns(Square squareWithThis)
+    public override List<Square> GetPossibleMoveTurns(Square square)
     {
         _attackTurns.Clear();
 
-        int x = squareWithThis.Coordinates.x;
-        int y = squareWithThis.Coordinates.y;
+        int x = square.Coordinates.x;
+        int y = square.Coordinates.y;
 
         List<Square> turns = new List<Square>();
 
@@ -45,8 +45,11 @@ public class King : Piece
             else
                 turns.Add(predictTurns[i]);
         }
+        
+        var moves = new List<Square>();
+        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, turns);
 
-        return turns;
+        return moves;
     }
 
     protected override void ResetAttackTurns()

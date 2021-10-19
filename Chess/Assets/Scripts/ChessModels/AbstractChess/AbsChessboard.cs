@@ -38,7 +38,7 @@ namespace AbstractChess
 
             for (int x = 0; x < length; x++)
             for (int y = 0; y < height; y++)
-                _squares[x, y] = new AbsSquare(x, y);
+                _squares[x, y] = new AbsSquare(x, y, this);
         }
 
         public AbsSquare GetSquareBasedOnCoordinates(Vector2Int coordinates)

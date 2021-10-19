@@ -2,8 +2,6 @@
 
 public class PieceTurnsDisplayer : MonoBehaviour
 {
-    [SerializeField] private SquareHandler _squareHandler;
-
     public PiecePossibleTurns PieceTurns { get => _pieceTurns; }
     private PiecePossibleTurns _pieceTurns = new PiecePossibleTurns();
 
