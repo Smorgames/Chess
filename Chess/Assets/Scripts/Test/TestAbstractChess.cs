@@ -13,6 +13,13 @@ public class TestAbstractChess : MonoBehaviour
     
     private void Start()
     {
+        var s = "11gH43bf";
+        Debug.Log(s);
+        var c = "43";
+        var nc = "";
+
+        s = s.Replace(c, nc);
+        Debug.Log(s);
         //ChessSystemTesting.Test1();
         //ChessSystemTesting.Test2();
         //ChessSystemTesting.Test3();

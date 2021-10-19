@@ -29,7 +29,7 @@ namespace AnalysisOfChessState
             return board;
         }
 
-        public List<Square> GetMovesWithoutCheck(Chessboard board, Square squareWithPiece, List<Square> supposedPieceMoves)
+        public List<Square> GetMovesWithoutCheck(Chessboard board, Square squareWithPiece, List<Square> supposedPieceMoves, ActionType actionType)
         {
             var movesWithoutCheck = new List<Square>();
                         
@@ -44,6 +44,18 @@ namespace AnalysisOfChessState
             {
                 var newPieceCoordinates = supposedMove.Coordinates.x.ToString() + supposedMove.Coordinates.y.ToString();
                 var newCodeValue = code.Value;
+                
+                if (actionType == ActionType.AttackMove)
+                {
+                    var index = code.Value.IndexOf(newPieceCoordinates, StringComparison.Ordinal);
+                    var sb = new StringBuilder();
+
+                    for (int i = index; i <= index + 3; i++)
+                        sb.Append(code.Value[i]);
+
+                    newCodeValue = newCodeValue.Replace(sb.ToString(), "");
+                }
+                
                 newCodeValue = newCodeValue.Replace(pieceCoordinates, newPieceCoordinates);
             
                 var newCode = new StateCode(newCodeValue);

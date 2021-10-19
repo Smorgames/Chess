@@ -66,7 +66,7 @@ public class Bishop : Piece
         AddPossibleTurnsInDiagonal(turns, square.Coordinates, downRightDir);
 
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns, ActionType.Movement);
         
         return moves;
     }

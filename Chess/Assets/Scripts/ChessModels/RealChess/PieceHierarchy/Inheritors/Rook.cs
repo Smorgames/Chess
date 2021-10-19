@@ -31,7 +31,7 @@ public class Rook : Piece
         AddPossibleTurnsInRow(turns, square.Coordinates, leftDir);
 
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns, ActionType.Movement);
         
         return moves;
     }
