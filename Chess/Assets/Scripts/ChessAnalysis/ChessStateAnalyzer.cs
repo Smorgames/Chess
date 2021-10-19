@@ -29,44 +29,30 @@ namespace AnalysisOfChessState
             return board;
         }
 
-        public List<Square> GetMovesWithoutCheck(Chessboard board, Square squareWithPiece, List<Square> pieceMoves)
+        public List<Square> GetMovesWithoutCheck(Chessboard board, Square squareWithPiece, List<Square> supposedPieceMoves)
         {
             var movesWithoutCheck = new List<Square>();
-            
+                        
             var boardSize = new Vector2Int(board.Size.x, board.Size.y);
-            
+                        
             var tokens = _codeHandler.GetTokens(board);
             var code = _codeHandler.GetStateCode(tokens);
-        
-            foreach (var move in pieceMoves)
+                        
+            var pieceCoordinates = squareWithPiece.Coordinates.x.ToString() + squareWithPiece.Coordinates.y.ToString();
+                        
+            foreach (var supposedMove in supposedPieceMoves)
             {
-                var oldCoord = squareWithPiece.Coordinates.x.ToString() + squareWithPiece.Coordinates.y.ToString();
-                var oldPosIndex = code.Value.IndexOf(oldCoord, StringComparison.Ordinal);
-                
-                var newCoord = move.Coordinates.x.ToString() + move.Coordinates.y.ToString();
-
-                var stringBuilder = new StringBuilder();
-
-                for (int i = 0; i < code.Value.Length; i++)
-                {
-                    var letter = code.Value[i].ToString();
-                    
-                    if (i == oldPosIndex)
-                    {
-                        letter = newCoord;
-                        ++i;
-                    }
-
-                    stringBuilder.Append(letter);
-                }
-
-                var newCode = new StateCode(stringBuilder.ToString());
+                var newPieceCoordinates = supposedMove.Coordinates.x.ToString() + supposedMove.Coordinates.y.ToString();
+                var newCodeValue = code.Value;
+                newCodeValue = newCodeValue.Replace(pieceCoordinates, newPieceCoordinates);
+            
+                var newCode = new StateCode(newCodeValue);
                 var check = IsCheckForAbstractKing(newCode, boardSize, squareWithPiece.PieceOnSquare.MyColor);
-
+            
                 if (!check)
-                    movesWithoutCheck.Add(move);
+                    movesWithoutCheck.Add(supposedMove);
             }
-        
+                    
             return movesWithoutCheck;
         }
 
