@@ -166,17 +166,17 @@ namespace AnalysisOfChessState.CodeHandler
             var coordinates = square.Coordinates;
 
             if (piece is Pawn)
-                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Pawn);
+                return new PieceToken(coordinates, piece.MyColor, PieceType.Pawn);
             if (piece is Rook)
-                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Rook);
+                return new PieceToken(coordinates, piece.MyColor, PieceType.Rook);
             if (piece is Knight)
-                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Knight);
+                return new PieceToken(coordinates, piece.MyColor, PieceType.Knight);
             if (piece is Bishop)
-                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Bishop);
+                return new PieceToken(coordinates, piece.MyColor, PieceType.Bishop);
             if (piece is Queen)
-                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.Queen);
+                return new PieceToken(coordinates, piece.MyColor, PieceType.Queen);
             if (piece is King)
-                return new PieceToken(coordinates, piece.ColorData.Color, PieceType.King);
+                return new PieceToken(coordinates, piece.MyColor, PieceType.King);
 
             return null;
         }

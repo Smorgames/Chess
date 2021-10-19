@@ -40,7 +40,7 @@ public class Queen : Piece
         AddPossibleTurnsInLine(turns, square.Coordinates, downRightDir);
         
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, turns);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns);
 
         return moves;
     }
@@ -54,7 +54,7 @@ public class Queen : Piece
             if (square == SingletonRegistry.Instance.Board.GhostSquare)
                 break;
 
-            if (IsPieceStandsOnSquare(square))
+            if (PieceStandsOnSquare(square))
             {
                 if (IsPieceOnSquareHasOppositeColor(square))
                 {

@@ -1,28 +1,33 @@
 ﻿using System.Collections.Generic;
-using AnalysisOfChessState;
+using UnityEngine;
 
-public class Pawn : Piece
+public class Pawn : Piece, IPawnDirection
 {
     public override PieceType MyType => PieceType.Pawn;
 
-    private bool _isFirstTurn = true;
+    public int MoveDirection
+    {
+        get
+        {
+            var isWhite = MyColor == PieceColor.White;
+            return isWhite ? 1 : -1;
+        }
+    }
 
     public override List<Square> GetPossibleAttackTurns(Square square)
     {
         int x = square.Coordinates.x;
         int y = square.Coordinates.y;
 
-        int colorMultiplyer = ColorData.Multiplier;
-
         List<Square> attackTurns = new List<Square>();
 
-        Square firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1 * colorMultiplyer, y + 1 * colorMultiplyer);
-        Square secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1 * colorMultiplyer, y + 1 * colorMultiplyer);
+        Square firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1 * MoveDirection, y + 1 * MoveDirection);
+        Square secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1 * MoveDirection, y + 1 * MoveDirection);
 
-        if (IsPieceStandsOnSquare(firstSquare) && IsPieceOnSquareHasOppositeColor(firstSquare))
+        if (PieceStandsOnSquare(firstSquare) && IsPieceOnSquareHasOppositeColor(firstSquare))
             attackTurns.Add(firstSquare);
 
-        if (IsPieceStandsOnSquare(secondSquare) && IsPieceOnSquareHasOppositeColor(secondSquare))
+        if (PieceStandsOnSquare(secondSquare) && IsPieceOnSquareHasOppositeColor(secondSquare))
             attackTurns.Add(secondSquare);
 
         return attackTurns;
@@ -30,41 +35,32 @@ public class Pawn : Piece
     
     public override List<Square> GetPossibleMoveTurns(Square square)
     {
-        int x = square.Coordinates.x;
-        int y = square.Coordinates.y;
-
-        int colorMultiplyer = ColorData.Multiplier;
-
-        List<Square> moveTurns = new List<Square>();
-
-        Square firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x, y + 1 * colorMultiplyer);
-
-        if (IsPieceStandsOnSquare(firstSquare))
-            return moveTurns;
-
-        moveTurns.Add(firstSquare);
-
-        if (_isFirstTurn)
-        {
-            Square secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x, y + 2 * colorMultiplyer);
-
-            if (IsPieceStandsOnSquare(secondSquare))
-                return moveTurns;
-
-            moveTurns.Add(secondSquare);
-        }
+        var x = square.Coordinates.x;
+        var y = square.Coordinates.y;
         
-        var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, moveTurns);
+        var supposedMoves = new List<Square>();
+        var board = SingletonRegistry.Instance.Board;
+
+        var firstMoveSquare = board.GetSquareWithCoordinates(x, y + 1 * MoveDirection);
+        if (!TryAddSupposedMoveToList(firstMoveSquare, supposedMoves) || !_isFirstMove)
+            return MovesWithoutCheck(board, square, supposedMoves);
         
-        return moves;
+        var secondMoveSquare = board.GetSquareWithCoordinates(x, y + 2 * MoveDirection);
+        TryAddSupposedMoveToList(secondMoveSquare, supposedMoves);
+        return MovesWithoutCheck(board, square, supposedMoves);
     }
 
-    public override void Move(Square square)
+    private bool TryAddSupposedMoveToList(Square square, List<Square> supposedMoves)
     {
-        base.Move(square);
+        if (PieceStandsOnSquare(square))
+            return false;
 
-        if (_isFirstTurn)
-            _isFirstTurn = false;
+        supposedMoves.Add(square);
+        return true;
+    }
+
+    private List<Square> MovesWithoutCheck(Chessboard board, Square squareWithPiece, List<Square> supposedMoves)
+    {
+        return _gameManager.Analyzer.GetMovesWithoutCheck(board, squareWithPiece, supposedMoves);
     }
 }

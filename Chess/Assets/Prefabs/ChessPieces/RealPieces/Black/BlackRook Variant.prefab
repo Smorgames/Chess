@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f053534b91baa4296fc6b3a75f234e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _colorData:
-    _color: 1
+  _myColor: 1
   _collider: {fileID: 1432384394621709868}
 --- !u!1001 &429513994057995672
 PrefabInstance:

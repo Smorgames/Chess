@@ -3,6 +3,9 @@ using UnityEngine;
 
 public abstract class Piece : MonoBehaviour
 {
+    public bool IsFirstMove => _isFirstMove;
+    protected bool _isFirstMove = true;
+    
     public delegate void PieceMoveHandler();
     public static event PieceMoveHandler OnPieceMoved;
 
@@ -13,20 +16,8 @@ public abstract class Piece : MonoBehaviour
 
     public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
-    public ColorData ColorData
-    {
-        get => _colorData;
-        set
-        {
-            if (!_isColorDataInitialized)
-            {
-                _colorData.Color = value.Color;
-                _isColorDataInitialized = true;
-            }
-        }
-    }
-    [SerializeField] private ColorData _colorData;
-    private bool _isColorDataInitialized;
+    public PieceColor MyColor => _myColor;
+    [SerializeField] private PieceColor _myColor;
 
     protected GameManager _gameManager;
 
@@ -38,7 +29,7 @@ public abstract class Piece : MonoBehaviour
     public abstract List<Square> GetPossibleMoveTurns(Square square);
     public abstract List<Square> GetPossibleAttackTurns(Square square);
 
-    public virtual void Move(Square square)
+    public void Move(Square square)
     {
         transform.position = square.transform.position + Offset;
 
@@ -49,7 +40,7 @@ public abstract class Piece : MonoBehaviour
         {
             Piece enemyPiece = collidersInOverlapArea[i].GetComponent<Piece>();
 
-            if (enemyPiece != null && _gameManager.WhoseTurn == _colorData.Color)
+            if (enemyPiece != null && _gameManager.WhoseTurn == _myColor)
             {
                 Square squareWithPiece = SingletonRegistry.Instance.Board.GetSquareWithPiece(enemyPiece);
                 squareWithPiece.PieceOnSquare = null;
@@ -59,6 +50,10 @@ public abstract class Piece : MonoBehaviour
         }
 
         ResetAttackTurns();
+        
+        if (_isFirstMove) 
+            _isFirstMove = false;
+        
         OnPieceMoved?.Invoke();
     }
 
@@ -70,7 +65,7 @@ public abstract class Piece : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected bool IsPieceStandsOnSquare(Square square)
+    protected bool PieceStandsOnSquare(Square square)
     {
         if (square.PieceOnSquare)
             return true;
@@ -80,7 +75,7 @@ public abstract class Piece : MonoBehaviour
 
     protected bool IsPieceOnSquareHasOppositeColor(Square square)
     {
-        return square.PieceOnSquare.ColorData.Color != ColorData.Color;
+        return square.PieceOnSquare.MyColor != MyColor;
     }
 
     private void Start()
@@ -92,36 +87,4 @@ public abstract class Piece : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
     }
-}
-
-[System.Serializable]
-public class ColorData
-{
-    public PieceColor Color
-    {
-        get => _color;
-        set
-        {
-            if (!_isColorInitialized)
-            {
-                _color = value;
-                _isColorInitialized = true;
-            }
-        }
-    }
-    [SerializeField] private PieceColor _color;
-    private bool _isColorInitialized;
-
-    public int Multiplier
-    {
-        get
-        {
-            if (_color == PieceColor.Black)
-                return -1;
-            if (_color == PieceColor.White)
-                return 1;
-            return 0;
-        }
-    }
-    private int _colorMultiplier;
 }

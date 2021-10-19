@@ -24,7 +24,7 @@ public class Knight : Piece
 
         for (int i = 0; i < predictAttackTurns.Length; i++)
         {
-            if (!predictAttackTurns[i].IsGhost && IsPieceStandsOnSquare(predictAttackTurns[i]) && IsPieceOnSquareHasOppositeColor(predictAttackTurns[i]))
+            if (!predictAttackTurns[i].IsGhost && PieceStandsOnSquare(predictAttackTurns[i]) && IsPieceOnSquareHasOppositeColor(predictAttackTurns[i]))
                 attackTurns.Add(predictAttackTurns[i]);
         }
 
@@ -50,11 +50,11 @@ public class Knight : Piece
         Square[] predictTurns = { firstSquare, secondSquare, thirdSquare, fourthSquare, fifthSquare, sixthSquare, seventhSquare, eighthSquare };
 
         for (int i = 0; i < predictTurns.Length; i++)
-            if (!IsPieceStandsOnSquare(predictTurns[i]) && !predictTurns[i].IsGhost)
+            if (!PieceStandsOnSquare(predictTurns[i]) && !predictTurns[i].IsGhost)
                 turns.Add(predictTurns[i]);
         
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, turns);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns);
         
         return moves;
     }

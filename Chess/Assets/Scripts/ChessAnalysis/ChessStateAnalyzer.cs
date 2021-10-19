@@ -29,9 +29,9 @@ namespace AnalysisOfChessState
             return board;
         }
 
-        public List<Square> GetCorrectMoves(Chessboard board, Square squareWithPiece, List<Square> pieceMoves)
+        public List<Square> GetMovesWithoutCheck(Chessboard board, Square squareWithPiece, List<Square> pieceMoves)
         {
-            var correctMoves = new List<Square>();
+            var movesWithoutCheck = new List<Square>();
             
             var boardSize = new Vector2Int(board.Size.x, board.Size.y);
             
@@ -45,7 +45,7 @@ namespace AnalysisOfChessState
                 
                 var newCoord = move.Coordinates.x.ToString() + move.Coordinates.y.ToString();
 
-                var sb = new StringBuilder();
+                var stringBuilder = new StringBuilder();
 
                 for (int i = 0; i < code.Value.Length; i++)
                 {
@@ -57,17 +57,17 @@ namespace AnalysisOfChessState
                         ++i;
                     }
 
-                    sb.Append(letter);
+                    stringBuilder.Append(letter);
                 }
 
-                var newCode = new StateCode(sb.ToString());
-                var check = IsCheckForAbstractKing(newCode, boardSize, squareWithPiece.PieceOnSquare.ColorData.Color);
+                var newCode = new StateCode(stringBuilder.ToString());
+                var check = IsCheckForAbstractKing(newCode, boardSize, squareWithPiece.PieceOnSquare.MyColor);
 
                 if (!check)
-                    correctMoves.Add(move);
+                    movesWithoutCheck.Add(move);
             }
         
-            return correctMoves;
+            return movesWithoutCheck;
         }
 
         public bool IsCheckForAbstractKing(StateCode chessStateCode, Vector2Int boardSize, PieceColor kingColor)

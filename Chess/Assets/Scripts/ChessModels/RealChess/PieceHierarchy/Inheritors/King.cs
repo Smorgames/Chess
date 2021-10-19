@@ -34,7 +34,7 @@ public class King : Piece
 
         for (int i = 0; i < predictTurns.Length; i++)
         {
-            if (IsPieceStandsOnSquare(predictTurns[i]))
+            if (PieceStandsOnSquare(predictTurns[i]))
             {
                 if (IsPieceOnSquareHasOppositeColor(predictTurns[i]))
                 {
@@ -47,7 +47,7 @@ public class King : Piece
         }
         
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, turns);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns);
 
         return moves;
     }

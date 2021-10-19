@@ -39,7 +39,7 @@ namespace AnalysisOfChessState.Analyzer
             {
                 var pieceOnSquare = square.PieceOnSquare;
 
-                if (pieceOnSquare != null && pieceOnSquare.ColorData.Color != kingColor)
+                if (pieceOnSquare != null && pieceOnSquare.MyColor != kingColor)
                 {
                     var attackTurns = pieceOnSquare.GetPossibleAttackTurns(square);
 

@@ -36,7 +36,7 @@ public class Bishop : Piece
             if (square == SingletonRegistry.Instance.Board.GhostSquare)
                 break;
 
-            if (IsPieceStandsOnSquare(square))
+            if (PieceStandsOnSquare(square))
             {
                 if (IsPieceOnSquareHasOppositeColor(square))
                     _attackTurns.Add(square);
@@ -66,7 +66,7 @@ public class Bishop : Piece
         AddPossibleTurnsInDiagonal(turns, square.Coordinates, downRightDir);
 
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, turns);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns);
         
         return moves;
     }
@@ -80,7 +80,7 @@ public class Bishop : Piece
             if (square == SingletonRegistry.Instance.Board.GhostSquare)
                 break;
 
-            if (IsPieceStandsOnSquare(square))
+            if (PieceStandsOnSquare(square))
             {
                 if (IsPieceOnSquareHasOppositeColor(square))
                 {

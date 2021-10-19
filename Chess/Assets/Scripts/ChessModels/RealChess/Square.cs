@@ -29,7 +29,7 @@ public class Square : MonoBehaviour
 
     private bool NowTurnOfThisPiece()
     {
-        return _pieceOnSquare.ColorData.Color == GameManager.Instance.WhoseTurn;
+        return _pieceOnSquare.MyColor == GameManager.Instance.WhoseTurn;
     }
 
     public void SetCoordinates(int x, int y)

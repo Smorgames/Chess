@@ -31,7 +31,7 @@ public class Rook : Piece
         AddPossibleTurnsInRow(turns, square.Coordinates, leftDir);
 
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetCorrectMoves(SingletonRegistry.Instance.Board, square, turns);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns);
         
         return moves;
     }
@@ -45,7 +45,7 @@ public class Rook : Piece
             if (square == SingletonRegistry.Instance.Board.GhostSquare)
                 break;
 
-            if (IsPieceStandsOnSquare(square))
+            if (PieceStandsOnSquare(square))
             {
                 if (IsPieceOnSquareHasOppositeColor(square))
                     _attackTurns.Add(square);
