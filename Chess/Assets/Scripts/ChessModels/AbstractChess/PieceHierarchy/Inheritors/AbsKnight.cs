@@ -40,13 +40,13 @@ namespace AbstractChess
             return GetMoves(absSquare, MovesType.Attack);
         }
 
-        private List<AbsSquare> GetMoves(AbsSquare absSquareWithChessPiece, MovesType movesType)
+        private List<AbsSquare> GetMoves(AbsSquare squareWithPiece, MovesType movesType)
         {
             var squares = new List<AbsSquare>();
 
             foreach (var dir in _directions)
             {
-                var square = absSquareWithChessPiece.Board.GetSquareBasedOnCoordinates(dir);
+                var square = squareWithPiece.Board.GetSquareBasedOnCoordinates(squareWithPiece.Coordinates + dir);
                 var pieceOnSquare = square.AbsPieceOnThisSquare;
 
                 var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && MyColor != pieceOnSquare.MyColor;

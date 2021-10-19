@@ -34,16 +34,19 @@ public class King : Piece
 
         for (int i = 0; i < predictTurns.Length; i++)
         {
-            if (PieceStandsOnSquare(predictTurns[i]))
+            if (!predictTurns[i].IsGhost)
             {
-                if (IsPieceOnSquareHasOppositeColor(predictTurns[i]))
+                if (PieceStandsOnSquare(predictTurns[i]))
                 {
-                    _attackTurns.Add(predictTurns[i]);
-                    continue;
+                    if (PieceOnSquareHasOppositeColor(predictTurns[i]))
+                    {
+                        _attackTurns.Add(predictTurns[i]);
+                        continue;
+                    }
                 }
+                else
+                    turns.Add(predictTurns[i]);
             }
-            else
-                turns.Add(predictTurns[i]);
         }
         
         var moves = new List<Square>();

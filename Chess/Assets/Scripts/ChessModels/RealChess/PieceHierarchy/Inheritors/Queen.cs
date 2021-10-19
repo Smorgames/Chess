@@ -9,7 +9,7 @@ public class Queen : Piece
 
     public override List<Square> GetPossibleAttackTurns(Square square)
     {
-        return _attackTurns;
+        return _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, _attackTurns, ActionType.AttackMove); ;
     }
 
     public override List<Square> GetPossibleMoveTurns(Square square)
@@ -56,7 +56,7 @@ public class Queen : Piece
 
             if (PieceStandsOnSquare(square))
             {
-                if (IsPieceOnSquareHasOppositeColor(square))
+                if (PieceOnSquareHasOppositeColor(square))
                 {
                     _attackTurns.Add(square);
                     break;

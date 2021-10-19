@@ -24,10 +24,10 @@ public class Pawn : Piece, IPawnDirection
         Square firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1 * MoveDirection, y + 1 * MoveDirection);
         Square secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1 * MoveDirection, y + 1 * MoveDirection);
 
-        if (PieceStandsOnSquare(firstSquare) && IsPieceOnSquareHasOppositeColor(firstSquare))
+        if (PieceStandsOnSquare(firstSquare) && PieceOnSquareHasOppositeColor(firstSquare))
             supposedAttackMoves.Add(firstSquare);
 
-        if (PieceStandsOnSquare(secondSquare) && IsPieceOnSquareHasOppositeColor(secondSquare))
+        if (PieceStandsOnSquare(secondSquare) && PieceOnSquareHasOppositeColor(secondSquare))
             supposedAttackMoves.Add(secondSquare);
 
         return MovesWithoutCheck(SingletonRegistry.Instance.Board, square, supposedAttackMoves, ActionType.AttackMove);

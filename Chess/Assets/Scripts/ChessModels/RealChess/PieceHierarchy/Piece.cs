@@ -73,7 +73,7 @@ public abstract class Piece : MonoBehaviour
         return false;
     }
 
-    protected bool IsPieceOnSquareHasOppositeColor(Square square)
+    protected bool PieceOnSquareHasOppositeColor(Square square)
     {
         return square.PieceOnSquare.MyColor != MyColor;
     }

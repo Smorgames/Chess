@@ -44,6 +44,11 @@ public class Chessboard : MonoBehaviour
         return _ghostSquare;
     }
 
+    public Square GetSquareWithCoordinates(Vector2Int coordinates)
+    {
+        return GetSquareWithCoordinates(coordinates.x, coordinates.y);
+    }
+
     public void ActivateListOfSquares(List<Square> squares)
     {
         if (squares.Count > 0)

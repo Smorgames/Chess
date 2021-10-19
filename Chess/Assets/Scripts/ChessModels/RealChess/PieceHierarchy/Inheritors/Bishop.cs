@@ -24,7 +24,7 @@ public class Bishop : Piece
         FindPossibleAttackTurns(square.Coordinates, downLeftDir);
         FindPossibleAttackTurns(square.Coordinates, downRightDir);
 
-        return _attackTurns;
+        return _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, _attackTurns, ActionType.AttackMove); ;
     }
 
     private void FindPossibleAttackTurns(Vector2Int pieceCoordinats, Vector2Int rowDirection)
@@ -38,7 +38,7 @@ public class Bishop : Piece
 
             if (PieceStandsOnSquare(square))
             {
-                if (IsPieceOnSquareHasOppositeColor(square))
+                if (PieceOnSquareHasOppositeColor(square))
                     _attackTurns.Add(square);
 
                 break;
@@ -82,7 +82,7 @@ public class Bishop : Piece
 
             if (PieceStandsOnSquare(square))
             {
-                if (IsPieceOnSquareHasOppositeColor(square))
+                if (PieceOnSquareHasOppositeColor(square))
                 {
                     _attackTurns.Add(square);
                     break;

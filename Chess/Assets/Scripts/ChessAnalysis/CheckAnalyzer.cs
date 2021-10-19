@@ -30,31 +30,5 @@ namespace AnalysisOfChessState.Analyzer
             
             return false;
         }
-        
-        public bool IsCheckForAbsKing(Chessboard board, PieceColor kingColor)
-        {
-            var allAttackTurns = new List<Square>();
-            
-            foreach (var square in board.Squares)
-            {
-                var pieceOnSquare = square.PieceOnSquare;
-
-                if (pieceOnSquare != null && pieceOnSquare.MyColor != kingColor)
-                {
-                    var attackTurns = pieceOnSquare.GetPossibleAttackTurns(square);
-
-                    if (attackTurns != null)
-                        foreach (var turn in attackTurns)
-                            if (!allAttackTurns.Contains(turn))
-                                allAttackTurns.Add(turn);
-                }
-            }
-
-            foreach (var turn in allAttackTurns)
-                if (turn.PieceOnSquare is King)
-                    return true;
-            
-            return false;
-        }
     }
 }

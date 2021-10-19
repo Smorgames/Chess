@@ -8,27 +8,27 @@ public class Knight : Piece
         int x = square.Coordinates.x;
         int y = square.Coordinates.y;
 
-        List<Square> attackTurns = new List<Square>();
+        List<Square> supposedAttackMoves = new List<Square>();
 
-        Square firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 2, y + 1);
-        Square secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 2, y - 1);
-        Square thirdSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 2, y + 1);
-        Square fourthSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 2, y - 1);
-        Square fifthSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1, y + 2);
-        Square sixthSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1, y - 2);
-        Square seventhSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1, y + 2);
-        Square eighthSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1, y - 2);
+        var firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 2, y + 1);
+        var secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 2, y - 1);
+        var thirdSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 2, y + 1);
+        var fourthSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 2, y - 1);
+        var fifthSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1, y + 2);
+        var sixthSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1, y - 2);
+        var seventhSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1, y + 2);
+        var eighthSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1, y - 2);
 
         Square[] predictAttackTurns = 
             { firstSquare, secondSquare, thirdSquare, fourthSquare, fifthSquare, sixthSquare, seventhSquare, eighthSquare };
 
         for (int i = 0; i < predictAttackTurns.Length; i++)
         {
-            if (!predictAttackTurns[i].IsGhost && PieceStandsOnSquare(predictAttackTurns[i]) && IsPieceOnSquareHasOppositeColor(predictAttackTurns[i]))
-                attackTurns.Add(predictAttackTurns[i]);
+            if (!predictAttackTurns[i].IsGhost && PieceStandsOnSquare(predictAttackTurns[i]) && PieceOnSquareHasOppositeColor(predictAttackTurns[i]))
+                supposedAttackMoves.Add(predictAttackTurns[i]);
         }
 
-        return attackTurns;
+        return _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, supposedAttackMoves, ActionType.AttackMove);
     }
 
     public override List<Square> GetPossibleMoveTurns(Square square)

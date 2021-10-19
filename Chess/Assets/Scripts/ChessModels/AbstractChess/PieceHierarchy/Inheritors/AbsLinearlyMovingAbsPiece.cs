@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace AbstractChess
@@ -8,12 +9,12 @@ namespace AbstractChess
         protected AbsLinearlyMovingAbsPiece(PieceColor color) : base(color) { }
 
         protected void IterativelyDirectionallyFillPossibleMoves(
-            List<AbsSquare> listToFill, AbsSquare pieceAbsSquare, Vector2Int moveDirection, PieceAction actionType)
+            List<AbsSquare> listToFill, AbsSquare squareWithPiece, Vector2Int moveDirection, PieceAction actionType)
         {
-            var x = pieceAbsSquare.Coordinates.x;
-            var y = pieceAbsSquare.Coordinates.y;
+            var x = squareWithPiece.Coordinates.x;
+            var y = squareWithPiece.Coordinates.y;
 
-            var chessboard = pieceAbsSquare.Board;
+            var chessboard = squareWithPiece.Board;
 
             var boardLenght = GetLongSideOfChessboard(chessboard);
         
