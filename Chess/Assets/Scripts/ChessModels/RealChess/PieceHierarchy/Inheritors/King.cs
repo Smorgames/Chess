@@ -3,7 +3,8 @@
 public class King : Piece
 {
     public override PieceType MyType => PieceType.King;
-    
+    public override string TypeCodeValue => "K";
+
     private List<Square> _attackTurns = new List<Square>();
 
     public override List<Square> GetPossibleAttackTurns(Square square)
@@ -20,14 +21,14 @@ public class King : Piece
 
         List<Square> turns = new List<Square>();
 
-        Square upSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x, y + 1);
-        Square upRightSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1, y + 1);
-        Square rightSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1, y);
-        Square downRightSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1, y - 1);
-        Square downSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x, y - 1);
-        Square downLeftSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1, y - 1);
-        Square leftSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1, y);
-        Square upLeftSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1, y + 1);
+        Square upSquare = square.Board.GetSquareWithCoordinates(x, y + 1);
+        Square upRightSquare = square.Board.GetSquareWithCoordinates(x + 1, y + 1);
+        Square rightSquare = square.Board.GetSquareWithCoordinates(x + 1, y);
+        Square downRightSquare = square.Board.GetSquareWithCoordinates(x + 1, y - 1);
+        Square downSquare = square.Board.GetSquareWithCoordinates(x, y - 1);
+        Square downLeftSquare = square.Board.GetSquareWithCoordinates(x - 1, y - 1);
+        Square leftSquare = square.Board.GetSquareWithCoordinates(x - 1, y);
+        Square upLeftSquare = square.Board.GetSquareWithCoordinates(x - 1, y + 1);
 
         Square[] predictTurns = 
             { upSquare, upRightSquare, rightSquare, downRightSquare, downSquare, downLeftSquare, leftSquare, upLeftSquare};
@@ -50,7 +51,7 @@ public class King : Piece
         }
         
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns, ActionType.Movement);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(square, turns, ActionType.Movement);
 
         return moves;
     }

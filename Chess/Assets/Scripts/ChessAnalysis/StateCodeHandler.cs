@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using AbstractChess;
 using UnityEngine;
 
 namespace AnalysisOfChessState.CodeHandler
@@ -143,6 +144,12 @@ namespace AnalysisOfChessState.CodeHandler
 
             return new StateCode(stringBuilder.ToString());
         }
+
+        public StateCode GetStateCode(Chessboard board)
+        {
+            var tokens = GetTokens(board);
+            return GetStateCode(tokens);
+        }
         
         public List<PieceToken> GetTokens(Chessboard chessboard)
         {
@@ -150,7 +157,7 @@ namespace AnalysisOfChessState.CodeHandler
             
             foreach (var square in chessboard.Squares)
             {
-                if (square.PieceOnSquare != null)
+                if (square.PieceOnIt != null)
                 {
                     var token = GetTokenBasedOnSquare(square);
                     tokens.Add(token);
@@ -162,7 +169,7 @@ namespace AnalysisOfChessState.CodeHandler
 
         private PieceToken GetTokenBasedOnSquare(Square square)
         {
-            var piece = square.PieceOnSquare;
+            var piece = square.PieceOnIt;
             var coordinates = square.Coordinates;
 
             if (piece is Pawn)

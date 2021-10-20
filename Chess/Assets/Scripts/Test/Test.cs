@@ -22,7 +22,7 @@ public class Test : MonoBehaviour
 
     public static void ShowPossibleTurns(Square square)
     {
-        List<Square> turns = square.PieceOnSquare.GetPossibleAttackTurns(square);
+        List<Square> turns = square.PieceOnIt.GetPossibleAttackTurns(square);
 
         foreach (var turn in turns)
             turn.Activate();

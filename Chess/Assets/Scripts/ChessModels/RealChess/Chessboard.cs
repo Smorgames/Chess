@@ -28,7 +28,7 @@ public class Chessboard : MonoBehaviour
             {
                 var square = _squares[x, y];
 
-                if (square.PieceOnSquare == piece)
+                if (square.PieceOnIt == piece)
                     return square;
             }
         }

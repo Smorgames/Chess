@@ -8,7 +8,7 @@ namespace AbstractChess
         public readonly PieceColor MyColor;
         public abstract PieceType MyType { get; }
     
-        protected bool _isFirstMove = true;
+        public bool IsFirstMove = true;
 
         public AbsPiece(PieceColor color)
         {

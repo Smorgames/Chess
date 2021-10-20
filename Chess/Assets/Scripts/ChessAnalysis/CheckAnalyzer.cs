@@ -5,13 +5,13 @@ namespace AnalysisOfChessState.Analyzer
 {
     public class CheckAnalyzer
     {
-        public bool IsCheckForAbsKing(AbsChessboard abstractAbsChessboard, PieceColor kingColor)
+        public bool CheckForAbstractKing(AbsChessboard abstractAbsChessboard, PieceColor kingColor)
         {
             var allAttackTurns = new List<AbsSquare>();
             
             foreach (var square in abstractAbsChessboard.Squares)
             {
-                var pieceOnSquare = square.AbsPieceOnThisSquare;
+                var pieceOnSquare = square.AbsPieceOnIt;
 
                 if (pieceOnSquare != null && pieceOnSquare.MyColor != kingColor)
                 {
@@ -25,7 +25,7 @@ namespace AnalysisOfChessState.Analyzer
             }
 
             foreach (var turn in allAttackTurns)
-                if (turn.AbsPieceOnThisSquare is AbsKing)
+                if (turn.AbsPieceOnIt is AbsKing)
                     return true;
             
             return false;

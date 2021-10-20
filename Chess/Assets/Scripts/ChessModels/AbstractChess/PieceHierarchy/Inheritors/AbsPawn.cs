@@ -29,16 +29,16 @@ namespace AbstractChess
 
             var firstMoveSquare = GetSquareToMove(absSquare, 1);
             
-            if (firstMoveSquare.AbsPieceOnThisSquare != null) 
+            if (firstMoveSquare.AbsPieceOnIt != null) 
                 return moves;
             
             moves.Add(firstMoveSquare);
 
-            if (_isFirstMove)
+            if (IsFirstMove)
             {
                 var secondMoveSquare = GetSquareToMove(absSquare, 2);
                 
-                if (secondMoveSquare.AbsPieceOnThisSquare != null) 
+                if (secondMoveSquare.AbsPieceOnIt != null) 
                     return moves;
                 
                 moves.Add(secondMoveSquare);
@@ -65,9 +65,9 @@ namespace AbstractChess
             var supposedAttackSquares = new List<AbsSquare>() { firstAttackSquare, secondAttackSquare };
 
             foreach (var s in supposedAttackSquares)
-                if (s.AbsPieceOnThisSquare != null)
+                if (s.AbsPieceOnIt != null)
                 {
-                    var squareChessPieceColor = s.AbsPieceOnThisSquare.MyColor;
+                    var squareChessPieceColor = s.AbsPieceOnIt.MyColor;
 
                     if (MyColor != squareChessPieceColor)
                         attackSquares.Add(s);

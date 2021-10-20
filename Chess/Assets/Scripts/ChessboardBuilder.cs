@@ -29,7 +29,7 @@ public class ChessboardBuilder : MonoBehaviour
                 var boardMatrixCoord = new Vector2Int(x, y);
                 var squareNum = x * boardSize.x + y;
 
-                var square = CreateAndInitializeSquare(gameCoord, boardMatrixCoord, squareNum);
+                var square = CreateAndInitializeSquare(gameCoord, boardMatrixCoord, squareNum, board);
                 
                 square.transform.parent = board.transform;
                 board.Squares[x, y] = square;
@@ -52,7 +52,7 @@ public class ChessboardBuilder : MonoBehaviour
         return board.GetComponent<Chessboard>();
     }
 
-    private Square CreateAndInitializeSquare(Vector2 gameCoordinates, Vector2Int boardMatrixCoordinates, int squareNumber)
+    private Square CreateAndInitializeSquare(Vector2 gameCoordinates, Vector2Int boardMatrixCoordinates, int squareNumber, Chessboard board)
     {
         var squares = SingletonRegistry.Instance.PrefabsStorage.SquaresPrefabs;
         
@@ -63,7 +63,7 @@ public class ChessboardBuilder : MonoBehaviour
         var squareName = $"Square {squareNumber}";
         square.name = squareName;
 
-        square.SetCoordinates(boardMatrixCoordinates);
+        square.Initialize(boardMatrixCoordinates, board);
 
         return square;
     }

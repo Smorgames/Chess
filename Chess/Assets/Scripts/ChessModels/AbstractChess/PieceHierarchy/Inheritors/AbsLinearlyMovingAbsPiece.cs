@@ -9,7 +9,7 @@ namespace AbstractChess
         protected AbsLinearlyMovingAbsPiece(PieceColor color) : base(color) { }
 
         protected void IterativelyDirectionallyFillPossibleMoves(
-            List<AbsSquare> listToFill, AbsSquare squareWithPiece, Vector2Int moveDirection, PieceAction actionType)
+            List<AbsSquare> listToFill, AbsSquare squareWithPiece, Vector2Int moveDirection, ActionType actionType)
         {
             var x = squareWithPiece.Coordinates.x;
             var y = squareWithPiece.Coordinates.y;
@@ -26,12 +26,12 @@ namespace AbstractChess
                 if (square == chessboard.GhostAbsSquare)
                     break;
 
-                var pieceOnSquare = square.AbsPieceOnThisSquare;
+                var pieceOnSquare = square.AbsPieceOnIt;
             
                 if (pieceOnSquare != null)
                 {
                     var pieceHasOppositeColor = MyColor != pieceOnSquare.MyColor;
-                    var pieceActionTypeIsAttack = actionType == PieceAction.Attack;
+                    var pieceActionTypeIsAttack = actionType == ActionType.Attack;
                 
                     if (pieceHasOppositeColor && pieceActionTypeIsAttack)
                         listToFill.Add(square);
@@ -39,23 +39,17 @@ namespace AbstractChess
                     break;
                 }
 
-                if (actionType == PieceAction.Movement)
+                if (actionType == ActionType.Movement)
                     listToFill.Add(square);
             }
         }
 
         private int GetLongSideOfChessboard(AbsChessboard absChessboard)
         {
-            var boardLenght = absChessboard.Length;
-            var boardHeight = absChessboard.Height;
+            var boardLenght = absChessboard.Size.x;
+            var boardHeight = absChessboard.Size.y;
 
             return boardLenght > boardHeight ? boardLenght : boardHeight;
-        }
-    
-        public enum PieceAction
-        {
-            Attack,
-            Movement
         }
     }
 }

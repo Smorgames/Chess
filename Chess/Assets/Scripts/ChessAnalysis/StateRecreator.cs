@@ -19,14 +19,14 @@ namespace AnalysisOfChessState.Recreator
 
         foreach (var square in realBoard.Squares)
         {
-            if (square.PieceOnSquare != null)
-                Object.Destroy(square.PieceOnSquare);
+            if (square.PieceOnIt != null)
+                Object.Destroy(square.PieceOnIt);
             
             var squareWithCertainCoordinatesHasPiece = dict.TryGetValue(square.Coordinates, out var piece);
 
             if (squareWithCertainCoordinatesHasPiece)
             {
-                square.PieceOnSquare = piece;
+                square.PieceOnIt = piece;
                 piece.transform.position = square.transform.position + Piece.Offset;
             }
         }
@@ -104,13 +104,13 @@ namespace AnalysisOfChessState.Recreator
         var dict = GetDictionaryOfAbstractPieces(chessTokens);
 
         foreach (var square in abstractChessboard.Squares)
-            square.AbsPieceOnThisSquare = null;
+            square.AbsPieceOnIt = null;
 
 
         foreach (var pair in dict)
         {
             var square = abstractChessboard.GetSquareBasedOnCoordinates(pair.Key);
-            square.AbsPieceOnThisSquare = pair.Value;
+            square.AbsPieceOnIt = pair.Value;
         }
 
         return abstractChessboard;

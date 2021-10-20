@@ -4,6 +4,7 @@ using UnityEngine;
 public class Pawn : Piece, IPawnDirection
 {
     public override PieceType MyType => PieceType.Pawn;
+    public override string TypeCodeValue => "p";
 
     public int MoveDirection
     {
@@ -21,8 +22,8 @@ public class Pawn : Piece, IPawnDirection
 
         List<Square> supposedAttackMoves = new List<Square>();
 
-        Square firstSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x + 1 * MoveDirection, y + 1 * MoveDirection);
-        Square secondSquare = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(x - 1 * MoveDirection, y + 1 * MoveDirection);
+        Square firstSquare = square.Board.GetSquareWithCoordinates(x + 1 * MoveDirection, y + 1 * MoveDirection);
+        Square secondSquare = square.Board.GetSquareWithCoordinates(x - 1 * MoveDirection, y + 1 * MoveDirection);
 
         if (PieceStandsOnSquare(firstSquare) && PieceOnSquareHasOppositeColor(firstSquare))
             supposedAttackMoves.Add(firstSquare);
@@ -30,7 +31,7 @@ public class Pawn : Piece, IPawnDirection
         if (PieceStandsOnSquare(secondSquare) && PieceOnSquareHasOppositeColor(secondSquare))
             supposedAttackMoves.Add(secondSquare);
 
-        return MovesWithoutCheck(SingletonRegistry.Instance.Board, square, supposedAttackMoves, ActionType.AttackMove);
+        return MovesWithoutCheck(square, supposedAttackMoves, ActionType.Attack);
     }
     
     public override List<Square> GetPossibleMoveTurns(Square square)
@@ -39,15 +40,15 @@ public class Pawn : Piece, IPawnDirection
         var y = square.Coordinates.y;
         
         var supposedMoves = new List<Square>();
-        var board = SingletonRegistry.Instance.Board;
+        var board = square.Board;
 
         var firstMoveSquare = board.GetSquareWithCoordinates(x, y + 1 * MoveDirection);
         if (!TryAddSupposedMoveToList(firstMoveSquare, supposedMoves) || !_isFirstMove)
-            return MovesWithoutCheck(board, square, supposedMoves, ActionType.Movement);
+            return MovesWithoutCheck(square, supposedMoves, ActionType.Movement);
         
         var secondMoveSquare = board.GetSquareWithCoordinates(x, y + 2 * MoveDirection);
         TryAddSupposedMoveToList(secondMoveSquare, supposedMoves);
-        return MovesWithoutCheck(board, square, supposedMoves, ActionType.Movement);
+        return MovesWithoutCheck(square, supposedMoves, ActionType.Movement);
     }
 
     private bool TryAddSupposedMoveToList(Square square, List<Square> supposedMoves)
@@ -59,8 +60,8 @@ public class Pawn : Piece, IPawnDirection
         return true;
     }
 
-    private List<Square> MovesWithoutCheck(Chessboard board, Square squareWithPiece, List<Square> supposedMoves, ActionType actionType)
+    private List<Square> MovesWithoutCheck(Square squareWithPiece, List<Square> supposedMoves, ActionType actionType)
     {
-        return _gameManager.Analyzer.GetMovesWithoutCheck(board, squareWithPiece, supposedMoves, actionType);
+        return _gameManager.Analyzer.GetMovesWithoutCheck(squareWithPiece, supposedMoves, actionType);
     }
 }

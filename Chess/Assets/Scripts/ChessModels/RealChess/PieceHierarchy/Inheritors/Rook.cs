@@ -4,11 +4,12 @@ using UnityEngine;
 public class Rook : Piece
 {
     public override PieceType MyType => PieceType.Rook;
+    public override string TypeCodeValue => "r";
     private List<Square> _attackTurns = new List<Square>();
 
     public override List<Square> GetPossibleAttackTurns(Square square)
     {
-        return _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, _attackTurns, ActionType.AttackMove); ;
+        return _gameManager.Analyzer.GetMovesWithoutCheck(square, _attackTurns, ActionType.Attack); ;
     }
 
     public override List<Square> GetPossibleMoveTurns(Square square)
@@ -25,24 +26,24 @@ public class Rook : Piece
         Vector2Int rightDir = new Vector2Int(1, 0);
         Vector2Int leftDir = new Vector2Int(-1, 0);
 
-        AddPossibleTurnsInRow(turns, square.Coordinates, upDir);
-        AddPossibleTurnsInRow(turns, square.Coordinates, downDir);
-        AddPossibleTurnsInRow(turns, square.Coordinates, rightDir);
-        AddPossibleTurnsInRow(turns, square.Coordinates, leftDir);
+        AddPossibleTurnsInRow(turns, square, upDir);
+        AddPossibleTurnsInRow(turns, square, downDir);
+        AddPossibleTurnsInRow(turns, square, rightDir);
+        AddPossibleTurnsInRow(turns, square, leftDir);
 
         var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetMovesWithoutCheck(SingletonRegistry.Instance.Board, square, turns, ActionType.Movement);
+        moves = _gameManager.Analyzer.GetMovesWithoutCheck(square, turns, ActionType.Movement);
         
         return moves;
     }
 
-    private void AddPossibleTurnsInRow(List<Square> turns, Vector2Int pieceCoordinats, Vector2Int rowDirection)
+    private void AddPossibleTurnsInRow(List<Square> turns, Square squareWithPiece, Vector2Int rowDirection)
     {
-        for (int i = 1; i < SingletonRegistry.Instance.Board.Size.x; i++)
+        for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
         {
-            Square square = SingletonRegistry.Instance.Board.GetSquareWithCoordinates(pieceCoordinats.x + i * rowDirection.x, pieceCoordinats.y + i * rowDirection.y);
+            var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates.x + i * rowDirection.x, squareWithPiece.Coordinates.y + i * rowDirection.y);
 
-            if (square == SingletonRegistry.Instance.Board.GhostSquare)
+            if (square == squareWithPiece.Board.GhostSquare)
                 break;
 
             if (PieceStandsOnSquare(square))

@@ -4,56 +4,35 @@ namespace AbstractChess
 {
     public class AbsChessboard
     {
-        public int Length => _length;
-        private int _length;
-    
-        public int Height => _height;
-        private int _height;
-    
+        public Vector2Int Size => _size;
+        private Vector2Int _size;
+        
         public AbsSquare[,] Squares => _squares;
         private AbsSquare[,] _squares;
     
         public AbsSquare GhostAbsSquare => _ghostAbsSquare;
         private static AbsSquare _ghostAbsSquare;
-    
-        public AbsChessboard(int length, int height)
-        {
-            ConstructorInitialization(length, height);
-        }
 
         public AbsChessboard(Vector2Int boardSize)
         {
-            ConstructorInitialization(boardSize.x, boardSize.y);
-        }
-
-        private void ConstructorInitialization(int length, int height)
-        {
-            _length = length;
-            _height = height;
-    
-            if (_ghostAbsSquare == null)
-                _ghostAbsSquare = new AbsSquare(-1, -1, this) { Board = this };
+            _size = boardSize;
+            _ghostAbsSquare = new AbsSquare(new Vector2Int(-1, -1), this);
             
-            _squares = new AbsSquare[length, height];
+            _squares = new AbsSquare[_size.x, _size.y];
 
-            for (int x = 0; x < length; x++)
-            for (int y = 0; y < height; y++)
-                _squares[x, y] = new AbsSquare(x, y, this);
+            for (int x = 0; x < _size.x; x++)
+            for (int y = 0; y < _size.y; y++)
+                _squares[x, y] = new AbsSquare(new Vector2Int(x, y), this);
         }
 
         public AbsSquare GetSquareBasedOnCoordinates(Vector2Int coordinates)
         {
-            var xCorrect = coordinates.x >= 0 && coordinates.x < _length;
-            var yCorrect = coordinates.y >= 0 && coordinates.y < _height;
+            var xCorrect = coordinates.x >= 0 && coordinates.x < _size.x;
+            var yCorrect = coordinates.y >= 0 && coordinates.y < _size.y;
     
             if (xCorrect && yCorrect)
                 return _squares[coordinates.x, coordinates.y];
     
-            // var className = nameof(Chessboard);
-            // var methodName = nameof(GetSquareBasedOnCoordinates);
-            // var ghostSquareName = nameof(GhostSquare);
-            
-            //Debug.Log($"In method [{className}.{methodName}()] coordinates are equal ({coordinates.x};{coordinates.y})! Returned {ghostSquareName}");
             return _ghostAbsSquare;
         }
     }

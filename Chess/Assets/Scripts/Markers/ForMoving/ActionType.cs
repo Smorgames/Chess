@@ -1,5 +1,5 @@
 ﻿public enum ActionType
 {
-    AttackMove,
+    Attack,
     Movement
 }

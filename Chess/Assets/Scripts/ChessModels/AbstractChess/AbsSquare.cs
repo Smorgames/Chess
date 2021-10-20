@@ -4,27 +4,20 @@ namespace AbstractChess
 {
     public class AbsSquare
     {
-        public AbsChessboard Board { get => _board; set => _board = value; }
-        private AbsChessboard _board;
+        public AbsPiece AbsPieceOnIt { get; set; }
 
-        public AbsPiece AbsPieceOnThisSquare;
-
-        public Vector2Int Coordinates => new Vector2Int(_x, _y);
-        private readonly int _x, _y;
-
-        public AbsSquare(int x, int y, AbsChessboard board)
-        {
-            _x = x;
-            _y = y;
+        public AbsChessboard Board => _board;
+        private readonly AbsChessboard _board;
         
-            if (_board == null)
-                _board = board;
+        public Vector2Int Coordinates => _coordinates;
+        private readonly Vector2Int _coordinates;
+
+        public AbsSquare(Vector2Int coordinates, AbsChessboard board)
+        {
+            _coordinates = coordinates;
+            _board = board;
         }
 
-        public override string ToString()
-        {
-            var pieceText = AbsPieceOnThisSquare == null ? "Empty square" : $"[{AbsPieceOnThisSquare}]";
-            return $"[{_x};{_y} {pieceText}]";
-        }
+        public override string ToString() => $"[{_coordinates.x};{_coordinates.y} {AbsPieceOnIt}]";
     }
 }

@@ -7,20 +7,20 @@ public class PieceTurnsDisplayer : MonoBehaviour
 
     private void ShowTurnsOfPieceStandsOnSquare(Square square)
     {
-        _pieceTurns.Piece = square.PieceOnSquare;
+        _pieceTurns.Piece = square.PieceOnIt;
 
         _pieceTurns.MoveTurns = _pieceTurns.Piece.GetPossibleMoveTurns(square);
         _pieceTurns.AttackTurns = _pieceTurns.Piece.GetPossibleAttackTurns(square);
 
-        SingletonRegistry.Instance.Board.DeactivateAllSquares();
+        square.Board.DeactivateAllSquares();
 
-        SingletonRegistry.Instance.Board.ActivateListOfSquares(_pieceTurns.MoveTurns);
-        SingletonRegistry.Instance.Board.ActivateListOfSquares(_pieceTurns.AttackTurns);
+        square.Board.ActivateListOfSquares(_pieceTurns.MoveTurns);
+        square.Board.ActivateListOfSquares(_pieceTurns.AttackTurns);
     }
 
-    public void HideTurnsOfPiece()
+    public void HideTurnsOfPiece(Square square)
     {
-        SingletonRegistry.Instance.Board.DeactivateAllSquares();
+        square.Board.DeactivateAllSquares();
     }
     private void Start()
     {

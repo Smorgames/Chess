@@ -10,18 +10,21 @@ public class Square : MonoBehaviour
 
     [SerializeField] private GameObject _highlight;
 
+    public Chessboard Board => _board;
+    private Chessboard _board;
+    
     public Vector2Int Coordinates { get => _coordinates; }
     private Vector2Int _coordinates;
 
-    public Piece PieceOnSquare { get => _pieceOnSquare; set => _pieceOnSquare = value; }
-    private Piece _pieceOnSquare;
+    public Piece PieceOnIt { get => _pieceOnIt; set => _pieceOnIt = value; }
+    private Piece _pieceOnIt;
 
     private void OnMouseDown()
     {
-        if (_pieceOnSquare != null)
+        if (_pieceOnIt != null)
             Test.ShowPossibleTurns(this);
 
-        if (_pieceOnSquare != null && NowTurnOfThisPiece())
+        if (_pieceOnIt != null && NowTurnOfThisPiece())
             OnSquareWithPieceClicked?.Invoke(this);
         else
             OnEmptySquareClicked?.Invoke(this);
@@ -29,19 +32,13 @@ public class Square : MonoBehaviour
 
     private bool NowTurnOfThisPiece()
     {
-        return _pieceOnSquare.MyColor == GameManager.Instance.WhoseTurn;
+        return _pieceOnIt.MyColor == GameManager.Instance.WhoseTurn;
     }
 
-    public void SetCoordinates(int x, int y)
+    public void Initialize(Vector2Int coordinates, Chessboard board)
     {
-        _coordinates.x = x;
-        _coordinates.y = y;
-    }
-    
-    public void SetCoordinates(Vector2Int coordinates)
-    {
-        _coordinates.x = coordinates.x;
-        _coordinates.y = coordinates.y;
+        _coordinates = coordinates;
+        _board = board;
     }
 
     public void Activate()

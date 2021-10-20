@@ -18,17 +18,17 @@ namespace AbstractChess
 
         public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
         {
-            var moves = GetPossibleMoves(absSquare, PieceAction.Movement);
+            var moves = GetPossibleMoves(absSquare, ActionType.Movement);
             return moves;
         }
 
         public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
         {
-            var moves = GetPossibleMoves(absSquare, PieceAction.Attack);
+            var moves = GetPossibleMoves(absSquare, ActionType.Attack);
             return moves;
         }
 
-        private List<AbsSquare> GetPossibleMoves(AbsSquare pieceAbsSquare, PieceAction actionType)
+        private List<AbsSquare> GetPossibleMoves(AbsSquare pieceAbsSquare, ActionType actionType)
         {
             var possibleMoves = new List<AbsSquare>();
             var directions = new List<Vector2Int>() { _upRightDir, _upLeftDir, _downLeftDir, _downRightDir };

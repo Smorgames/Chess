@@ -47,7 +47,7 @@ namespace AbstractChess
             foreach (var dir in _directions)
             {
                 var square = squareWithPiece.Board.GetSquareBasedOnCoordinates(squareWithPiece.Coordinates + dir);
-                var pieceOnSquare = square.AbsPieceOnThisSquare;
+                var pieceOnSquare = square.AbsPieceOnIt;
 
                 var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && MyColor != pieceOnSquare.MyColor;
                 

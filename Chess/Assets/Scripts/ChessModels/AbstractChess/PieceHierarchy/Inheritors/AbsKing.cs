@@ -40,7 +40,7 @@ namespace AbstractChess
                 var coordinates = new Vector2Int(x + dir.x, y + dir.y);
 
                 var square = absSquareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
-                var pieceOnSquare = absSquareWithChessPiece.AbsPieceOnThisSquare;
+                var pieceOnSquare = absSquareWithChessPiece.AbsPieceOnIt;
                 
                 var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && MyColor != pieceOnSquare.MyColor;
                 

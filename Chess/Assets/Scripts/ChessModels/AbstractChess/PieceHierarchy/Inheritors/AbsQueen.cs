@@ -16,15 +16,15 @@ namespace AbstractChess
 
         public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
         {
-            return GetMovesBasedOnActionType(absSquare, PieceAction.Movement);
+            return GetMovesBasedOnActionType(absSquare, ActionType.Movement);
         }
 
         public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
         {
-            return GetMovesBasedOnActionType(absSquare, PieceAction.Attack);
+            return GetMovesBasedOnActionType(absSquare, ActionType.Attack);
         }
 
-        private List<AbsSquare> GetMovesBasedOnActionType(AbsSquare absSquareWithPiece, PieceAction actionType)
+        private List<AbsSquare> GetMovesBasedOnActionType(AbsSquare absSquareWithPiece, ActionType actionType)
         {
             var moves = new List<AbsSquare>();
             var directions = new List<Vector2Int>()
@@ -35,7 +35,7 @@ namespace AbstractChess
 
             foreach (var dir in directions)
                 IterativelyDirectionallyFillPossibleMoves(moves, absSquareWithPiece, dir, actionType);
-
+            
             return moves;
         }
     

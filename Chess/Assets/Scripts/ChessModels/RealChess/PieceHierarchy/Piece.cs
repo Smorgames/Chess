@@ -13,6 +13,7 @@ public abstract class Piece : MonoBehaviour
     public static event PieceDeadHandler OnPieceDied;
     
     public abstract PieceType MyType { get; }
+    public abstract string TypeCodeValue { get; }
 
     public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
@@ -42,8 +43,8 @@ public abstract class Piece : MonoBehaviour
 
             if (enemyPiece != null && _gameManager.WhoseTurn == _myColor)
             {
-                Square squareWithPiece = SingletonRegistry.Instance.Board.GetSquareWithPiece(enemyPiece);
-                squareWithPiece.PieceOnSquare = null;
+                var squareWithPiece = square.Board.GetSquareWithPiece(enemyPiece);
+                squareWithPiece.PieceOnIt = null;
 
                 enemyPiece.Death();
             }
@@ -67,7 +68,7 @@ public abstract class Piece : MonoBehaviour
 
     protected bool PieceStandsOnSquare(Square square)
     {
-        if (square.PieceOnSquare)
+        if (square.PieceOnIt)
             return true;
 
         return false;
@@ -75,7 +76,7 @@ public abstract class Piece : MonoBehaviour
 
     protected bool PieceOnSquareHasOppositeColor(Square square)
     {
-        return square.PieceOnSquare.MyColor != MyColor;
+        return square.PieceOnIt.MyColor != MyColor;
     }
 
     private void Start()
