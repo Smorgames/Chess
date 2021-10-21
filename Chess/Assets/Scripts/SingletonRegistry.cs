@@ -13,7 +13,4 @@ public class SingletonRegistry : MonoBehaviour
 
     public PrefabsStorage PrefabsStorage => _prefabsStorage;
     [SerializeField] private PrefabsStorage _prefabsStorage;
-
-    public ChessboardBuilder Builder => _builder;
-    [SerializeField] private ChessboardBuilder _builder;
 }

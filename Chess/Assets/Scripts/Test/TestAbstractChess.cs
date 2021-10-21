@@ -54,8 +54,7 @@ public static class ChessSystemTesting
     {
         var code = new StateCode("02br20bQ22wK42br24bQ13wr23wr33wr");
 
-        var cb = SingletonRegistry.Instance.Builder;
-        var board = cb.BuildArbitraryChessboard(new Vector2(15, 5), new Vector2Int(5, 5));
+        var board = ChessboardBuilder.BuildArbitraryChessboard(new Vector2(15, 5), new Vector2Int(5, 5));
         
         var recreator = new StateRecreator();
         var ch = new StateCodeHandler();

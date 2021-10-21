@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class PieceMover : MonoBehaviour
+public class PieceShifter : MonoBehaviour
 {
     [SerializeField] private PieceTurnsDisplayer _pieceTurnDisplayer;
 

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     {
         _analyzer = new ChessStateAnalyzer();
 
-        var board = SingletonRegistry.Instance.Builder.BuildMainChessboard();
+        var board = ChessboardBuilder.BuildMainChessboard();
         //var board = SingletonRegistry.Instance.Builder.BuildArbitraryChessboard(Vector2.zero, new Vector2Int(9, 9));
         DebugChessboardState.MainChessboard = board;
         

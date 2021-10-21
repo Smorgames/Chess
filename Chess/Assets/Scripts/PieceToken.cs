@@ -30,3 +30,9 @@ public enum PieceColor
     White,
     Black
 }
+
+public enum ActionType
+{
+    Attack,
+    Movement
+}

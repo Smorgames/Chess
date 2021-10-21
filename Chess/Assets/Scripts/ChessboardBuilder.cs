@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 
-public class ChessboardBuilder : MonoBehaviour
+public class ChessboardBuilder
 {
-    public Chessboard BuildMainChessboard()
+    public static Chessboard BuildMainChessboard()
     {
         var centerCoord = new Vector2(0, 0);
         var boardSize = new Vector2Int(8, 8);
         return BuildArbitraryChessboard(centerCoord, boardSize);
     }
 
-    public Chessboard BuildArbitraryChessboard(Vector2 boardCenterCoordinate, Vector2Int boardSize)
+    public static Chessboard BuildArbitraryChessboard(Vector2 boardCenterCoordinate, Vector2Int boardSize)
     {
         var board = CreateChessboardTemplate(boardSize);
         
@@ -39,25 +39,25 @@ public class ChessboardBuilder : MonoBehaviour
         return board;
     }
 
-    private Chessboard CreateChessboardTemplate(Vector2Int boardSize)
+    private static Chessboard CreateChessboardTemplate(Vector2Int boardSize)
     {
         var board = new GameObject("Chessboard");
         var chessboardComponent = board.AddComponent<Chessboard>();
 
         chessboardComponent.InitializeChessboard(boardSize);
-        var ghostSquare = Instantiate(SingletonRegistry.Instance.PrefabsStorage.GhostSquare, Vector3.zero, Quaternion.identity);
+        var ghostSquare = Object.Instantiate(SingletonRegistry.Instance.PrefabsStorage.GhostSquare, Vector3.zero, Quaternion.identity);
         chessboardComponent.GhostSquare = ghostSquare;
         
         board.transform.position = Vector3.zero;
         return board.GetComponent<Chessboard>();
     }
 
-    private Square CreateAndInitializeSquare(Vector2 gameCoordinates, Vector2Int boardMatrixCoordinates, int squareNumber, Chessboard board)
+    private static Square CreateAndInitializeSquare(Vector2 gameCoordinates, Vector2Int boardMatrixCoordinates, int squareNumber, Chessboard board)
     {
         var squares = SingletonRegistry.Instance.PrefabsStorage.SquaresPrefabs;
         
         var index = (boardMatrixCoordinates.x + boardMatrixCoordinates.y) % squares.Count;
-        var square = Instantiate(squares[index], transform.position, Quaternion.identity).GetComponent<Square>();
+        var square = Object.Instantiate(squares[index], Vector3.zero, Quaternion.identity).GetComponent<Square>();
         square.transform.position = gameCoordinates;
         
         var squareName = $"Square {squareNumber}";
