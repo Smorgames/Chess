@@ -7,9 +7,8 @@ public class DebugChessboardState : MonoBehaviour
     
     public void DebugChessState()
     {
-        var codeHandler = new StateCodeHandler();
-        var tokens = codeHandler.GetTokens(MainChessboard);
-        var code = codeHandler.GetStateCode(tokens);
-        Debug.Log(code.Value);
+        var tokens = StateCodeHandler.GetTokens(MainChessboard);
+        var code = StateCodeHandler.GetStateCode(tokens);
+        Debug.Log(code.PiecesState);
     }
 }

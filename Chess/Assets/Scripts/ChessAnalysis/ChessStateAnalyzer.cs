@@ -12,19 +12,17 @@ namespace AnalysisOfChessState
     public class ChessStateAnalyzer
     {
         private CheckAnalyzer _analyzer;
-        private StateCodeHandler _codeHandler;
         private StateRecreator _recreator;
 
         public ChessStateAnalyzer()
         {
             _analyzer = new CheckAnalyzer();
-            _codeHandler = new StateCodeHandler();
             _recreator = new StateRecreator();
         }
 
-        public Chessboard ArrangePiecesOnChessboard(Chessboard board, StateCode code)
+        public Chessboard ArrangePiecesOnChessboard(Chessboard board, ChessCode code)
         {
-            var tokens = _codeHandler.GetTokens(code);
+            var tokens = StateCodeHandler.GetTokens(code);
             _recreator.ArrangePiecesOnRealBoard(tokens, board);
             return board;
         }
@@ -33,28 +31,28 @@ namespace AnalysisOfChessState
         {
             var movesWithoutCheck = new List<Square>();
             var boardSize = new Vector2Int(square.Board.Size.x, square.Board.Size.y);
-            var code = _codeHandler.GetStateCode(square.Board);
+            var code = StateCodeHandler.GetStateCode(square.Board);
             var pieceCoordinates = square.Coordinates.x.ToString() + square.Coordinates.y.ToString();
                         
             foreach (var supposedMove in supposedPieceMoves)
             {
                 var newPieceCoordinates = supposedMove.Coordinates.x.ToString() + supposedMove.Coordinates.y.ToString();
-                var newCodeValue = code.Value;
+                var newCodeValue = code.PiecesState;
                 
                 if (actionType == ActionType.Attack)
                 {
-                    var index = code.Value.IndexOf(newPieceCoordinates, StringComparison.Ordinal);
+                    var index = code.PiecesState.IndexOf(newPieceCoordinates, StringComparison.Ordinal);
                     var sb = new StringBuilder();
 
                     for (int i = index; i <= index + 3; i++)
-                        sb.Append(code.Value[i]);
+                        sb.Append(code.PiecesState[i]);
 
                     newCodeValue = newCodeValue.Replace(sb.ToString(), "");
                 }
                 
                 newCodeValue = newCodeValue.Replace(pieceCoordinates, newPieceCoordinates);
             
-                var newCode = new StateCode(newCodeValue);
+                var newCode = new ChessCode(newCodeValue);
                 var check = IsCheckForAbstractKing(newCode, boardSize, square.PieceOnIt.MyColor);
             
                 if (!check)
@@ -99,9 +97,9 @@ namespace AnalysisOfChessState
         //     return movesWithoutCheck;
         // }
 
-        public bool IsCheckForAbstractKing(StateCode chessStateCode, Vector2Int boardSize, PieceColor kingColor)
+        public bool IsCheckForAbstractKing(ChessCode chessChessCode, Vector2Int boardSize, PieceColor kingColor)
         {
-            var tokens = _codeHandler.GetTokens(chessStateCode);
+            var tokens = StateCodeHandler.GetTokens(chessChessCode);
             var board = _recreator.GetAbsChessboard(boardSize, tokens);
             return _analyzer.CheckForAbstractKing(board, kingColor);
         }
@@ -109,16 +107,16 @@ namespace AnalysisOfChessState
         public bool MateForAbstractKing(Chessboard board, PieceColor kingColor)
         {
             var boardSize = board.Size;
-            var tokens = _codeHandler.GetTokens(board);
+            var tokens = StateCodeHandler.GetTokens(board);
             
             var absBoard = _recreator.GetAbsChessboard(boardSize, tokens);
 
             return MateForAbstractKing(absBoard, kingColor);
         }
         
-        public bool MateForAbstractKing(StateCode stateCode, Vector2Int boardSize, PieceColor kingColor)
+        public bool MateForAbstractKing(ChessCode chessCode, Vector2Int boardSize, PieceColor kingColor)
         {
-            var tokens = _codeHandler.GetTokens(stateCode);
+            var tokens = StateCodeHandler.GetTokens(chessCode);
             var absBoard = _recreator.GetAbsChessboard(boardSize, tokens);
 
             return MateForAbstractKing(absBoard, kingColor);
@@ -144,36 +142,36 @@ namespace AnalysisOfChessState
             return pieceMoves.Count <= 0;
         }
 
-        public AbsChessboard AbsBoardBasedOnCode(StateCode code, Vector2Int boardSize)
+        public AbsChessboard AbsBoardBasedOnCode(ChessCode code, Vector2Int boardSize)
         {
             var absBoard = new AbsChessboard(boardSize);
         
-            for (int i = 0; i < code.Value.Length; ++i)
+            for (int i = 0; i < code.PiecesState.Length; ++i)
             {
-                if (code.Value[i] == '[')
+                if (code.PiecesState[i] == '[')
                 {
                     var coordinates = new Vector2Int();
                     var pieceColor = PieceColor.Black;
                     var pieceType = PieceType.Bishop;
                     var isFirstMove = true;
                     
-                    for (int j = i + 1; j < code.Value.Length; ++j)
+                    for (int j = i + 1; j < code.PiecesState.Length; ++j)
                     {
-                        if (code.Value[j] == ']')
+                        if (code.PiecesState[j] == ']')
                             break;
                         
                         var semicolonCount = 0;
         
-                        if (code.Value[j] == ';')
+                        if (code.PiecesState[j] == ';')
                             ++semicolonCount;
         
                         if (semicolonCount == 0)
                         {
                             var stringBuilder = new StringBuilder();
 
-                            for (int k = j; k < code.Value.Length; k++)
+                            for (int k = j; k < code.PiecesState.Length; k++)
                             {
-                                if (code.Value[k] == ';')
+                                if (code.PiecesState[k] == ';')
                                 {
                                     coordinates.x = int.Parse(stringBuilder.ToString());
                                     ++semicolonCount;
@@ -181,16 +179,16 @@ namespace AnalysisOfChessState
                                     break;
                                 }
                                 
-                                stringBuilder.Append(code.Value[k].ToString());
+                                stringBuilder.Append(code.PiecesState[k].ToString());
                             }
                         }
                         if (semicolonCount == 1)
                         {
                             var stringBuilder = new StringBuilder();
 
-                            for (int k = j; k < code.Value.Length; k++)
+                            for (int k = j; k < code.PiecesState.Length; k++)
                             {
-                                if (code.Value[k] == ';')
+                                if (code.PiecesState[k] == ';')
                                 {
                                     coordinates.y = int.Parse(stringBuilder.ToString());
                                     ++semicolonCount;
@@ -198,30 +196,30 @@ namespace AnalysisOfChessState
                                     break;
                                 }
                                 
-                                stringBuilder.Append(code.Value[k].ToString());
+                                stringBuilder.Append(code.PiecesState[k].ToString());
                             }
                         }
                         if (semicolonCount == 2)
                         {
-                            if (code.Value[j] == 'w') pieceColor = PieceColor.White;
-                            if (code.Value[j] == 'b') pieceColor = PieceColor.Black;
+                            if (code.PiecesState[j] == 'w') pieceColor = PieceColor.White;
+                            if (code.PiecesState[j] == 'b') pieceColor = PieceColor.Black;
                             ++semicolonCount;
                             ++j;
                         }
                         if (semicolonCount == 3)
                         {
-                            if (code.Value[j] == 'p') pieceType = PieceType.Pawn;
-                            if (code.Value[j] == 'r') pieceType = PieceType.Rook;
-                            if (code.Value[j] == 'k') pieceType = PieceType.Knight;
-                            if (code.Value[j] == 'b') pieceType = PieceType.Bishop;
-                            if (code.Value[j] == 'Q') pieceType = PieceType.Queen;
-                            if (code.Value[j] == 'K') pieceType = PieceType.King;
+                            if (code.PiecesState[j] == 'p') pieceType = PieceType.Pawn;
+                            if (code.PiecesState[j] == 'r') pieceType = PieceType.Rook;
+                            if (code.PiecesState[j] == 'k') pieceType = PieceType.Knight;
+                            if (code.PiecesState[j] == 'b') pieceType = PieceType.Bishop;
+                            if (code.PiecesState[j] == 'Q') pieceType = PieceType.Queen;
+                            if (code.PiecesState[j] == 'K') pieceType = PieceType.King;
                             ++semicolonCount;
                             ++j;
                         }
                         if (semicolonCount == 4)
                         {
-                            isFirstMove = code.Value[j] == '1' ? true : false;
+                            isFirstMove = code.PiecesState[j] == '1' ? true : false;
                             ++semicolonCount;
                             ++j;
                         }

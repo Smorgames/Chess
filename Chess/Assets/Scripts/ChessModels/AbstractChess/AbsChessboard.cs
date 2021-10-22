@@ -15,6 +15,17 @@ namespace AbstractChess
 
         public AbsChessboard(Vector2Int boardSize)
         {
+            Constructor(boardSize);
+        }
+
+        public AbsChessboard(int length, int height)
+        {
+            var boardSize = new Vector2Int(length, height);
+            Constructor(boardSize);
+        }
+
+        private void Constructor(Vector2Int boardSize)
+        {
             _size = boardSize;
             _ghostAbsSquare = new AbsSquare(new Vector2Int(-1, -1), this);
             

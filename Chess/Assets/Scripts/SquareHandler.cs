@@ -2,17 +2,17 @@
 
 public class SquareHandler
 {
-    public static bool TryGetStateCodeOfSquare(Square square, out StateCode stateCode)
+    public static bool TryGetStateCodeOfSquare(Square square, out ChessCode chessCode)
     {
         var piece = square.PieceOnIt;
         if (piece == null)
         {
-            stateCode = new StateCode("");
+            chessCode = new ChessCode("");
             return false;
         }
 
         var codeValue = StateCodeValueGetter.CodeValue(square);
-        stateCode = new StateCode(codeValue);
+        chessCode = new ChessCode(codeValue);
         
         return true;
     }

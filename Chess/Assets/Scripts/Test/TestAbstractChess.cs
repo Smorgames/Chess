@@ -23,7 +23,7 @@ public static class ChessSystemTesting
     {
         var boardSize = new Vector2Int(5, 5);
 
-        var stateCode = new StateCode("10wb32bK"); // White bishop on square (1,0) and check black king (3, 2)
+        var stateCode = new ChessCode("10wb32bK"); // White bishop on square (1,0) and check black king (3, 2)
         var analyzer = new ChessStateAnalyzer();
 
         var isCheck = analyzer.IsCheckForAbstractKing(stateCode, boardSize, PieceColor.Black);
@@ -37,7 +37,7 @@ public static class ChessSystemTesting
     
     public static void Test2()
     {
-        var chessStateCode = new StateCode("00br02wp03wK13wp23bQ");
+        var chessStateCode = new ChessCode("00br02wp03wK13wp23bQ");
         var boardSize = new Vector2Int(3, 4);
         
         var analyzer = new ChessStateAnalyzer();
@@ -52,14 +52,13 @@ public static class ChessSystemTesting
 
     public static void Test3()
     {
-        var code = new StateCode("02br20bQ22wK42br24bQ13wr23wr33wr");
+        var code = new ChessCode("02br20bQ22wK42br24bQ13wr23wr33wr");
 
         var board = ChessboardBuilder.BuildArbitraryChessboard(new Vector2(15, 5), new Vector2Int(5, 5));
         
         var recreator = new StateRecreator();
-        var ch = new StateCodeHandler();
         
-        recreator.ArrangePiecesOnRealBoard(ch.GetTokens(code), board);
+        recreator.ArrangePiecesOnRealBoard(StateCodeHandler.GetTokens(code), board);
         
         var size = new Vector2Int(5, 5);
         var analyzer = new ChessStateAnalyzer();
@@ -77,7 +76,7 @@ public static class ChessSystemTesting
         var square = DebugChessboardState.MainChessboard.Squares[1, 0];
         SquareHandler.TryGetStateCodeOfSquare(square, out var code);
 
-        var isCorrectCode = string.Equals(code.Value, "[1;0;w;k;1]");
+        var isCorrectCode = string.Equals(code.PiecesState, "[1;0;w;k;1]");
         var mateText = isCorrectCode ? "[Passed]".Color("Green") : "[Failed]".Color("Red");
         var testName = $"[{nameof(Test4)}]:".Bold().Color("LightBlue");
         
@@ -88,7 +87,7 @@ public static class ChessSystemTesting
     {
         var a = new ChessStateAnalyzer();
         var size = new Vector2Int(3, 3);
-        var code = new StateCode("[0;0;w;p;1][2;1;w;Q;0][0;2;b;K;0]");
+        var code = new ChessCode("[0;0;w;p;1][2;1;w;Q;0][0;2;b;K;0]");
         var ac = a.AbsBoardBasedOnCode(code, size);
 
         for (int y = ac.Size.y - 1; y >= 0; y--)

@@ -9,6 +9,8 @@ public class Chessboard : MonoBehaviour
     public Square[,] Squares => _squares;
     private Square[,] _squares;
 
+    public string WhoseTurn { get; set; }
+
     public Square GhostSquare { get => _ghostSquare; set => _ghostSquare = value; }
     private Square _ghostSquare;
 

@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using AbstractChess;
 using UnityEngine;
 
 namespace AnalysisOfChessState.CodeHandler
 {
     public class StateCodeHandler
     {
-        public List<PieceToken> GetTokens(StateCode stateCode)
+        public static List<PieceToken> GetTokens(ChessCode chessCode)
         {
-            var code = stateCode.Value.Trim(' ');
+            var code = chessCode.PiecesState.Trim(' ');
             var chessTokens = new List<PieceToken>(); 
 
             for (int i = 0; i < code.Length; i += 4)
@@ -100,7 +99,7 @@ namespace AnalysisOfChessState.CodeHandler
             return chessTokens;
         }
 
-        public StateCode GetStateCode(List<PieceToken> tokens)
+        public static ChessCode GetStateCode(List<PieceToken> tokens)
         {
             var stringBuilder = new StringBuilder();
             
@@ -142,16 +141,16 @@ namespace AnalysisOfChessState.CodeHandler
                 }
             }
 
-            return new StateCode(stringBuilder.ToString());
+            return new ChessCode(stringBuilder.ToString());
         }
 
-        public StateCode GetStateCode(Chessboard board)
+        public static ChessCode GetStateCode(Chessboard board)
         {
             var tokens = GetTokens(board);
             return GetStateCode(tokens);
         }
         
-        public List<PieceToken> GetTokens(Chessboard chessboard)
+        public static List<PieceToken> GetTokens(Chessboard chessboard)
         {
             var tokens = new List<PieceToken>();
             
@@ -167,7 +166,7 @@ namespace AnalysisOfChessState.CodeHandler
             return tokens;
         }
 
-        private PieceToken GetTokenBasedOnSquare(Square square)
+        private static PieceToken GetTokenBasedOnSquare(Square square)
         {
             var piece = square.PieceOnIt;
             var coordinates = square.Coordinates;
