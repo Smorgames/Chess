@@ -62,6 +62,6 @@ public class Pawn : Piece, IPawnDirection
 
     private List<Square> MovesWithoutCheck(Square squareWithPiece, List<Square> supposedMoves, ActionType actionType)
     {
-        return _gameManager.Analyzer.GetMovesWithoutCheck(squareWithPiece, supposedMoves, actionType);
+        return GameManager.Instance.Analyzer.GetMovesWithoutCheck(squareWithPiece, supposedMoves, actionType);
     }
 }
