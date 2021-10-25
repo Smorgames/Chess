@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using AbstractChess;
-using AnalysisOfChessState;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,11 +7,8 @@ public class GameManager : MonoBehaviour
     public delegate void ChangeTurnHandler();
     public event ChangeTurnHandler OnTurnChanged;
 
-    public PieceColor WhoseTurn { get => _whoseTurn; }
-    private PieceColor _whoseTurn = PieceColor.White;
-
-    public ChessStateAnalyzer Analyzer => _analyzer;
-    private ChessStateAnalyzer _analyzer;
+    public string WhoseTurn { get => _whoseTurn; }
+    private string _whoseTurn = "w";
 
     private void Awake()
     {
@@ -24,14 +18,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _analyzer = new ChessStateAnalyzer();
-
         var board = ChessboardBuilder.BuildMainChessboard();
-        //var board = SingletonRegistry.Instance.Builder.BuildArbitraryChessboard(Vector2.zero, new Vector2Int(9, 9));
-        DebugChessboardState.MainChessboard = board;
-        
-        _analyzer.ArrangePiecesOnChessboard(board, GameStates.Start);
-
         SubscribeMethodsOnEvent();
     }
 
@@ -42,10 +29,8 @@ public class GameManager : MonoBehaviour
 
     private void ChangeColorOrderOfTurn()
     {
-        if (_whoseTurn == PieceColor.Black)
-            _whoseTurn = PieceColor.White;
-        else if (_whoseTurn == PieceColor.White)
-            _whoseTurn = PieceColor.Black;
+        var whoseTurn = _whoseTurn == "b" ? "w" : "b";
+        _whoseTurn = whoseTurn;
     }
 
     

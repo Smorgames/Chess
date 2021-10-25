@@ -26,20 +26,13 @@ public class SquareHandler
             
             var xValue = square.Coordinates.x.ToString();
             var yValue = square.Coordinates.y.ToString();
-            var colorValue = GetColorValue(piece);
-            var pieceTypeValue = piece.TypeCodeValue;
+            var colorValue = piece.ColorCode;
+            var pieceTypeValue = piece.TypeCode;
             var firstMoveValue = piece.IsFirstMove ? "1" : "0";
 
             stringBuilder.Append($"[{xValue};{yValue};{colorValue};{pieceTypeValue};{firstMoveValue}]");
 
             return stringBuilder.ToString();
-        }
-        
-        private static string GetColorValue(Piece piece)
-        {
-            if (piece.MyColor == PieceColor.White) return "w";
-            if (piece.MyColor == PieceColor.Black) return "b";
-            return "";
         }
     }
 }

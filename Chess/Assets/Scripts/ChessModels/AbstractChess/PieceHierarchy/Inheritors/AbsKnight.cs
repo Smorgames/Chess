@@ -4,24 +4,24 @@ using UnityEngine;
 namespace AbstractChess
 {
     public class AbsKnight : AbsPiece
-    {
-        public override PieceType MyType => PieceType.Knight;
+    {        
+        private static Vector2Int _upLeftDir = new Vector2Int(-1, 2);
+        private static Vector2Int _upRightDir = new Vector2Int(1, 2);
         
-        private Vector2Int _upLeftDir = new Vector2Int(-1, 2);
-        private Vector2Int _upRightDir = new Vector2Int(1, 2);
+        private static Vector2Int _rightUpDir = new Vector2Int(2, 1);
+        private static Vector2Int _rightDownDir = new Vector2Int(2, -1);
         
-        private Vector2Int _rightUpDir = new Vector2Int(2, 1);
-        private Vector2Int _rightDownDir = new Vector2Int(2, -1);
+        private static Vector2Int _downRightDir = new Vector2Int(1, -2);
+        private static Vector2Int _downLeftDir = new Vector2Int(-1, -2);
         
-        private Vector2Int _downRightDir = new Vector2Int(1, -2);
-        private Vector2Int _downLeftDir = new Vector2Int(-1, -2);
-        
-        private Vector2Int _leftDownDir = new Vector2Int(-2, -1);
-        private Vector2Int _leftUpDir = new Vector2Int(-2, 1);
+        private static Vector2Int _leftDownDir = new Vector2Int(-2, -1);
+        private static Vector2Int _leftUpDir = new Vector2Int(-2, 1);
 
         private List<Vector2Int> _directions;
 
-        public AbsKnight(PieceColor color) : base(color)
+        public override string TypeCode => "k";
+
+        public AbsKnight(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove)
         { 
             _directions = new List<Vector2Int>()
             {
@@ -30,26 +30,26 @@ namespace AbstractChess
             };
         }
 
-        public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
+        public override List<IRealSquare> GetMoves(IRealSquare square)
         {
-            return GetMoves(absSquare, MovesType.Movement);
+            return GetMoves(square, MovesType.Movement);
         }
 
-        public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
+        public override List<IRealSquare> GetAttacks(IRealSquare square)
         {
-            return GetMoves(absSquare, MovesType.Attack);
+            return GetMoves(square, MovesType.Attack);
         }
 
-        private List<AbsSquare> GetMoves(AbsSquare squareWithPiece, MovesType movesType)
+        private List<IRealSquare> GetMoves(IRealSquare squareWithPiece, MovesType movesType)
         {
-            var squares = new List<AbsSquare>();
+            var squares = new List<IRealSquare>();
 
             foreach (var dir in _directions)
             {
-                var square = squareWithPiece.Board.GetSquareBasedOnCoordinates(squareWithPiece.Coordinates + dir);
-                var pieceOnSquare = square.AbsPieceOnIt;
+                var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates + dir);
+                var pieceOnSquare = square.PieceOnIt;
 
-                var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && MyColor != pieceOnSquare.MyColor;
+                var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && ColorCode != pieceOnSquare.ColorCode;
                 
                 if (conditionForAddAttackMove) 
                     squares.Add(square);
@@ -62,9 +62,13 @@ namespace AbstractChess
 
             return squares;
         }
-        
-        public override string ToString() => $"{MyColor} knight";
-        
+
+        public override string ToString()
+        {
+            var color = ColorCode == "w" ? "White" : "Black";
+            return $"{color} knight";
+        }
+
         private enum MovesType
         {
             Attack,

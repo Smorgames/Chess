@@ -1,5 +1,4 @@
-﻿using AnalysisOfChessState;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SingletonRegistry : MonoBehaviour
 {

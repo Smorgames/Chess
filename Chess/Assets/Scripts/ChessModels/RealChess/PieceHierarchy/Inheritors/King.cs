@@ -3,34 +3,34 @@
 public class King : Piece
 {
     public override PieceType MyType => PieceType.King;
-    public override string TypeCodeValue => "K";
+    public override string TypeCode => "K";
 
-    private List<Square> _attackTurns = new List<Square>();
+    private List<IRealSquare> _attackTurns = new List<IRealSquare>();
 
-    public override List<Square> GetPossibleAttackTurns(Square square)
+    public override List<IRealSquare> GetAttacks(IRealSquare square)
     {
         return _attackTurns;
     }
 
-    public override List<Square> GetPossibleMoveTurns(Square square)
+    public override List<IRealSquare> GetMoves(IRealSquare square)
     {
         _attackTurns.Clear();
 
-        int x = square.Coordinates.x;
-        int y = square.Coordinates.y;
+        var x = square.Coordinates.x;
+        var y = square.Coordinates.y;
 
-        List<Square> turns = new List<Square>();
+        var supposedMoves = new List<IRealSquare>();
 
-        Square upSquare = square.Board.GetSquareWithCoordinates(x, y + 1);
-        Square upRightSquare = square.Board.GetSquareWithCoordinates(x + 1, y + 1);
-        Square rightSquare = square.Board.GetSquareWithCoordinates(x + 1, y);
-        Square downRightSquare = square.Board.GetSquareWithCoordinates(x + 1, y - 1);
-        Square downSquare = square.Board.GetSquareWithCoordinates(x, y - 1);
-        Square downLeftSquare = square.Board.GetSquareWithCoordinates(x - 1, y - 1);
-        Square leftSquare = square.Board.GetSquareWithCoordinates(x - 1, y);
-        Square upLeftSquare = square.Board.GetSquareWithCoordinates(x - 1, y + 1);
+        var upSquare = square.Board.GetSquareWithCoordinates(x, y + 1);
+        var upRightSquare = square.Board.GetSquareWithCoordinates(x + 1, y + 1);
+        var rightSquare = square.Board.GetSquareWithCoordinates(x + 1, y);
+        var downRightSquare = square.Board.GetSquareWithCoordinates(x + 1, y - 1);
+        var downSquare = square.Board.GetSquareWithCoordinates(x, y - 1);
+        var downLeftSquare = square.Board.GetSquareWithCoordinates(x - 1, y - 1);
+        var leftSquare = square.Board.GetSquareWithCoordinates(x - 1, y);
+        var upLeftSquare = square.Board.GetSquareWithCoordinates(x - 1, y + 1);
 
-        Square[] predictTurns = 
+        var predictTurns = new IRealSquare[]
             { upSquare, upRightSquare, rightSquare, downRightSquare, downSquare, downLeftSquare, leftSquare, upLeftSquare};
 
         for (int i = 0; i < predictTurns.Length; i++)
@@ -46,14 +46,11 @@ public class King : Piece
                     }
                 }
                 else
-                    turns.Add(predictTurns[i]);
+                    supposedMoves.Add(predictTurns[i]);
             }
         }
-        
-        var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetMovesWithoutCheck(square, turns, ActionType.Movement);
 
-        return moves;
+        return supposedMoves;
     }
 
     protected override void ResetAttackTurns()

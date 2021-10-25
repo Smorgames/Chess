@@ -4,40 +4,37 @@ using UnityEngine;
 public class Rook : Piece
 {
     public override PieceType MyType => PieceType.Rook;
-    public override string TypeCodeValue => "r";
-    private List<Square> _attackTurns = new List<Square>();
+    public override string TypeCode => "r";
+    private List<IRealSquare> _attackTurns = new List<IRealSquare>();
 
-    public override List<Square> GetPossibleAttackTurns(Square square)
+    public override List<IRealSquare> GetAttacks(IRealSquare square)
     {
-        return _gameManager.Analyzer.GetMovesWithoutCheck(square, _attackTurns, ActionType.Attack); ;
+        return _attackTurns;
     }
 
-    public override List<Square> GetPossibleMoveTurns(Square square)
+    public override List<IRealSquare> GetMoves(IRealSquare square)
     {
         _attackTurns.Clear();
 
-        int x = square.Coordinates.x;
-        int y = square.Coordinates.y;
+        var x = square.Coordinates.x;
+        var y = square.Coordinates.y;
 
-        List<Square> turns = new List<Square>();
+        var supposedMoves = new List<IRealSquare>();
 
-        Vector2Int upDir = new Vector2Int(0, 1);
-        Vector2Int downDir = new Vector2Int(0, -1);
-        Vector2Int rightDir = new Vector2Int(1, 0);
-        Vector2Int leftDir = new Vector2Int(-1, 0);
+        var upDir = new Vector2Int(0, 1);
+        var downDir = new Vector2Int(0, -1);
+        var rightDir = new Vector2Int(1, 0);
+        var leftDir = new Vector2Int(-1, 0);
 
-        AddPossibleTurnsInRow(turns, square, upDir);
-        AddPossibleTurnsInRow(turns, square, downDir);
-        AddPossibleTurnsInRow(turns, square, rightDir);
-        AddPossibleTurnsInRow(turns, square, leftDir);
-
-        var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetMovesWithoutCheck(square, turns, ActionType.Movement);
+        AddPossibleTurnsInRow(supposedMoves, square, upDir);
+        AddPossibleTurnsInRow(supposedMoves, square, downDir);
+        AddPossibleTurnsInRow(supposedMoves, square, rightDir);
+        AddPossibleTurnsInRow(supposedMoves, square, leftDir);
         
-        return moves;
+        return supposedMoves;
     }
 
-    private void AddPossibleTurnsInRow(List<Square> turns, Square squareWithPiece, Vector2Int rowDirection)
+    private void AddPossibleTurnsInRow(List<IRealSquare> turns, IRealSquare squareWithPiece, Vector2Int rowDirection)
     {
         for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
         {

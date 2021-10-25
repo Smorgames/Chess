@@ -3,26 +3,37 @@ using UnityEngine;
 
 public class PieceTurnsDisplayer : MonoBehaviour
 {
-    public PiecePossibleTurns PieceTurns { get => _pieceTurns; }
-    private PiecePossibleTurns _pieceTurns = new PiecePossibleTurns();
+    public PiecesPossibleMoves PieceTurns { get => _pieceMoves; }
+    private PiecesPossibleMoves _pieceMoves = new PiecesPossibleMoves();
 
-    private void ShowTurnsOfPieceStandsOnSquare(Square square)
+    private void ShowTurnsOfPieceStandsOnSquare(IRealSquare square)
     {
-        _pieceTurns.Piece = square.PieceOnIt;
+        var moves = square.PieceOnIt.GetMoves(square);
+        var attacks = square.PieceOnIt.GetAttacks(square);
 
-        _pieceTurns.MoveTurns = _pieceTurns.Piece.GetPossibleMoveTurns(square);
-        _pieceTurns.AttackTurns = _pieceTurns.Piece.GetPossibleAttackTurns(square);
-
-        square.Board.DeactivateAllSquares();
-
-        square.Board.ActivateListOfSquares(_pieceTurns.MoveTurns);
-        square.Board.ActivateListOfSquares(_pieceTurns.AttackTurns);
+        ActivateListOfSquares(moves);
+        ActivateListOfSquares(attacks);
     }
 
-    public void HideTurnsOfPiece(Square square)
+    private void ActivateListOfSquares(List<IRealSquare> moves)
+    {
+        foreach (var move in moves)
+            move.DisplayComponent.ActivateHighlight();
+    }
+
+    public void HideTurnsOfPiece(IRealSquare square)
     {
         square.Board.DeactivateAllSquares();
     }
+
+    private void DeactivateListOfSquares(List<IRealSquare> moves)
+    {
+        foreach (var move in moves)
+            move.DisplayComponent.DeactivateHighlight();
+    }
+
+    #region Events
+
     private void Start()
     {
         Square.OnSquareWithPieceClicked += ShowTurnsOfPieceStandsOnSquare;
@@ -32,22 +43,24 @@ public class PieceTurnsDisplayer : MonoBehaviour
     {
         Square.OnSquareWithPieceClicked -= ShowTurnsOfPieceStandsOnSquare;
     }
+
+    #endregion
 }
 
-public class PiecePossibleTurns
+public class PiecesPossibleMoves
 {
-    public Piece Piece { get => _piece; set => _piece = value; }
-    private Piece _piece;
-    public List<Square> MoveTurns { get => _moveTurns; set => _moveTurns = value; }
-    private List<Square> _moveTurns = new List<Square>();
-    public List<Square> AttackTurns { get => _attackTurns; set => _attackTurns = value; }
-    private List<Square> _attackTurns = new List<Square>();
+    public IRealSquare Piece { get => _piece; set => _piece = value; }
+    private IRealSquare _piece;
+    public List<IRealSquare> MoveTurns { get => _moveTurns; set => _moveTurns = value; }
+    private List<IRealSquare> _moveTurns = new List<IRealSquare>();
+    public List<IRealSquare> AttackTurns { get => _attackTurns; set => _attackTurns = value; }
+    private List<IRealSquare> _attackTurns = new List<IRealSquare>();
 
-    private List<Square> _possibleTurns;
+    private List<IRealSquare> _possibleTurns;
 
-    public List<Square> GetAllPossibleTurns()
+    public List<IRealSquare> GetAllPossibleTurns()
     {
-        List<Square> turns = new List<Square>();
+        var turns = new List<IRealSquare>();
 
         turns.AddRange(_moveTurns);
         turns.AddRange(_attackTurns);

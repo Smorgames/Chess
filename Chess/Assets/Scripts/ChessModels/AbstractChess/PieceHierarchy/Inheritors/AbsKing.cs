@@ -4,19 +4,19 @@ using UnityEngine;
 namespace AbstractChess
 {
     public class AbsKing : AbsPiece
-    {
-        public override PieceType MyType => PieceType.King;
-        
+    {       
         private static Vector2Int _upRightDir = new Vector2Int(1, 1);
         private static Vector2Int _upLeftDir = new Vector2Int(-1, 1);
         private static Vector2Int _downRightDir = new Vector2Int(1, -1);
         private static Vector2Int _downLeftDir = new Vector2Int(-1, -1);
 
-        public AbsKing(PieceColor color) : base(color) { }
+        public override string TypeCode => "K";
 
-        public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
+        public AbsKing(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove) { }
+
+        public override List<IAbsSquare> GetMoves(ISquare square)
         {
-            var moves = new List<AbsSquare>();
+            var supposedMoves = new List<IAbsSquare>();
             var directions = new List<Vector2Int>()
             {
                 _upRightDir, _upLeftDir, _downLeftDir, _downRightDir,
@@ -24,25 +24,25 @@ namespace AbstractChess
             };
 
             foreach (var dir in directions)
-                moves = SetMoves(MovesType.Movement, absSquare, directions);
+                supposedMoves = SetMoves(MovesType.Movement, square, directions);
             
-            return moves;
+            return supposedMoves;
         }
 
-        private List<AbsSquare> SetMoves(MovesType movesType, AbsSquare absSquareWithChessPiece, List<Vector2Int> moveDirections)
+        private List<IAbsSquare> SetMoves(MovesType movesType, ISquare squareWithPiece, List<Vector2Int> moveDirections)
         {
-            var squares = new List<AbsSquare>();
+            var squares = new List<IAbsSquare>();
 
             foreach (var dir in moveDirections)
             {
-                var x = absSquareWithChessPiece.Coordinates.x;
-                var y = absSquareWithChessPiece.Coordinates.y;
+                var x = squareWithPiece.Coordinates.x;
+                var y = squareWithPiece.Coordinates.y;
                 var coordinates = new Vector2Int(x + dir.x, y + dir.y);
 
-                var square = absSquareWithChessPiece.Board.GetSquareBasedOnCoordinates(coordinates);
-                var pieceOnSquare = absSquareWithChessPiece.AbsPieceOnIt;
+                var square = squareWithPiece.Board.GetSquareWithCoordinates(coordinates);
+                var pieceOnSquare = squareWithPiece.PieceOnIt;
                 
-                var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && MyColor != pieceOnSquare.MyColor;
+                var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && ColorCode != pieceOnSquare.ColorCode;
                 
                 if (conditionForAddAttackMove) 
                     squares.Add(square);
@@ -56,9 +56,9 @@ namespace AbstractChess
             return squares;
         }
 
-        public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
+        public override List<IRealSquare> GetAttacks(IRealSquare square)
         {
-            var moves = new List<AbsSquare>();
+            var supposeMoves = new List<IRealSquare>();
             var directions = new List<Vector2Int>()
             {
                 _upRightDir, _upLeftDir, _downLeftDir, _downRightDir,
@@ -66,13 +66,17 @@ namespace AbstractChess
             };
 
             foreach (var dir in directions)
-                moves = SetMoves(MovesType.Attack, absSquare, directions);
+                supposeMoves = SetMoves(MovesType.Attack, square, directions);
             
-            return moves;
+            return supposeMoves;
         }
-        
-        public override string ToString() => $"{MyColor} king";
-        
+
+        public override string ToString()
+        {
+            var color = ColorCode == "w" ? "White" : "Black";
+            return $"{color} king";
+        }
+
         private enum MovesType
         {
             Attack,

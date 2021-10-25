@@ -4,49 +4,46 @@ using UnityEngine;
 public class Queen : Piece
 {
     public override PieceType MyType => PieceType.Queen;
-    public override string TypeCodeValue => "Q";
+    public override string TypeCode => "Q";
 
-    private List<Square> _attackTurns = new List<Square>();
+    private List<IRealSquare> _attackTurns = new List<IRealSquare>();
 
-    public override List<Square> GetPossibleAttackTurns(Square square)
+    public override List<IRealSquare> GetAttacks(IRealSquare square)
     {
-        return _gameManager.Analyzer.GetMovesWithoutCheck(square, _attackTurns, ActionType.Attack); ;
+        return _attackTurns;
     }
 
-    public override List<Square> GetPossibleMoveTurns(Square square)
+    public override List<IRealSquare> GetMoves(IRealSquare square)
     {
         _attackTurns.Clear();
 
-        int x = square.Coordinates.x;
-        int y = square.Coordinates.y;
+        var x = square.Coordinates.x;
+        var y = square.Coordinates.y;
 
-        List<Square> turns = new List<Square>();
+        var supposedMoves = new List<IRealSquare>();
 
-        Vector2Int upDir = new Vector2Int(0, 1);
-        Vector2Int downDir = new Vector2Int(0, -1);
-        Vector2Int rightDir = new Vector2Int(1, 0);
-        Vector2Int leftDir = new Vector2Int(-1, 0);
-        Vector2Int upRightDir = new Vector2Int(1, 1);
-        Vector2Int upLeftDir = new Vector2Int(1, -1);
-        Vector2Int downRightDir = new Vector2Int(-1, -1);
-        Vector2Int downLeftDir = new Vector2Int(-1, 1);
+        var upDir = new Vector2Int(0, 1);
+        var downDir = new Vector2Int(0, -1);
+        var rightDir = new Vector2Int(1, 0);
+        var leftDir = new Vector2Int(-1, 0);
+        var upRightDir = new Vector2Int(1, 1);
+        var upLeftDir = new Vector2Int(1, -1);
+        var downRightDir = new Vector2Int(-1, -1);
+        var downLeftDir = new Vector2Int(-1, 1);
 
-        AddPossibleTurnsInLine(turns, square, upDir);
-        AddPossibleTurnsInLine(turns, square, downDir);
-        AddPossibleTurnsInLine(turns, square, rightDir);
-        AddPossibleTurnsInLine(turns, square, leftDir);
-        AddPossibleTurnsInLine(turns, square, upRightDir);
-        AddPossibleTurnsInLine(turns, square, upLeftDir);
-        AddPossibleTurnsInLine(turns, square, downLeftDir);
-        AddPossibleTurnsInLine(turns, square, downRightDir);
-        
-        var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetMovesWithoutCheck(square, turns, ActionType.Movement);
+        AddPossibleTurnsInLine(supposedMoves, square, upDir);
+        AddPossibleTurnsInLine(supposedMoves, square, downDir);
+        AddPossibleTurnsInLine(supposedMoves, square, rightDir);
+        AddPossibleTurnsInLine(supposedMoves, square, leftDir);
+        AddPossibleTurnsInLine(supposedMoves, square, upRightDir);
+        AddPossibleTurnsInLine(supposedMoves, square, upLeftDir);
+        AddPossibleTurnsInLine(supposedMoves, square, downLeftDir);
+        AddPossibleTurnsInLine(supposedMoves, square, downRightDir);
 
-        return moves;
+        return supposedMoves;
     }
 
-    private void AddPossibleTurnsInLine(List<Square> turns, Square squareWithPiece, Vector2Int rowDirection)
+    private void AddPossibleTurnsInLine(List<IRealSquare> turns, IRealSquare squareWithPiece, Vector2Int rowDirection)
     {
         for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
         {

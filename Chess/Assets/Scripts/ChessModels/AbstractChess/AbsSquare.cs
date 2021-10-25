@@ -2,12 +2,15 @@
 
 namespace AbstractChess
 {
-    public class AbsSquare
+    public class AbsSquare : IRealSquare
     {
-        public AbsPiece AbsPieceOnIt { get; set; }
+        public bool IsGhost => _isGhost;
+        private bool _isGhost;
 
-        public AbsChessboard Board => _board;
-        private readonly AbsChessboard _board;
+        public IPiece PieceOnIt { get; set; }
+
+        public IChessBoard Board => _board;
+        private readonly IChessBoard _board;
         
         public Vector2Int Coordinates => _coordinates;
         private readonly Vector2Int _coordinates;
@@ -18,6 +21,6 @@ namespace AbstractChess
             _board = board;
         }
 
-        public override string ToString() => $"[{_coordinates.x};{_coordinates.y} {AbsPieceOnIt}]";
+        public override string ToString() => $"[{_coordinates.x};{_coordinates.y} {PieceOnIt}]";
     }
 }

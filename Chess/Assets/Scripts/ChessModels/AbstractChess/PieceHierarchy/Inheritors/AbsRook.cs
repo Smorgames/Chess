@@ -5,31 +5,35 @@ namespace AbstractChess
 {
     public class AbsRook : AbsLinearlyMovingAbsPiece
     {
-        public override PieceType MyType => PieceType.Rook;
-        
-        public AbsRook(PieceColor color) : base(color) { }
+        public override string TypeCode => "r";
 
-        public override List<AbsSquare> PossibleMoves(AbsSquare absSquare)
+        public AbsRook(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove) { }
+
+        public override List<IRealSquare> GetMoves(IRealSquare square)
         {
-            return GetMovesBasedOnActionType(absSquare, ActionType.Movement);
+            return GetMovesBasedOnActionType(square, ActionType.Movement);
         }
 
-        public override List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare)
+        public override List<IRealSquare> GetAttacks(IRealSquare square)
         {
-            return GetMovesBasedOnActionType(absSquare, ActionType.Attack);
+            return GetMovesBasedOnActionType(square, ActionType.Attack);
         }
         
-        private List<AbsSquare> GetMovesBasedOnActionType(AbsSquare absSquareWithPiece, ActionType actionType)
+        private List<IRealSquare> GetMovesBasedOnActionType(IRealSquare squareWithPiece, ActionType actionType)
         {
-            var moves = new List<AbsSquare>();
+            var moves = new List<IRealSquare>();
             var directions = new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
             foreach (var dir in directions)
-                IterativelyDirectionallyFillPossibleMoves(moves, absSquareWithPiece, dir, actionType);
+                IterativelyDirectionallyFillPossibleMoves(moves, squareWithPiece, dir, actionType);
 
             return moves;
         }
 
-        public override string ToString() => $"{MyColor} rook";
+        public override string ToString()
+        {
+            var color = ColorCode == "w" ? "White" : "Black";
+            return $"{color} rook";
+        }
     }
 }

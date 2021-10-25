@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Square : MonoBehaviour
+public class Square : MonoBehaviour, IRealSquare, IHighlightable
 {
     public bool IsGhost => _isGhost;
     [SerializeField] private bool _isGhost; 
@@ -10,20 +10,20 @@ public class Square : MonoBehaviour
 
     [SerializeField] private GameObject _highlight;
 
-    public Chessboard Board => _board;
-    private Chessboard _board;
+    public IRealChessBoard Board => _board;
+    private IRealChessBoard _board;
     
     public Vector2Int Coordinates { get => _coordinates; }
     private Vector2Int _coordinates;
 
-    public Piece PieceOnIt { get => _pieceOnIt; set => _pieceOnIt = value; }
-    private Piece _pieceOnIt;
+    public IPiece PieceOnIt { get => _pieceOnIt; set => _pieceOnIt = value; }
+
+    public IHighlightable DisplayComponent => this;
+
+    private IPiece _pieceOnIt;
 
     private void OnMouseDown()
     {
-        if (_pieceOnIt != null)
-            Test.ShowPossibleTurns(this);
-
         if (_pieceOnIt != null && NowTurnOfThisPiece())
             OnSquareWithPieceClicked?.Invoke(this);
         else
@@ -32,7 +32,7 @@ public class Square : MonoBehaviour
 
     private bool NowTurnOfThisPiece()
     {
-        return _pieceOnIt.MyColor == GameManager.Instance.WhoseTurn;
+        return _pieceOnIt.ColorCode == GameManager.Instance.WhoseTurn;
     }
 
     public void Initialize(Vector2Int coordinates, Chessboard board)
@@ -41,12 +41,17 @@ public class Square : MonoBehaviour
         _board = board;
     }
 
-    public void Activate()
+    public void RemovePieceFromSquare()
+    {
+        _pieceOnIt = null;
+    }
+
+    public void ActivateHighlight()
     {
         _highlight.SetActive(true);
     }
 
-    public void Deactivate()
+    public void DeactivateHighlight()
     {
         _highlight.SetActive(false);
     }

@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Chessboard : MonoBehaviour
+public class Chessboard : MonoBehaviour, IRealChessBoard
 {
     public Vector2Int Size => _size;
     private Vector2Int _size;
-    
-    public Square[,] Squares => _squares;
+
+    public IRealSquare[,] Squares => _squares;
     private Square[,] _squares;
 
-    public string WhoseTurn { get; set; }
+    public IRealSquare GhostSquare { get => _ghostSquare; set => _ghostSquare = value; }
+    private IRealSquare _ghostSquare;
 
-    public Square GhostSquare { get => _ghostSquare; set => _ghostSquare = value; }
-    private Square _ghostSquare;
+    public string WhoseTurn { get; set; }
 
     public void InitializeChessboard(Vector2Int size)
     {
@@ -22,7 +22,7 @@ public class Chessboard : MonoBehaviour
         _squares = new Square[_size.x, _size.y];
     }
     
-    public Square GetSquareWithPiece(Piece piece)
+    public IRealSquare GetSquareWithPiece(IPiece piece)
     {
         for (int x = 0; x < _size.x; x++)
         {
@@ -38,7 +38,7 @@ public class Chessboard : MonoBehaviour
         return _ghostSquare;
     }
 
-    public Square GetSquareWithCoordinates(int x, int y)
+    public IRealSquare GetSquareWithCoordinates(int x, int y)
     {
         if (x >= 0 && x < _size.x && y >= 0 && y < _size.y)
             return _squares[x, y];
@@ -46,22 +46,19 @@ public class Chessboard : MonoBehaviour
         return _ghostSquare;
     }
 
-    public Square GetSquareWithCoordinates(Vector2Int coordinates)
+    public IRealSquare GetSquareWithCoordinates(Vector2Int coordinates)
     {
         return GetSquareWithCoordinates(coordinates.x, coordinates.y);
     }
 
-    public void ActivateListOfSquares(List<Square> squares)
+    public List<IHighlightable> HighlightableSquares()
     {
-        if (squares.Count > 0)
-            foreach (Square square in squares)
-                square.Activate();
-    }
+        var highlightableSquares = new List<IHighlightable>();
 
-    public void DeactivateAllSquares()
-    {
         for (int x = 0; x < _size.x; x++)
         for (int y = 0; y < _size.y; y++)
-            _squares[x, y].Deactivate();
+            highlightableSquares.Add(_squares[x, y]);
+
+        return highlightableSquares;
     }
 }

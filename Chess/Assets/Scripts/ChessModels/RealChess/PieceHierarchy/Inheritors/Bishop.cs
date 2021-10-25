@@ -4,11 +4,11 @@ using UnityEngine;
 public class Bishop : Piece
 {
     public override PieceType MyType => PieceType.Bishop;
-    public override string TypeCodeValue => "b";
+    public override string TypeCode => "b";
 
-    private List<Square> _attackTurns = new List<Square>();
+    private List<IRealSquare> _attackTurns = new List<IRealSquare>();
 
-    public override List<Square> GetPossibleAttackTurns(Square square)
+    public override List<IRealSquare> GetAttacks(IRealSquare square)
     {
         _attackTurns.Clear();
 
@@ -25,10 +25,10 @@ public class Bishop : Piece
         FindPossibleAttackTurns(square, downLeftDir);
         FindPossibleAttackTurns(square, downRightDir);
 
-        return _gameManager.Analyzer.GetMovesWithoutCheck(square, _attackTurns, ActionType.Attack); ;
+        return _attackTurns;
     }
 
-    private void FindPossibleAttackTurns(Square squareWithPiece, Vector2Int rowDirection)
+    private void FindPossibleAttackTurns(IRealSquare squareWithPiece, Vector2Int rowDirection)
     {
         for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
         {
@@ -47,36 +47,33 @@ public class Bishop : Piece
         }
     }
 
-    public override List<Square> GetPossibleMoveTurns(Square square)
+    public override List<IRealSquare> GetMoves(IRealSquare square)
     {
-        _attackTurns = new List<Square>();
+        _attackTurns = new List<IRealSquare>();
 
-        int x = square.Coordinates.x;
-        int y = square.Coordinates.y;
+        var x = square.Coordinates.x;
+        var y = square.Coordinates.y;
 
-        List<Square> turns = new List<Square>();
+        var supposedMoves = new List<IRealSquare>();
 
-        Vector2Int upRightDir = new Vector2Int(1, 1);
-        Vector2Int upLeftDir = new Vector2Int(1, -1);
-        Vector2Int downRightDir = new Vector2Int(-1, -1);
-        Vector2Int downLeftDir = new Vector2Int(-1, 1);
+        var upRightDir = new Vector2Int(1, 1);
+        var upLeftDir = new Vector2Int(1, -1);
+        var downRightDir = new Vector2Int(-1, -1);
+        var downLeftDir = new Vector2Int(-1, 1);
 
-        AddPossibleTurnsInDiagonal(turns, square, upRightDir);
-        AddPossibleTurnsInDiagonal(turns, square, upLeftDir);
-        AddPossibleTurnsInDiagonal(turns, square, downLeftDir);
-        AddPossibleTurnsInDiagonal(turns, square, downRightDir);
+        AddPossibleTurnsInDiagonal(supposedMoves, square, upRightDir);
+        AddPossibleTurnsInDiagonal(supposedMoves, square, upLeftDir);
+        AddPossibleTurnsInDiagonal(supposedMoves, square, downLeftDir);
+        AddPossibleTurnsInDiagonal(supposedMoves, square, downRightDir);
 
-        var moves = new List<Square>();
-        moves = _gameManager.Analyzer.GetMovesWithoutCheck(square, turns, ActionType.Movement);
-        
-        return moves;
+        return supposedMoves;
     }
 
-    private void AddPossibleTurnsInDiagonal(List<Square> turns, Square squareWithPiece, Vector2Int rowDirection)
+    private void AddPossibleTurnsInDiagonal(List<IRealSquare> turns, IRealSquare squareWithPiece, Vector2Int rowDirection)
     {
         for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
         {
-            Square square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates.x + i * rowDirection.x, squareWithPiece.Coordinates.y + i * rowDirection.y);
+            var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates.x + i * rowDirection.x, squareWithPiece.Coordinates.y + i * rowDirection.y);
 
             if (square == squareWithPiece.Board.GhostSquare)
                 break;

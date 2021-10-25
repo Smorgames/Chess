@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Piece : MonoBehaviour
+public abstract class Piece : MonoBehaviour, IPiece, IMovable
 {
     public bool IsFirstMove => _isFirstMove;
     protected bool _isFirstMove = true;
@@ -13,11 +13,13 @@ public abstract class Piece : MonoBehaviour
     public static event PieceDeadHandler OnPieceDied;
     
     public abstract PieceType MyType { get; }
-    public abstract string TypeCodeValue { get; }
+    public abstract string TypeCode { get; }
 
     public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
-    public PieceColor MyColor => _myColor;
+    public string ColorCode => _colorCode;
+    [SerializeField] private string _colorCode;
+
     [SerializeField] private PieceColor _myColor;
 
     protected GameManager _gameManager;
@@ -27,8 +29,8 @@ public abstract class Piece : MonoBehaviour
     private Vector3 _normalSize;
     private Vector3 _selectedSize;
 
-    public abstract List<Square> GetPossibleMoveTurns(Square square);
-    public abstract List<Square> GetPossibleAttackTurns(Square square);
+    public abstract List<IRealSquare> GetMoves(IRealSquare square);
+    public abstract List<IRealSquare> GetAttacks(IRealSquare square);
 
     public void Move(Square square)
     {
@@ -41,7 +43,7 @@ public abstract class Piece : MonoBehaviour
         {
             Piece enemyPiece = collidersInOverlapArea[i].GetComponent<Piece>();
 
-            if (enemyPiece != null && _gameManager.WhoseTurn == _myColor)
+            if (enemyPiece != null && _gameManager.WhoseTurn == ColorCode)
             {
                 var squareWithPiece = square.Board.GetSquareWithPiece(enemyPiece);
                 squareWithPiece.PieceOnIt = null;
@@ -66,17 +68,17 @@ public abstract class Piece : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected bool PieceStandsOnSquare(Square square)
+    protected bool PieceStandsOnSquare(IRealSquare square)
     {
-        if (square.PieceOnIt)
+        if (square.PieceOnIt != null)
             return true;
 
         return false;
     }
 
-    protected bool PieceOnSquareHasOppositeColor(Square square)
+    protected bool PieceOnSquareHasOppositeColor(IRealSquare square)
     {
-        return square.PieceOnIt.MyColor != MyColor;
+        return square.PieceOnIt.ColorCode != _colorCode;
     }
 
     private void Start()

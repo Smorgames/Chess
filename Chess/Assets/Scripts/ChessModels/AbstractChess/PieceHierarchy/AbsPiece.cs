@@ -3,30 +3,27 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public abstract class AbsPiece
+    public abstract class AbsPiece : IAbsPiece
     {
-        public readonly string ColorCode;
+        public abstract string TypeCode { get; }
 
-        public readonly PieceColor MyColor;
-        public abstract PieceType MyType { get; }
-    
-        public bool IsFirstMove = true;
+        public string ColorCode => _colorCode;
+        private string _colorCode;
 
-        public AbsPiece(PieceColor color)
+        public bool IsFirstMove => _isFirstMove;
+
+        public Transform piecesTransform => null;
+
+        private bool _isFirstMove = true;
+
+        public AbsPiece(string colorCode, bool isFirstMove)
         {
-            MyColor = color;
-            ColorCode = color == PieceColor.White ? "w" : "b";
+            _isFirstMove = isFirstMove;
+            _colorCode = colorCode;
         }
 
-        public abstract List<AbsSquare> PossibleMoves(AbsSquare absSquare);
-        public abstract List<AbsSquare> PossibleAttackMoves(AbsSquare absSquare);
-
-        public enum Color
-        {
-            None,
-            White,
-            Black
-        }
+        public abstract List<IAbsSquare> GetMoves(ISquare absSquare);
+        public abstract List<IAbsSquare> GetAttacks(ISquare absSquare);
     }
     
     public interface IMoveDirection

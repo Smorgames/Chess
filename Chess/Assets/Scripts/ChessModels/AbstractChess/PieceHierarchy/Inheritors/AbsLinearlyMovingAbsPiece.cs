@@ -6,10 +6,10 @@ namespace AbstractChess
 {
     public abstract class AbsLinearlyMovingAbsPiece : AbsPiece
     {
-        protected AbsLinearlyMovingAbsPiece(PieceColor color) : base(color) { }
+        protected AbsLinearlyMovingAbsPiece(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove) { }
 
         protected void IterativelyDirectionallyFillPossibleMoves(
-            List<AbsSquare> listToFill, AbsSquare squareWithPiece, Vector2Int moveDirection, ActionType actionType)
+            List<IRealSquare> listToFill, IRealSquare squareWithPiece, Vector2Int moveDirection, ActionType actionType)
         {
             var x = squareWithPiece.Coordinates.x;
             var y = squareWithPiece.Coordinates.y;
@@ -21,16 +21,16 @@ namespace AbstractChess
             for (int i = 1; i < boardLenght; i++)
             {
                 var coordinates = new Vector2Int(x + i * moveDirection.x, y + i * moveDirection.y);
-                var square = chessboard.GetSquareBasedOnCoordinates(coordinates);
+                var square = chessboard.GetSquareWithCoordinates(coordinates);
 
-                if (square == chessboard.GhostAbsSquare)
+                if (square == chessboard.GhostSquare)
                     break;
 
-                var pieceOnSquare = square.AbsPieceOnIt;
+                var pieceOnSquare = square.PieceOnIt;
             
                 if (pieceOnSquare != null)
                 {
-                    var pieceHasOppositeColor = MyColor != pieceOnSquare.MyColor;
+                    var pieceHasOppositeColor = ColorCode != pieceOnSquare.ColorCode;
                     var pieceActionTypeIsAttack = actionType == ActionType.Attack;
                 
                     if (pieceHasOppositeColor && pieceActionTypeIsAttack)
@@ -44,10 +44,10 @@ namespace AbstractChess
             }
         }
 
-        private int GetLongSideOfChessboard(AbsChessboard absChessboard)
+        private int GetLongSideOfChessboard(IChessBoard chessboard)
         {
-            var boardLenght = absChessboard.Size.x;
-            var boardHeight = absChessboard.Size.y;
+            var boardLenght = chessboard.Size.x;
+            var boardHeight = chessboard.Size.y;
 
             return boardLenght > boardHeight ? boardLenght : boardHeight;
         }

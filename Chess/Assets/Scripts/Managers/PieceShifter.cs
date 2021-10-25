@@ -48,7 +48,7 @@ public class PieceShifter : MonoBehaviour
 
     private void MoveChessPiece()
     {
-        Piece piece = _squareWithPiece.PieceOnIt;
+        var piece = _squareWithPiece.PieceOnIt;
 
         _squareWithPiece.PieceOnIt = null;
         _squareWherePieceWillGo.PieceOnIt = piece;
