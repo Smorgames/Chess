@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Piece : MonoBehaviour, IPiece, IMovable
+public abstract class Piece : MonoBehaviour, IRealPiece
 {
     public bool IsFirstMove => _isFirstMove;
+
     protected bool _isFirstMove = true;
     
     public delegate void PieceMoveHandler();
@@ -29,24 +30,22 @@ public abstract class Piece : MonoBehaviour, IPiece, IMovable
     private Vector3 _normalSize;
     private Vector3 _selectedSize;
 
-    public abstract List<IRealSquare> GetMoves(IRealSquare square);
-    public abstract List<IRealSquare> GetAttacks(IRealSquare square);
-
-    public void Move(Square square)
+    public Transform PiecesTransform => transform;
+    public void Move(IRealSquare square)
     {
-        transform.position = square.transform.position + Offset;
+        transform.position = square.MyTransform.position + Offset;
 
-        float overlapRadius = 0.2f;
-        Collider2D[] collidersInOverlapArea = Physics2D.OverlapCircleAll(transform.position, overlapRadius);
+        var overlapRadius = 0.2f;
+        var collidersInOverlapArea = Physics2D.OverlapCircleAll(transform.position, overlapRadius);
 
         for (int i = 0; i < collidersInOverlapArea.Length; i++)
         {
-            Piece enemyPiece = collidersInOverlapArea[i].GetComponent<Piece>();
+            var enemyPiece = collidersInOverlapArea[i].GetComponent<Piece>();
 
             if (enemyPiece != null && _gameManager.WhoseTurn == ColorCode)
             {
-                var squareWithPiece = square.Board.GetSquareWithPiece(enemyPiece);
-                squareWithPiece.PieceOnIt = null;
+                var squareWithPiece = square.RealBoard.GetRealSquareWithPiece(enemyPiece);
+                squareWithPiece.RealPieceOnIt = null;
 
                 enemyPiece.Death();
             }
@@ -60,6 +59,11 @@ public abstract class Piece : MonoBehaviour, IPiece, IMovable
         OnPieceMoved?.Invoke();
     }
 
+    public abstract List<IRealSquare> GetRealMoves(IRealSquare realSquare);
+    public abstract List<IRealSquare> GetRealAttacks(IRealSquare realSquare);
+    public abstract List<ISquare> GetMoves(ISquare squareWithPiece);
+    public abstract List<ISquare> GetAttacks(ISquare square);
+
     protected virtual void ResetAttackTurns() { }
 
     public void Death()
@@ -68,15 +72,12 @@ public abstract class Piece : MonoBehaviour, IPiece, IMovable
         Destroy(gameObject);
     }
 
-    protected bool PieceStandsOnSquare(IRealSquare square)
+    protected bool PieceStandsOnSquare(ISquare square)
     {
-        if (square.PieceOnIt != null)
-            return true;
-
-        return false;
+        return square.PieceOnIt != null;
     }
 
-    protected bool PieceOnSquareHasOppositeColor(IRealSquare square)
+    protected bool PieceOnSquareHasOppositeColor(ISquare square)
     {
         return square.PieceOnIt.ColorCode != _colorCode;
     }

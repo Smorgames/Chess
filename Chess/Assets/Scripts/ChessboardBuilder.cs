@@ -32,7 +32,7 @@ public class ChessboardBuilder
                 var square = CreateAndInitializeSquare(gameCoord, boardMatrixCoord, squareNum, board);
                 
                 square.transform.parent = board.transform;
-                board.Squares[x, y] = square;
+                board.RealSquares[x, y] = square;
             }
         }
 
@@ -46,7 +46,7 @@ public class ChessboardBuilder
 
         chessboardComponent.InitializeChessboard(boardSize);
         var ghostSquare = Object.Instantiate(SingletonRegistry.Instance.PrefabsStorage.GhostSquare, Vector3.zero, Quaternion.identity);
-        chessboardComponent.GhostSquare = ghostSquare;
+        chessboardComponent.RealGhostSquare = ghostSquare;
         
         board.transform.position = Vector3.zero;
         return board.GetComponent<Chessboard>();

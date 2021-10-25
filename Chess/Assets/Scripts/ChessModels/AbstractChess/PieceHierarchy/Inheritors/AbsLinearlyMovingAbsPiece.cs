@@ -23,7 +23,7 @@ namespace AbstractChess
                 var coordinates = new Vector2Int(x + i * moveDirection.x, y + i * moveDirection.y);
                 var square = chessboard.GetSquareWithCoordinates(coordinates);
 
-                if (square == chessboard.GhostSquare)
+                if (square == chessboard.RealGhostSquare)
                     break;
 
                 var pieceOnSquare = square.PieceOnIt;

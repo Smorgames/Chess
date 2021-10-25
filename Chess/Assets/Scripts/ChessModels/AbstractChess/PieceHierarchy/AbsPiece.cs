@@ -22,8 +22,8 @@ namespace AbstractChess
             _colorCode = colorCode;
         }
 
-        public abstract List<IAbsSquare> GetMoves(ISquare absSquare);
-        public abstract List<IAbsSquare> GetAttacks(ISquare absSquare);
+        public abstract List<ISquare> GetMoves(ISquare absSquare);
+        public abstract List<ISquare> GetAttacks(ISquare square);
     }
     
     public interface IMoveDirection

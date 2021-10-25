@@ -8,17 +8,17 @@ public class Queen : Piece
 
     private List<IRealSquare> _attackTurns = new List<IRealSquare>();
 
-    public override List<IRealSquare> GetAttacks(IRealSquare square)
+    public override List<IRealSquare> GetRealAttacks(IRealSquare realSquare)
     {
         return _attackTurns;
     }
 
-    public override List<IRealSquare> GetMoves(IRealSquare square)
+    public override List<IRealSquare> GetRealMoves(IRealSquare realSquare)
     {
         _attackTurns.Clear();
 
-        var x = square.Coordinates.x;
-        var y = square.Coordinates.y;
+        var x = realSquare.Coordinates.x;
+        var y = realSquare.Coordinates.y;
 
         var supposedMoves = new List<IRealSquare>();
 
@@ -31,14 +31,14 @@ public class Queen : Piece
         var downRightDir = new Vector2Int(-1, -1);
         var downLeftDir = new Vector2Int(-1, 1);
 
-        AddPossibleTurnsInLine(supposedMoves, square, upDir);
-        AddPossibleTurnsInLine(supposedMoves, square, downDir);
-        AddPossibleTurnsInLine(supposedMoves, square, rightDir);
-        AddPossibleTurnsInLine(supposedMoves, square, leftDir);
-        AddPossibleTurnsInLine(supposedMoves, square, upRightDir);
-        AddPossibleTurnsInLine(supposedMoves, square, upLeftDir);
-        AddPossibleTurnsInLine(supposedMoves, square, downLeftDir);
-        AddPossibleTurnsInLine(supposedMoves, square, downRightDir);
+        AddPossibleTurnsInLine(supposedMoves, realSquare, upDir);
+        AddPossibleTurnsInLine(supposedMoves, realSquare, downDir);
+        AddPossibleTurnsInLine(supposedMoves, realSquare, rightDir);
+        AddPossibleTurnsInLine(supposedMoves, realSquare, leftDir);
+        AddPossibleTurnsInLine(supposedMoves, realSquare, upRightDir);
+        AddPossibleTurnsInLine(supposedMoves, realSquare, upLeftDir);
+        AddPossibleTurnsInLine(supposedMoves, realSquare, downLeftDir);
+        AddPossibleTurnsInLine(supposedMoves, realSquare, downRightDir);
 
         return supposedMoves;
     }
@@ -49,7 +49,7 @@ public class Queen : Piece
         {
             var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates.x + i * rowDirection.x, squareWithPiece.Coordinates.y + i * rowDirection.y);
 
-            if (square == squareWithPiece.Board.GhostSquare)
+            if (square == squareWithPiece.Board.RealGhostSquare)
                 break;
 
             if (PieceStandsOnSquare(square))

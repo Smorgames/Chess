@@ -11,9 +11,9 @@ namespace AbstractChess
 
         public AbsPawn(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove) { }
 
-        public override List<IRealSquare> GetMoves(IRealSquare absSquare)
+        public override List<ISquare> GetMoves(ISquare absSquare)
         {
-            var moves = new List<IRealSquare>();
+            var moves = new List<ISquare>();
 
             var firstMoveSquare = GetSquareToMove(absSquare, 1);
             
@@ -34,7 +34,7 @@ namespace AbstractChess
 
             return moves;
         }
-        private IRealSquare GetSquareToMove(IRealSquare absSquareWithChessPiece, int moveDistance)
+        private ISquare GetSquareToMove(ISquare absSquareWithChessPiece, int moveDistance)
         {
             var x = absSquareWithChessPiece.Coordinates.x + moveDistance * MoveDirection.x;
             var y = absSquareWithChessPiece.Coordinates.y + moveDistance * MoveDirection.y;
@@ -44,13 +44,13 @@ namespace AbstractChess
             return absSquareWithChessPiece.Board.GetSquareWithCoordinates(coordinates);
         }
 
-        public override List<IRealSquare> GetAttacks(IRealSquare absSquare)
+        public override List<ISquare> GetAttacks(ISquare square)
         {
-            var attackSquares = new List<IRealSquare>();
+            var attackSquares = new List<ISquare>();
             
-            var firstAttackSquare = GetAttackSquare(absSquare, 1);
-            var secondAttackSquare = GetAttackSquare(absSquare, -1);
-            var supposedAttackSquares = new List<IRealSquare>() { firstAttackSquare, secondAttackSquare };
+            var firstAttackSquare = GetAttackSquare(square, 1);
+            var secondAttackSquare = GetAttackSquare(square, -1);
+            var supposedAttackSquares = new List<ISquare>() { firstAttackSquare, secondAttackSquare };
 
             foreach (var s in supposedAttackSquares)
                 if (s.PieceOnIt != null)
@@ -63,7 +63,7 @@ namespace AbstractChess
 
             return attackSquares;
         }
-        private IRealSquare GetAttackSquare(IRealSquare absSquareWithChessPiece, int xOffset)
+        private ISquare GetAttackSquare(ISquare absSquareWithChessPiece, int xOffset)
         {
             var x = absSquareWithChessPiece.Coordinates.x + xOffset;
             var y = absSquareWithChessPiece.Coordinates.y + MoveDirection.y;

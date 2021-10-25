@@ -4,12 +4,15 @@ using UnityEngine;
 public class Chessboard : MonoBehaviour, IRealChessBoard
 {
     public Vector2Int Size => _size;
+    public ISquare[,] Squares => RealSquares;
+
     private Vector2Int _size;
 
-    public IRealSquare[,] Squares => _squares;
+    public IRealSquare[,] RealSquares => _squares;
     private Square[,] _squares;
 
-    public IRealSquare GhostSquare { get => _ghostSquare; set => _ghostSquare = value; }
+    public IRealSquare RealGhostSquare { get => _ghostSquare; set => _ghostSquare = value; }
+    public ISquare GhostSquare => _ghostSquare;
     private IRealSquare _ghostSquare;
 
     public string WhoseTurn { get; set; }
@@ -21,8 +24,8 @@ public class Chessboard : MonoBehaviour, IRealChessBoard
         
         _squares = new Square[_size.x, _size.y];
     }
-    
-    public IRealSquare GetSquareWithPiece(IPiece piece)
+
+    public IRealSquare GetRealSquareWithPiece(IRealPiece realPiece)
     {
         for (int x = 0; x < _size.x; x++)
         {
@@ -30,7 +33,7 @@ public class Chessboard : MonoBehaviour, IRealChessBoard
             {
                 var square = _squares[x, y];
 
-                if (square.PieceOnIt == piece)
+                if (square.RealPieceOnIt == realPiece)
                     return square;
             }
         }
@@ -38,7 +41,7 @@ public class Chessboard : MonoBehaviour, IRealChessBoard
         return _ghostSquare;
     }
 
-    public IRealSquare GetSquareWithCoordinates(int x, int y)
+    public IRealSquare GetRealSquareWithCoordinates(int x, int y)
     {
         if (x >= 0 && x < _size.x && y >= 0 && y < _size.y)
             return _squares[x, y];
@@ -46,7 +49,17 @@ public class Chessboard : MonoBehaviour, IRealChessBoard
         return _ghostSquare;
     }
 
-    public IRealSquare GetSquareWithCoordinates(Vector2Int coordinates)
+    public IRealSquare GetRealSquareWithCoordinates(Vector2Int coordinates)
+    {
+        return GetRealSquareWithCoordinates(coordinates.x, coordinates.y);
+    }
+
+    public ISquare GetSquareWithCoordinates(int x, int y)
+    {
+        return GetRealSquareWithCoordinates(x, y);
+    }
+
+    public ISquare GetSquareWithCoordinates(Vector2Int coordinates)
     {
         return GetSquareWithCoordinates(coordinates.x, coordinates.y);
     }

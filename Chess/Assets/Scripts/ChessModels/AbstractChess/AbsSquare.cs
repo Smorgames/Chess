@@ -2,10 +2,9 @@
 
 namespace AbstractChess
 {
-    public class AbsSquare : IRealSquare
+    public class AbsSquare : IAbsSquare
     {
-        public bool IsGhost => _isGhost;
-        private bool _isGhost;
+        public bool IsGhost { get; private set; }
 
         public IPiece PieceOnIt { get; set; }
 

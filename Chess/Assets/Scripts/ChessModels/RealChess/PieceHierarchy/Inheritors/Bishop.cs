@@ -8,74 +8,54 @@ public class Bishop : Piece
 
     private List<IRealSquare> _attackTurns = new List<IRealSquare>();
 
-    public override List<IRealSquare> GetAttacks(IRealSquare square)
+    public override List<IRealSquare> GetRealAttacks(IRealSquare realSquare)
     {
         _attackTurns.Clear();
 
-        int x = square.Coordinates.x;
-        int y = square.Coordinates.y;
+        var directions = new List<Vector2Int>() { new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, -1), new Vector2Int(-1, 1) };
 
-        Vector2Int upRightDir = new Vector2Int(1, 1);
-        Vector2Int upLeftDir = new Vector2Int(1, -1);
-        Vector2Int downRightDir = new Vector2Int(-1, -1);
-        Vector2Int downLeftDir = new Vector2Int(-1, 1);
-
-        FindPossibleAttackTurns(square, upRightDir);
-        FindPossibleAttackTurns(square, upLeftDir);
-        FindPossibleAttackTurns(square, downLeftDir);
-        FindPossibleAttackTurns(square, downRightDir);
-
+        foreach (var direction in directions)
+            FindPossibleAttackTurns(realSquare, direction);
+        
         return _attackTurns;
     }
 
-    private void FindPossibleAttackTurns(IRealSquare squareWithPiece, Vector2Int rowDirection)
+    private void FindPossibleAttackTurns(IRealSquare currentSquare, Vector2Int rowDirection)
     {
-        for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
+        for (int i = 1; i < currentSquare.Board.Size.x; i++)
         {
-            var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates.x + i * rowDirection.x, squareWithPiece.Coordinates.y + i * rowDirection.y);
+            var x = currentSquare.Coordinates.x + i * rowDirection.x;
+            var y = currentSquare.Coordinates.y + i * rowDirection.y;
+            var nextSquare = currentSquare.RealBoard.GetRealSquareWithCoordinates(x, y);
 
-            if (square == squareWithPiece.Board.GhostSquare)
-                break;
+            if (nextSquare == currentSquare.RealBoard.RealGhostSquare) break;
 
-            if (PieceStandsOnSquare(square))
-            {
-                if (PieceOnSquareHasOppositeColor(square))
-                    _attackTurns.Add(square);
-
-                break;
-            }
+            if (!PieceStandsOnSquare(nextSquare)) continue;
+            if (PieceOnSquareHasOppositeColor(nextSquare)) _attackTurns.Add(nextSquare);
+            else break;
         }
     }
 
-    public override List<IRealSquare> GetMoves(IRealSquare square)
+    public override List<IRealSquare> GetRealMoves(IRealSquare realSquare)
     {
-        _attackTurns = new List<IRealSquare>();
-
-        var x = square.Coordinates.x;
-        var y = square.Coordinates.y;
-
+        _attackTurns.Clear();
         var supposedMoves = new List<IRealSquare>();
+        
+        var directions = new List<Vector2Int>() { new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, -1), new Vector2Int(-1, 1) };
 
-        var upRightDir = new Vector2Int(1, 1);
-        var upLeftDir = new Vector2Int(1, -1);
-        var downRightDir = new Vector2Int(-1, -1);
-        var downLeftDir = new Vector2Int(-1, 1);
-
-        AddPossibleTurnsInDiagonal(supposedMoves, square, upRightDir);
-        AddPossibleTurnsInDiagonal(supposedMoves, square, upLeftDir);
-        AddPossibleTurnsInDiagonal(supposedMoves, square, downLeftDir);
-        AddPossibleTurnsInDiagonal(supposedMoves, square, downRightDir);
-
+        foreach (var direction in directions)
+            AddPossibleTurnsInDiagonal(supposedMoves, realSquare, direction);
+        
         return supposedMoves;
     }
 
-    private void AddPossibleTurnsInDiagonal(List<IRealSquare> turns, IRealSquare squareWithPiece, Vector2Int rowDirection)
+    private void AddPossibleTurnsInDiagonal(List<IRealSquare> supposedMoves, IRealSquare currentSquare, Vector2Int moveDirection)
     {
-        for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
+        for (int i = 1; i < currentSquare.Board.Size.x; i++)
         {
-            var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates.x + i * rowDirection.x, squareWithPiece.Coordinates.y + i * rowDirection.y);
+            var square = currentSquare.RealBoard.GetRealSquareWithCoordinates(currentSquare.Coordinates.x + i * moveDirection.x, currentSquare.Coordinates.y + i * moveDirection.y);
 
-            if (square == squareWithPiece.Board.GhostSquare)
+            if (square == currentSquare.RealBoard.RealGhostSquare)
                 break;
 
             if (PieceStandsOnSquare(square))
@@ -89,8 +69,18 @@ public class Bishop : Piece
                     break;
             }
 
-            turns.Add(square);
+            supposedMoves.Add(square);
         }
+    }
+    
+    public override List<ISquare> GetMoves(ISquare squareWithPiece)
+    {
+
+    }
+
+    public override List<ISquare> GetAttacks(ISquare square)
+    {
+        
     }
 
     protected override void ResetAttackTurns()

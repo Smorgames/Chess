@@ -7,19 +7,18 @@ public interface IPiece
     string ColorCode { get; }
     bool IsFirstMove { get; }
     List<ISquare> GetMoves(ISquare squareWithPiece);
-    List<ISquare> GetAttacks(ISquare squareWithPiece);
+    List<ISquare> GetAttacks(ISquare square);
 }
 
 public interface IRealPiece : IPiece
 {
-    Transform piecesTransform { get; }
+    Transform PiecesTransform { get; }
     void Move(IRealSquare square);
-    new List<IRealSquare> GetMoves(ISquare squareWithPiece);
-    new List<IRealSquare> GetAttacks(ISquare squareWithPiece);
+    List<IRealSquare> GetRealMoves(IRealSquare realSquare);
+    List<IRealSquare> GetRealAttacks(IRealSquare realSquare);
 }
 
 public interface IAbsPiece : IPiece
 {
-    new List<IAbsSquare> GetMoves(ISquare squareWithPiece);
-    new List<IAbsSquare> GetAttacks(ISquare squareWithPiece);
+    
 }

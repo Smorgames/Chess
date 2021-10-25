@@ -1,63 +1,92 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Rook : Piece
 {
     public override PieceType MyType => PieceType.Rook;
     public override string TypeCode => "r";
-    private List<IRealSquare> _attackTurns = new List<IRealSquare>();
+    private List<IRealSquare> _realAttacks = new List<IRealSquare>();
+    private List<ISquare> _attacks = new List<ISquare>();
 
-    public override List<IRealSquare> GetAttacks(IRealSquare square)
+    public override List<IRealSquare> GetRealAttacks(IRealSquare realSquare) => _realAttacks;
+
+    public override List<IRealSquare> GetRealMoves(IRealSquare realSquare)
     {
-        return _attackTurns;
-    }
-
-    public override List<IRealSquare> GetMoves(IRealSquare square)
-    {
-        _attackTurns.Clear();
-
-        var x = square.Coordinates.x;
-        var y = square.Coordinates.y;
+        _realAttacks.Clear();
 
         var supposedMoves = new List<IRealSquare>();
+        var directions = new List<Vector2Int>() { new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(1, 0), new Vector2Int(-1, 0) };
 
-        var upDir = new Vector2Int(0, 1);
-        var downDir = new Vector2Int(0, -1);
-        var rightDir = new Vector2Int(1, 0);
-        var leftDir = new Vector2Int(-1, 0);
+        foreach (var direction in directions)
+            AddPossibleTurnsInRow(supposedMoves, realSquare, direction);
 
-        AddPossibleTurnsInRow(supposedMoves, square, upDir);
-        AddPossibleTurnsInRow(supposedMoves, square, downDir);
-        AddPossibleTurnsInRow(supposedMoves, square, rightDir);
-        AddPossibleTurnsInRow(supposedMoves, square, leftDir);
-        
         return supposedMoves;
     }
 
-    private void AddPossibleTurnsInRow(List<IRealSquare> turns, IRealSquare squareWithPiece, Vector2Int rowDirection)
+    private void AddPossibleTurnsInRow(List<IRealSquare> supposedMoves, IRealSquare currentRealSquare, Vector2Int rowDirection)
     {
-        for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
+        for (int i = 1; i < currentRealSquare.Board.Size.x; i++)
         {
-            var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates.x + i * rowDirection.x, squareWithPiece.Coordinates.y + i * rowDirection.y);
+            var x = currentRealSquare.Coordinates.x + i * rowDirection.x;
+            var y = currentRealSquare.Coordinates.y + i * rowDirection.y;
+            var square = currentRealSquare.RealBoard.GetRealSquareWithCoordinates(x, y);
 
-            if (square == squareWithPiece.Board.GhostSquare)
-                break;
+            if (square == currentRealSquare.RealBoard.RealGhostSquare) break;
 
             if (PieceStandsOnSquare(square))
             {
                 if (PieceOnSquareHasOppositeColor(square))
-                    _attackTurns.Add(square);
+                    _realAttacks.Add(square);
                 
                 break;
             }
 
-            if (!turns.Contains(square))
-                turns.Add(square);
+            if (!supposedMoves.Contains(square))
+                supposedMoves.Add(square);
         }
     }
 
+    public override List<ISquare> GetAttacks(ISquare square) => _attacks;
+    
+    public override List<ISquare> GetMoves(ISquare square)
+    {
+        _realAttacks.Clear();
+
+        var supposedMoves = new List<ISquare>();
+        var directions = new List<Vector2Int>() { new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(1, 0), new Vector2Int(-1, 0) };
+
+        foreach (var direction in directions)
+            AddPossibleTurnsInRow(supposedMoves, square, direction);
+
+        return supposedMoves;
+    }
+    
+    private void AddPossibleTurnsInRow(List<ISquare> supposedMoves, ISquare currentRealSquare, Vector2Int rowDirection)
+    {
+        for (int i = 1; i < currentRealSquare.Board.Size.x; i++)
+        {
+            var x = currentRealSquare.Coordinates.x + i * rowDirection.x;
+            var y = currentRealSquare.Coordinates.y + i * rowDirection.y;
+            var square = currentRealSquare.Board.GetSquareWithCoordinates(x, y);
+
+            if (square == currentRealSquare.Board.GhostSquare) break;
+
+            if (PieceStandsOnSquare(square))
+            {
+                if (PieceOnSquareHasOppositeColor(square))
+                    _attacks.Add(square);
+                
+                break;
+            }
+
+            if (!supposedMoves.Contains(square))
+                supposedMoves.Add(square);
+        }
+    }
+    
     protected override void ResetAttackTurns()
     {
-        _attackTurns.Clear();
+        _realAttacks.Clear();
     }
 }

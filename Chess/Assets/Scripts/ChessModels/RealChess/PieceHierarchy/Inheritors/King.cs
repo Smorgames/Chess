@@ -7,28 +7,28 @@ public class King : Piece
 
     private List<IRealSquare> _attackTurns = new List<IRealSquare>();
 
-    public override List<IRealSquare> GetAttacks(IRealSquare square)
+    public override List<IRealSquare> GetRealAttacks(IRealSquare realSquare)
     {
         return _attackTurns;
     }
 
-    public override List<IRealSquare> GetMoves(IRealSquare square)
+    public override List<IRealSquare> GetRealMoves(IRealSquare realSquare)
     {
         _attackTurns.Clear();
 
-        var x = square.Coordinates.x;
-        var y = square.Coordinates.y;
+        var x = realSquare.Coordinates.x;
+        var y = realSquare.Coordinates.y;
 
         var supposedMoves = new List<IRealSquare>();
 
-        var upSquare = square.Board.GetSquareWithCoordinates(x, y + 1);
-        var upRightSquare = square.Board.GetSquareWithCoordinates(x + 1, y + 1);
-        var rightSquare = square.Board.GetSquareWithCoordinates(x + 1, y);
-        var downRightSquare = square.Board.GetSquareWithCoordinates(x + 1, y - 1);
-        var downSquare = square.Board.GetSquareWithCoordinates(x, y - 1);
-        var downLeftSquare = square.Board.GetSquareWithCoordinates(x - 1, y - 1);
-        var leftSquare = square.Board.GetSquareWithCoordinates(x - 1, y);
-        var upLeftSquare = square.Board.GetSquareWithCoordinates(x - 1, y + 1);
+        var upSquare = realSquare.Board.GetSquareWithCoordinates(x, y + 1);
+        var upRightSquare = realSquare.Board.GetSquareWithCoordinates(x + 1, y + 1);
+        var rightSquare = realSquare.Board.GetSquareWithCoordinates(x + 1, y);
+        var downRightSquare = realSquare.Board.GetSquareWithCoordinates(x + 1, y - 1);
+        var downSquare = realSquare.Board.GetSquareWithCoordinates(x, y - 1);
+        var downLeftSquare = realSquare.Board.GetSquareWithCoordinates(x - 1, y - 1);
+        var leftSquare = realSquare.Board.GetSquareWithCoordinates(x - 1, y);
+        var upLeftSquare = realSquare.Board.GetSquareWithCoordinates(x - 1, y + 1);
 
         var predictTurns = new IRealSquare[]
             { upSquare, upRightSquare, rightSquare, downRightSquare, downSquare, downLeftSquare, leftSquare, upLeftSquare};

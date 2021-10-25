@@ -2,29 +2,36 @@
 
 public class Square : MonoBehaviour, IRealSquare, IHighlightable
 {
-    public bool IsGhost => _isGhost;
-    [SerializeField] private bool _isGhost; 
     public delegate void SquareClickHandler(Square square);
     public static event SquareClickHandler OnSquareWithPieceClicked;
     public static event SquareClickHandler OnEmptySquareClicked;
 
     [SerializeField] private GameObject _highlight;
 
-    public IRealChessBoard Board => _board;
-    private IRealChessBoard _board;
+    #region Interface implementation
+
+    public bool IsGhost => _isGhost;
+    [SerializeField] private bool _isGhost;
     
-    public Vector2Int Coordinates { get => _coordinates; }
-    private Vector2Int _coordinates;
+    public Vector2Int Coordinates { get; private set; }
 
-    public IPiece PieceOnIt { get => _pieceOnIt; set => _pieceOnIt = value; }
+    public IChessBoard Board => RealBoard;
 
+    public Transform MyTransform => transform;
+    
+    public IRealChessBoard RealBoard { get; private set; }
+    
+    public IRealPiece RealPieceOnIt { get; set; }
+
+    public IPiece PieceOnIt => RealPieceOnIt;
+    
     public IHighlightable DisplayComponent => this;
 
-    private IPiece _pieceOnIt;
-
+    #endregion
+    
     private void OnMouseDown()
     {
-        if (_pieceOnIt != null && NowTurnOfThisPiece())
+        if (RealPieceOnIt != null && NowTurnOfThisPiece())
             OnSquareWithPieceClicked?.Invoke(this);
         else
             OnEmptySquareClicked?.Invoke(this);
@@ -32,18 +39,13 @@ public class Square : MonoBehaviour, IRealSquare, IHighlightable
 
     private bool NowTurnOfThisPiece()
     {
-        return _pieceOnIt.ColorCode == GameManager.Instance.WhoseTurn;
+        return RealPieceOnIt.ColorCode == GameManager.Instance.WhoseTurn;
     }
 
     public void Initialize(Vector2Int coordinates, Chessboard board)
     {
-        _coordinates = coordinates;
-        _board = board;
-    }
-
-    public void RemovePieceFromSquare()
-    {
-        _pieceOnIt = null;
+        Coordinates = coordinates;
+        RealBoard = board;
     }
 
     public void ActivateHighlight()

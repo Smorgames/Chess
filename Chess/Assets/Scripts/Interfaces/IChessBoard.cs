@@ -5,27 +5,24 @@ public interface IChessBoard
 {
     Vector2Int Size { get; }
     ISquare[,] Squares { get; }
-    ISquare GhostSquare { get; set; }
     string WhoseTurn { get; set; }
+    ISquare GhostSquare { get; }
 
     ISquare GetSquareWithCoordinates(int x, int y);
     ISquare GetSquareWithCoordinates(Vector2Int coordinates);
-    ISquare GetSquareWithPiece(IPiece piece);
 }
 
 public interface IRealChessBoard : IChessBoard
 {
-    new IRealSquare[,] Squares { get; }
+    IRealSquare[,] RealSquares { get; }
+    IRealSquare RealGhostSquare { get; set; }
     List<IHighlightable> HighlightableSquares();
-    new IRealSquare GetSquareWithCoordinates(int x, int y);
-    new IRealSquare GetSquareWithCoordinates(Vector2Int coordinates);
-    new IRealSquare GetSquareWithPiece(IPiece piece);
+    IRealSquare GetRealSquareWithPiece(IRealPiece realPiece);
+    IRealSquare GetRealSquareWithCoordinates(int x, int y);
+    IRealSquare GetRealSquareWithCoordinates(Vector2Int coordinates);
 }
 
 public interface IAbsChessBoard : IChessBoard
 {
-    new IAbsSquare[,] Squares { get; }
-    new IAbsSquare GetSquareWithCoordinates(int x, int y);
-    new IAbsSquare GetSquareWithCoordinates(Vector2Int coordinates);
-    new IAbsSquare GetSquareWithPiece(IPiece piece);
+    
 }
