@@ -42,11 +42,11 @@ public class GameManager : MonoBehaviour
 
     private void SubscribeMethodsOnEvent()
     {
-        Piece.OnPieceMoved += TriggerChangeTurn;
+        RealPiece.OnPieceMoved += TriggerChangeTurn;
     }
 
     private void UnsubscribeMethodsOnEvent()
     {
-        Piece.OnPieceMoved -= TriggerChangeTurn;
+        RealPiece.OnPieceMoved -= TriggerChangeTurn;
     }
 }

@@ -9,19 +9,19 @@ namespace AbstractChess
 
         public AbsRook(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove) { }
 
-        public override List<IRealSquare> GetMoves(IRealSquare square)
+        public override List<ISquare> GetMoves(ISquare square)
         {
             return GetMovesBasedOnActionType(square, ActionType.Movement);
         }
 
-        public override List<IRealSquare> GetAttacks(IRealSquare square)
+        public override List<ISquare> GetAttacks(ISquare square)
         {
             return GetMovesBasedOnActionType(square, ActionType.Attack);
         }
         
-        private List<IRealSquare> GetMovesBasedOnActionType(IRealSquare squareWithPiece, ActionType actionType)
+        private List<ISquare> GetMovesBasedOnActionType(ISquare squareWithPiece, ActionType actionType)
         {
-            var moves = new List<IRealSquare>();
+            var moves = new List<ISquare>();
             var directions = new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
             foreach (var dir in directions)

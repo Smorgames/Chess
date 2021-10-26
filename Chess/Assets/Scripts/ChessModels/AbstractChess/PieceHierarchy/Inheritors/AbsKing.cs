@@ -14,9 +14,9 @@ namespace AbstractChess
 
         public AbsKing(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove) { }
 
-        public override List<IAbsSquare> GetMoves(ISquare square)
+        public override List<ISquare> GetMoves(ISquare square)
         {
-            var supposedMoves = new List<IAbsSquare>();
+            var supposedMoves = new List<ISquare>();
             var directions = new List<Vector2Int>()
             {
                 _upRightDir, _upLeftDir, _downLeftDir, _downRightDir,
@@ -29,9 +29,9 @@ namespace AbstractChess
             return supposedMoves;
         }
 
-        private List<IAbsSquare> SetMoves(MovesType movesType, ISquare squareWithPiece, List<Vector2Int> moveDirections)
+        private List<ISquare> SetMoves(MovesType movesType, ISquare squareWithPiece, List<Vector2Int> moveDirections)
         {
-            var squares = new List<IAbsSquare>();
+            var squares = new List<ISquare>();
 
             foreach (var dir in moveDirections)
             {
@@ -39,7 +39,7 @@ namespace AbstractChess
                 var y = squareWithPiece.Coordinates.y;
                 var coordinates = new Vector2Int(x + dir.x, y + dir.y);
 
-                var square = squareWithPiece.Board.GetSquareWithCoordinates(coordinates);
+                var square = squareWithPiece.Board.SquareWithCoordinates(coordinates);
                 var pieceOnSquare = squareWithPiece.PieceOnIt;
                 
                 var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && ColorCode != pieceOnSquare.ColorCode;
@@ -56,9 +56,9 @@ namespace AbstractChess
             return squares;
         }
 
-        public override List<IRealSquare> GetAttacks(IRealSquare square)
+        public override List<ISquare> GetAttacks(ISquare square)
         {
-            var supposeMoves = new List<IRealSquare>();
+            var supposeMoves = new List<ISquare>();
             var directions = new List<Vector2Int>()
             {
                 _upRightDir, _upLeftDir, _downLeftDir, _downRightDir,

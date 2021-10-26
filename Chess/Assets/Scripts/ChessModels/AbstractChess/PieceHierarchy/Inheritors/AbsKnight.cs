@@ -30,23 +30,23 @@ namespace AbstractChess
             };
         }
 
-        public override List<IRealSquare> GetMoves(IRealSquare square)
+        public override List<ISquare> GetMoves(ISquare square)
         {
             return GetMoves(square, MovesType.Movement);
         }
 
-        public override List<IRealSquare> GetAttacks(IRealSquare square)
+        public override List<ISquare> GetAttacks(ISquare square)
         {
             return GetMoves(square, MovesType.Attack);
         }
 
-        private List<IRealSquare> GetMoves(IRealSquare squareWithPiece, MovesType movesType)
+        private List<ISquare> GetMoves(ISquare squareWithPiece, MovesType movesType)
         {
-            var squares = new List<IRealSquare>();
+            var squares = new List<ISquare>();
 
             foreach (var dir in _directions)
             {
-                var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates + dir);
+                var square = squareWithPiece.Board.SquareWithCoordinates(squareWithPiece.Coordinates + dir);
                 var pieceOnSquare = square.PieceOnIt;
 
                 var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && ColorCode != pieceOnSquare.ColorCode;

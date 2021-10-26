@@ -1,17 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Knight : Piece
+public class Knight : RealPiece
 {
     public override PieceType MyType => PieceType.Knight;
     public override string TypeCode => "k";
 
-    public override List<IRealSquare> GetRealAttacks(IRealSquare realSquare)
-    {
-        var x = realSquare.Coordinates.x;
-        var y = realSquare.Coordinates.y;
+    public override List<ISquare> GetAttacks(ISquare square) => SquareListBasedOnActionType(square, ActionType.Attack);
+    
+    public override List<ISquare> GetMoves(ISquare square) => SquareListBasedOnActionType(square, ActionType.Movement);
 
-        var supposedAttacks = new List<IRealSquare>();
+    private List<ISquare> SquareListBasedOnActionType(ISquare square, ActionType actionType)
+    {
+        var x = square.Coordinates.x;
+        var y = square.Coordinates.y;
+
+        var supposedMoves = new List<ISquare>();
         var supposedSquaresCoordinates = new List<Vector2Int>()
         {
             new Vector2Int(x + 2, y + 1), new Vector2Int(x + 2, y - 1), new Vector2Int(x - 2, y + 1), new Vector2Int(x - 2, y - 1), 
@@ -20,38 +24,18 @@ public class Knight : Piece
 
         foreach (var coordinates in supposedSquaresCoordinates)
         {
-            var supposedAttack = realSquare.RealBoard.GetRealSquareWithCoordinates(coordinates);
+            var supposedMove = square.Board.SquareWithCoordinates(coordinates);
+
+            if (actionType == ActionType.Movement)
+                if (!PieceStandsOnSquare(supposedMove) && !supposedMove.IsGhost)
+                    supposedMoves.Add(supposedMove);
             
-            if (!supposedAttack.IsGhost && PieceStandsOnSquare(supposedAttack) && PieceOnSquareHasOppositeColor(supposedAttack))
-                supposedAttacks.Add(supposedAttack);
+
+            if (actionType == ActionType.Attack)
+                if (!supposedMove.IsGhost && PieceStandsOnSquare(supposedMove) && PieceOnSquareHasOppositeColor(supposedMove))
+                    supposedMoves.Add(supposedMove);
         }
 
-        return /*_gameManager.Analyzer.GetMovesWithoutCheck(square, supposedAttackMoves, ActionType.Attack);*/ supposedAttacks;
-    }
-
-    public override List<IRealSquare> GetRealMoves(IRealSquare realSquare)
-    {
-        var x = realSquare.Coordinates.x;
-        var y = realSquare.Coordinates.y;
-
-        var supposedMoves = new List<IRealSquare>();
-
-        var firstSquare = realSquare.Board.GetSquareWithCoordinates(x + 2, y + 1);
-        var secondSquare = realSquare.Board.GetSquareWithCoordinates(x + 2, y - 1);
-        var thirdSquare = realSquare.Board.GetSquareWithCoordinates(x - 2, y + 1);
-        var fourthSquare = realSquare.Board.GetSquareWithCoordinates(x - 2, y - 1);
-        var fifthSquare = realSquare.Board.GetSquareWithCoordinates(x + 1, y + 2);
-        var sixthSquare = realSquare.Board.GetSquareWithCoordinates(x + 1, y - 2);
-        var seventhSquare = realSquare.Board.GetSquareWithCoordinates(x - 1, y + 2);
-        var eighthSquare = realSquare.Board.GetSquareWithCoordinates(x - 1, y - 2);
-
-        var predictTurns = new IRealSquare []
-        { firstSquare, secondSquare, thirdSquare, fourthSquare, fifthSquare, sixthSquare, seventhSquare, eighthSquare };
-
-        for (int i = 0; i < predictTurns.Length; i++)
-            if (!PieceStandsOnSquare(predictTurns[i]) && !predictTurns[i].IsGhost)
-                supposedMoves.Add(predictTurns[i]);
-        
         return supposedMoves;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AbstractChess
 {
-    public abstract class AbsPiece : IAbsPiece
+    public abstract class AbsPiece : IPiece
     {
         public abstract string TypeCode { get; }
 

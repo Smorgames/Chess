@@ -41,7 +41,7 @@ namespace AbstractChess
             
             var coordinates = new Vector2Int(x, y);
 
-            return absSquareWithChessPiece.Board.GetSquareWithCoordinates(coordinates);
+            return absSquareWithChessPiece.Board.SquareWithCoordinates(coordinates);
         }
 
         public override List<ISquare> GetAttacks(ISquare square)
@@ -69,7 +69,7 @@ namespace AbstractChess
             var y = absSquareWithChessPiece.Coordinates.y + MoveDirection.y;
             var coordinates = new Vector2Int(x, y);
             
-            return absSquareWithChessPiece.Board.GetSquareWithCoordinates(coordinates);
+            return absSquareWithChessPiece.Board.SquareWithCoordinates(coordinates);
         }
         
         public override string ToString()

@@ -2,16 +2,16 @@
 
 public class SquareHandler
 {
-    public static bool TryGetStateCodeOfSquare(Square square, out ChessCode chessCode)
+    public static bool TryGetStateCodeOfSquare(RealSquare realSquare, out ChessCode chessCode)
     {
-        var piece = square.PieceOnIt;
+        var piece = realSquare.PieceOnIt;
         if (piece == null)
         {
             chessCode = new ChessCode("");
             return false;
         }
 
-        var codeValue = StateCodeValueGetter.CodeValue(square);
+        var codeValue = StateCodeValueGetter.CodeValue(realSquare);
         chessCode = new ChessCode(codeValue);
         
         return true;
@@ -19,13 +19,13 @@ public class SquareHandler
 
     private class StateCodeValueGetter
     {
-        public static string CodeValue(Square square)
+        public static string CodeValue(RealSquare realSquare)
         {
             var stringBuilder = new StringBuilder();
-            var piece = square.PieceOnIt;
+            var piece = realSquare.PieceOnIt;
             
-            var xValue = square.Coordinates.x.ToString();
-            var yValue = square.Coordinates.y.ToString();
+            var xValue = realSquare.Coordinates.x.ToString();
+            var yValue = realSquare.Coordinates.y.ToString();
             var colorValue = piece.ColorCode;
             var pieceTypeValue = piece.TypeCode;
             var firstMoveValue = piece.IsFirstMove ? "1" : "0";

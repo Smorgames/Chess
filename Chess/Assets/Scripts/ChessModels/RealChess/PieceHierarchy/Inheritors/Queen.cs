@@ -1,74 +1,66 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Queen : Piece
+public class Queen : RealPiece
 {
     public override PieceType MyType => PieceType.Queen;
     public override string TypeCode => "Q";
 
-    private List<IRealSquare> _attackTurns = new List<IRealSquare>();
+    private List<ISquare> _attacks = new List<ISquare>();
+    private List<ISquare> _moves = new List<ISquare>();
 
-    public override List<IRealSquare> GetRealAttacks(IRealSquare realSquare)
+    public override List<ISquare> GetMoves(ISquare square) => SquaresListBasedOnActionType(square, ActionType.Movement);
+    public override List<ISquare> GetAttacks(ISquare square) => SquaresListBasedOnActionType(square, ActionType.Attack);
+
+    private List<ISquare> SquaresListBasedOnActionType(ISquare realSquare, ActionType actionType)
     {
-        return _attackTurns;
-    }
-
-    public override List<IRealSquare> GetRealMoves(IRealSquare realSquare)
-    {
-        _attackTurns.Clear();
-
-        var x = realSquare.Coordinates.x;
-        var y = realSquare.Coordinates.y;
-
-        var supposedMoves = new List<IRealSquare>();
-
-        var upDir = new Vector2Int(0, 1);
-        var downDir = new Vector2Int(0, -1);
-        var rightDir = new Vector2Int(1, 0);
-        var leftDir = new Vector2Int(-1, 0);
-        var upRightDir = new Vector2Int(1, 1);
-        var upLeftDir = new Vector2Int(1, -1);
-        var downRightDir = new Vector2Int(-1, -1);
-        var downLeftDir = new Vector2Int(-1, 1);
-
-        AddPossibleTurnsInLine(supposedMoves, realSquare, upDir);
-        AddPossibleTurnsInLine(supposedMoves, realSquare, downDir);
-        AddPossibleTurnsInLine(supposedMoves, realSquare, rightDir);
-        AddPossibleTurnsInLine(supposedMoves, realSquare, leftDir);
-        AddPossibleTurnsInLine(supposedMoves, realSquare, upRightDir);
-        AddPossibleTurnsInLine(supposedMoves, realSquare, upLeftDir);
-        AddPossibleTurnsInLine(supposedMoves, realSquare, downLeftDir);
-        AddPossibleTurnsInLine(supposedMoves, realSquare, downRightDir);
-
-        return supposedMoves;
-    }
-
-    private void AddPossibleTurnsInLine(List<IRealSquare> turns, IRealSquare squareWithPiece, Vector2Int rowDirection)
-    {
-        for (int i = 1; i < squareWithPiece.Board.Size.x; i++)
+        ClearMovesAndAttackLists();
+        var directions = new List<Vector2Int>()
         {
-            var square = squareWithPiece.Board.GetSquareWithCoordinates(squareWithPiece.Coordinates.x + i * rowDirection.x, squareWithPiece.Coordinates.y + i * rowDirection.y);
+            new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, -1), new Vector2Int(-1, 1),
+            new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(1, 0), new Vector2Int(-1, 0)
+        };
 
-            if (square == squareWithPiece.Board.RealGhostSquare)
-                break;
+        foreach (var direction in directions)
+            FillMovesAndAttackLists(realSquare, direction);
+        
+        if (actionType == ActionType.Attack) return _attacks;
+        if (actionType == ActionType.Movement) return _moves;
+        return null;
+    }
+    
+    private void ClearMovesAndAttackLists()
+    {
+        _attacks.Clear();
+        _moves.Clear();
+    }
 
-            if (PieceStandsOnSquare(square))
+    private void FillMovesAndAttackLists(ISquare currentSquare, Vector2Int rowDirection)
+    {
+        var longestBoardSide = currentSquare.Board.Size.x >= currentSquare.Board.Size.y ? currentSquare.Board.Size.x : currentSquare.Board.Size.y;
+        
+        for (int i = 1; i < longestBoardSide; i++)
+        {
+            var x = currentSquare.Coordinates.x + i * rowDirection.x;
+            var y = currentSquare.Coordinates.y + i * rowDirection.y;
+            var nextSquare = currentSquare.Board.SquareWithCoordinates(x, y);
+
+            if (nextSquare == currentSquare.Board.GhostSquare) break;
+
+            if (PieceStandsOnSquare(nextSquare))
             {
-                if (PieceOnSquareHasOppositeColor(square))
-                {
-                    _attackTurns.Add(square);
-                    break;
-                }
-                else
-                    break;
+                if (PieceOnSquareHasOppositeColor(nextSquare))
+                    _attacks.Add(nextSquare);
+                
+                break;
             }
 
-            turns.Add(square);
+            _moves.Add(nextSquare);
         }
     }
 
     protected override void ResetAttackTurns()
     {
-        _attackTurns.Clear();
+        ClearMovesAndAttackLists();
     }
 }

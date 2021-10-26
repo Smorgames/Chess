@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface IChessBoard
 {
@@ -8,21 +7,6 @@ public interface IChessBoard
     string WhoseTurn { get; set; }
     ISquare GhostSquare { get; }
 
-    ISquare GetSquareWithCoordinates(int x, int y);
-    ISquare GetSquareWithCoordinates(Vector2Int coordinates);
-}
-
-public interface IRealChessBoard : IChessBoard
-{
-    IRealSquare[,] RealSquares { get; }
-    IRealSquare RealGhostSquare { get; set; }
-    List<IHighlightable> HighlightableSquares();
-    IRealSquare GetRealSquareWithPiece(IRealPiece realPiece);
-    IRealSquare GetRealSquareWithCoordinates(int x, int y);
-    IRealSquare GetRealSquareWithCoordinates(Vector2Int coordinates);
-}
-
-public interface IAbsChessBoard : IChessBoard
-{
-    
+    ISquare SquareWithCoordinates(int x, int y);
+    ISquare SquareWithCoordinates(Vector2Int coordinates);
 }

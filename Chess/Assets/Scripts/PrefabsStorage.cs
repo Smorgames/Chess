@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PrefabsStorage : MonoBehaviour
@@ -35,6 +34,6 @@ public class PrefabsStorage : MonoBehaviour
     public List<GameObject> SquaresPrefabs => _squaresPrefabs;
     [Header("Squares prefabs")]
     [SerializeField] private List<GameObject> _squaresPrefabs;
-    public Square GhostSquare => _ghostSquare;
-    [SerializeField] private Square _ghostSquare;
+    public RealSquare GhostRealSquare => ghostRealSquare;
+    [SerializeField] private RealSquare ghostRealSquare;
 }

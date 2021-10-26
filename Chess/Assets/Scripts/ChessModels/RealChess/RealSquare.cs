@@ -1,37 +1,33 @@
 ﻿using UnityEngine;
 
-public class Square : MonoBehaviour, IRealSquare, IHighlightable
+public class RealSquare : MonoBehaviour, ISquare
 {
-    public delegate void SquareClickHandler(Square square);
+    #region Events
+
+    public delegate void SquareClickHandler(RealSquare realSquare);
     public static event SquareClickHandler OnSquareWithPieceClicked;
     public static event SquareClickHandler OnEmptySquareClicked;
 
-    [SerializeField] private GameObject _highlight;
+    #endregion
+
+    [SerializeField] private GameObject _moveHighlight;
+    [SerializeField] private GameObject _attackHighlight;
 
     #region Interface implementation
 
     public bool IsGhost => _isGhost;
     [SerializeField] private bool _isGhost;
-    
     public Vector2Int Coordinates { get; private set; }
-
+    public IPiece PieceOnIt => RealRealPieceOnIt;
+    public RealPiece RealRealPieceOnIt { get; set; }
     public IChessBoard Board => RealBoard;
-
-    public Transform MyTransform => transform;
-    
-    public IRealChessBoard RealBoard { get; private set; }
-    
-    public IRealPiece RealPieceOnIt { get; set; }
-
-    public IPiece PieceOnIt => RealPieceOnIt;
-    
-    public IHighlightable DisplayComponent => this;
+    public RealChessBoard RealBoard { get; private set; }
 
     #endregion
     
     private void OnMouseDown()
     {
-        if (RealPieceOnIt != null && NowTurnOfThisPiece())
+        if (RealRealPieceOnIt != null && NowTurnOfThisPiece())
             OnSquareWithPieceClicked?.Invoke(this);
         else
             OnEmptySquareClicked?.Invoke(this);
@@ -39,10 +35,10 @@ public class Square : MonoBehaviour, IRealSquare, IHighlightable
 
     private bool NowTurnOfThisPiece()
     {
-        return RealPieceOnIt.ColorCode == GameManager.Instance.WhoseTurn;
+        return RealRealPieceOnIt.ColorCode == GameManager.Instance.WhoseTurn;
     }
 
-    public void Initialize(Vector2Int coordinates, Chessboard board)
+    public void Initialize(Vector2Int coordinates, RealChessBoard board)
     {
         Coordinates = coordinates;
         RealBoard = board;
@@ -50,11 +46,11 @@ public class Square : MonoBehaviour, IRealSquare, IHighlightable
 
     public void ActivateHighlight()
     {
-        _highlight.SetActive(true);
+        _moveHighlight.SetActive(true);
     }
 
     public void DeactivateHighlight()
     {
-        _highlight.SetActive(false);
+        _moveHighlight.SetActive(false);
     }
 }

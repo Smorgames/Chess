@@ -2,14 +2,14 @@
 
 public class ChessboardBuilder
 {
-    public static Chessboard BuildMainChessboard()
+    public static RealChessBoard BuildMainChessboard()
     {
         var centerCoord = new Vector2(0, 0);
         var boardSize = new Vector2Int(8, 8);
         return BuildArbitraryChessboard(centerCoord, boardSize);
     }
 
-    public static Chessboard BuildArbitraryChessboard(Vector2 boardCenterCoordinate, Vector2Int boardSize)
+    public static RealChessBoard BuildArbitraryChessboard(Vector2 boardCenterCoordinate, Vector2Int boardSize)
     {
         var board = CreateChessboardTemplate(boardSize);
         
@@ -39,25 +39,25 @@ public class ChessboardBuilder
         return board;
     }
 
-    private static Chessboard CreateChessboardTemplate(Vector2Int boardSize)
+    private static RealChessBoard CreateChessboardTemplate(Vector2Int boardSize)
     {
         var board = new GameObject("Chessboard");
-        var chessboardComponent = board.AddComponent<Chessboard>();
+        var chessboardComponent = board.AddComponent<RealChessBoard>();
 
         chessboardComponent.InitializeChessboard(boardSize);
-        var ghostSquare = Object.Instantiate(SingletonRegistry.Instance.PrefabsStorage.GhostSquare, Vector3.zero, Quaternion.identity);
+        var ghostSquare = Object.Instantiate(SingletonRegistry.Instance.PrefabsStorage.GhostRealSquare, Vector3.zero, Quaternion.identity);
         chessboardComponent.RealGhostSquare = ghostSquare;
         
         board.transform.position = Vector3.zero;
-        return board.GetComponent<Chessboard>();
+        return board.GetComponent<RealChessBoard>();
     }
 
-    private static Square CreateAndInitializeSquare(Vector2 gameCoordinates, Vector2Int boardMatrixCoordinates, int squareNumber, Chessboard board)
+    private static RealSquare CreateAndInitializeSquare(Vector2 gameCoordinates, Vector2Int boardMatrixCoordinates, int squareNumber, RealChessBoard board)
     {
         var squares = SingletonRegistry.Instance.PrefabsStorage.SquaresPrefabs;
         
         var index = (boardMatrixCoordinates.x + boardMatrixCoordinates.y) % squares.Count;
-        var square = Object.Instantiate(squares[index], Vector3.zero, Quaternion.identity).GetComponent<Square>();
+        var square = Object.Instantiate(squares[index], Vector3.zero, Quaternion.identity).GetComponent<RealSquare>();
         square.transform.position = gameCoordinates;
         
         var squareName = $"Square {squareNumber}";

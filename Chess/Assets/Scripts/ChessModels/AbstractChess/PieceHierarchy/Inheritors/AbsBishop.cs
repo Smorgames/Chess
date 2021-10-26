@@ -16,21 +16,21 @@ namespace AbstractChess
 
         public AbsBishop(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove) { }
 
-        public override List<IRealSquare> GetMoves(IRealSquare square)
+        public override List<ISquare> GetMoves(ISquare square)
         {
             var moves = GetPossibleMoves(square, ActionType.Movement);
             return moves;
         }
 
-        public override List<IRealSquare> GetAttacks(IRealSquare square)
+        public override List<ISquare> GetAttacks(ISquare square)
         {
             var moves = GetPossibleMoves(square, ActionType.Attack);
             return moves;
         }
 
-        private List<IRealSquare> GetPossibleMoves(IRealSquare pieceAbsSquare, ActionType actionType)
+        private List<ISquare> GetPossibleMoves(ISquare pieceAbsSquare, ActionType actionType)
         {
-            var possibleMoves = new List<IRealSquare>();
+            var possibleMoves = new List<ISquare>();
             var directions = new List<Vector2Int>() { _upRightDir, _upLeftDir, _downLeftDir, _downRightDir };
 
             foreach (var dir in directions)

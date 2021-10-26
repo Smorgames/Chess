@@ -1,60 +1,57 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class King : Piece
+public class King : RealPiece
 {
     public override PieceType MyType => PieceType.King;
     public override string TypeCode => "K";
 
-    private List<IRealSquare> _attackTurns = new List<IRealSquare>();
+    private List<ISquare> _attacks = new List<ISquare>();
+    private List<ISquare> _moves = new List<ISquare>();
 
-    public override List<IRealSquare> GetRealAttacks(IRealSquare realSquare)
+    public override List<ISquare> GetMoves(ISquare square) => SquaresBasedOnActionType(square, ActionType.Movement);
+    public override List<ISquare> GetAttacks(ISquare square) => SquaresBasedOnActionType(square, ActionType.Attack);
+    private List<ISquare> SquaresBasedOnActionType(ISquare square, ActionType actionType)
     {
-        return _attackTurns;
-    }
+        ClearMovesAndAttacks();
 
-    public override List<IRealSquare> GetRealMoves(IRealSquare realSquare)
-    {
-        _attackTurns.Clear();
+        var x = square.Coordinates.x;
+        var y = square.Coordinates.y;
 
-        var x = realSquare.Coordinates.x;
-        var y = realSquare.Coordinates.y;
-
-        var supposedMoves = new List<IRealSquare>();
-
-        var upSquare = realSquare.Board.GetSquareWithCoordinates(x, y + 1);
-        var upRightSquare = realSquare.Board.GetSquareWithCoordinates(x + 1, y + 1);
-        var rightSquare = realSquare.Board.GetSquareWithCoordinates(x + 1, y);
-        var downRightSquare = realSquare.Board.GetSquareWithCoordinates(x + 1, y - 1);
-        var downSquare = realSquare.Board.GetSquareWithCoordinates(x, y - 1);
-        var downLeftSquare = realSquare.Board.GetSquareWithCoordinates(x - 1, y - 1);
-        var leftSquare = realSquare.Board.GetSquareWithCoordinates(x - 1, y);
-        var upLeftSquare = realSquare.Board.GetSquareWithCoordinates(x - 1, y + 1);
-
-        var predictTurns = new IRealSquare[]
-            { upSquare, upRightSquare, rightSquare, downRightSquare, downSquare, downLeftSquare, leftSquare, upLeftSquare};
-
-        for (int i = 0; i < predictTurns.Length; i++)
+        var coordinatesList = new List<Vector2Int>()
         {
-            if (!predictTurns[i].IsGhost)
+            new Vector2Int(x, y + 1), new Vector2Int(x + 1, y + 1), new Vector2Int(x + 1, y), new Vector2Int(x + 1, y - 1), 
+            new Vector2Int(x, y - 1), new Vector2Int(x - 1, y - 1), new Vector2Int(x - 1, y), new Vector2Int(x - 1, y + 1)
+        };
+
+        foreach (var coordinates in coordinatesList)
+        {
+            var supposedMove = square.Board.SquareWithCoordinates(coordinates);
+
+            if (!supposedMove.IsGhost)
             {
-                if (PieceStandsOnSquare(predictTurns[i]))
+                if (PieceStandsOnSquare(supposedMove))
                 {
-                    if (PieceOnSquareHasOppositeColor(predictTurns[i]))
-                    {
-                        _attackTurns.Add(predictTurns[i]);
-                        continue;
-                    }
+                    if (PieceOnSquareHasOppositeColor(supposedMove))
+                        _attacks.Add(supposedMove);
                 }
                 else
-                    supposedMoves.Add(predictTurns[i]);
+                    _moves.Add(supposedMove);
             }
         }
 
-        return supposedMoves;
+        if (actionType == ActionType.Attack) return _attacks;
+        if (actionType == ActionType.Movement) return _moves;
+        return null;
+    }
+    private void ClearMovesAndAttacks()
+    {
+        _attacks.Clear();
+        _moves.Clear();
     }
 
     protected override void ResetAttackTurns()
     {
-        _attackTurns.Clear();
+        ClearMovesAndAttacks();
     }
 }
