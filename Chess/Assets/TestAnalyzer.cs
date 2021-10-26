@@ -205,4 +205,22 @@ public class TestAnalyzer : MonoBehaviour
 
         Debug.Log(debug);
     }
+
+    private void Test9()
+    {
+        var piecesState = "0;2;b;r;0_2;2;b;r;0_2;0;b;r;0_0;0;b;r;0_1;1;w;K;0_";
+        var boardSize = "3;3";
+        var whoseTurn = "w";
+        var chessCode = new ChessCode(piecesState, boardSize, whoseTurn);
+        var absBoard = Analyzer.AbsBoardFromChessCode(chessCode);
+
+        var squareWithWhiteKing = absBoard.Squares[1, 1];
+        var assert = Analyzer.IsMateForKing(squareWithWhiteKing);
+
+        var text = assert ? "[Passed]".Color("Green") : "[Failed]".Color("Red");
+        var test = $"{nameof(TestAnalyzer)} [Test9]:".Bold().Color("LightBlue");
+        var debug = $"{test} Checking the correctness of the {nameof(Analyzer)}.{nameof(Analyzer.IsMateForKing)}() {text}";
+
+        Debug.Log(debug);
+    }
 }

@@ -273,6 +273,31 @@ public class Analyzer
 
     #endregion
 
+    public static bool IsMateForKing(ISquare squareWithPiece)
+    {
+        var board = squareWithPiece.Board;
+        var kingColor = squareWithPiece.PieceOnIt.ColorCode;
+
+        var actionSquares = new List<ISquare>();
+
+        for (int x = 0; x < board.Size.x; x++)
+        for (int y = 0; y < board.Size.y; y++)
+            {
+                var square = board.Squares[x, y];
+                var piece = square.PieceOnIt;
+
+                if (piece != null && piece.ColorCode == kingColor)
+                {
+                    actionSquares.AddRange(piece.GetMoves(square));
+                    actionSquares.AddRange(piece.GetAttacks(square));
+
+                    if (actionSquares.Count > 0) return false;
+                }
+            }
+
+        return true;
+    }
+
     #region f(x) returns squares where piece can go and don't create check situation for its king
 
     public static List<ISquare> MovesWithoutCheckForKing(ISquare squareWithPiece, ActionType actionType)
