@@ -49,7 +49,7 @@ public class RealChessBoard : MonoBehaviour, IChessBoard
             {
                 var square = _realSquares[x, y];
 
-                if (square.RealRealPieceOnIt == realPiece)
+                if (square.RealPieceOnIt == realPiece)
                     return square;
             }
         }

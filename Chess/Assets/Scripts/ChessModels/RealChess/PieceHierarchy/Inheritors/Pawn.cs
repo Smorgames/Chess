@@ -2,7 +2,6 @@
 
 public class Pawn : RealPiece, IPawnDirection
 {
-    public override PieceType MyType => PieceType.Pawn;
     public override string TypeCode => "p";
     public int MoveDirection => ColorCode == "w" ? 1 : -1;
 

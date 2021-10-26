@@ -18,8 +18,8 @@ public class RealSquare : MonoBehaviour, ISquare
     public bool IsGhost => _isGhost;
     [SerializeField] private bool _isGhost;
     public Vector2Int Coordinates { get; private set; }
-    public IPiece PieceOnIt => RealRealPieceOnIt;
-    public RealPiece RealRealPieceOnIt { get; set; }
+    public IPiece PieceOnIt => RealPieceOnIt;
+    public RealPiece RealPieceOnIt { get; set; }
     public IChessBoard Board => RealBoard;
     public RealChessBoard RealBoard { get; private set; }
 
@@ -27,7 +27,7 @@ public class RealSquare : MonoBehaviour, ISquare
     
     private void OnMouseDown()
     {
-        if (RealRealPieceOnIt != null && NowTurnOfThisPiece())
+        if (RealPieceOnIt != null && NowTurnOfThisPiece())
             OnSquareWithPieceClicked?.Invoke(this);
         else
             OnEmptySquareClicked?.Invoke(this);
@@ -35,7 +35,7 @@ public class RealSquare : MonoBehaviour, ISquare
 
     private bool NowTurnOfThisPiece()
     {
-        return RealRealPieceOnIt.ColorCode == GameManager.Instance.WhoseTurn;
+        return RealPieceOnIt.ColorCode == GameManager.Instance.WhoseTurn;
     }
 
     public void Initialize(Vector2Int coordinates, RealChessBoard board)

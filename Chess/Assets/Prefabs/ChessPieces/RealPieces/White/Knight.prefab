@@ -1,20 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5404013439365674320
+--- !u!114 &-4899955399149875089
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8734040046602671171}
+  m_GameObject: {fileID: 425500259181266540}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e032ef6cdb5822a48b082015270c9f7d, type: 3}
+  m_Script: {fileID: 11500000, guid: 805df75af196bb44b9909f0c15e87d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myColor: 1
-  _collider: {fileID: 5567562650907637938}
---- !u!1001 &6581692051367871238
+  _blackSprite: {fileID: -2925221628021560560, guid: 5193023d2654b714db0bfe64a6d53a11,
+    type: 3}
+  _whiteSprite: {fileID: 205499288650012117, guid: 5193023d2654b714db0bfe64a6d53a11,
+    type: 3}
+--- !u!1001 &2847676919692169513
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -24,18 +26,18 @@ PrefabInstance:
     - target: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.7342857
+      value: 0.71428573
       objectReference: {fileID: 0}
     - target: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.74
+      value: 0.7114286
       objectReference: {fileID: 0}
     - target: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2606153016120934048, guid: 5193023d2654b714db0bfe64a6d53a11,
+      objectReference: {fileID: 205499288650012117, guid: 5193023d2654b714db0bfe64a6d53a11,
         type: 3}
     - target: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
@@ -55,22 +57,22 @@ PrefabInstance:
     - target: {fileID: 1591225009867570100, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
-      value: 0.7342857
+      value: 0.71428573
       objectReference: {fileID: 0}
     - target: {fileID: 1591225009867570100, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.y
-      value: 0.74
+      value: 0.7114286
       objectReference: {fileID: 0}
     - target: {fileID: 1591225009867570100, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.7342857
+      value: 0.71428573
       objectReference: {fileID: 0}
     - target: {fileID: 1591225009867570100, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.74
+      value: 0.7114286
       objectReference: {fileID: 0}
     - target: {fileID: 2477917854985525060, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
@@ -80,12 +82,12 @@ PrefabInstance:
     - target: {fileID: 2477917854985525060, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.8
+      value: 5.68
       objectReference: {fileID: 0}
     - target: {fileID: 2477917854985525060, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.14
+      value: 1.62
       objectReference: {fileID: 0}
     - target: {fileID: 2477917854985525060, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
@@ -130,19 +132,13 @@ PrefabInstance:
     - target: {fileID: 2477917854985525061, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
       propertyPath: m_Name
-      value: BlackBishop Variant
+      value: Knight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab262a3a0172854eb42489d4c4065b7, type: 3}
---- !u!1 &8734040046602671171 stripped
+--- !u!1 &425500259181266540 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2477917854985525061, guid: 5ab262a3a0172854eb42489d4c4065b7,
     type: 3}
-  m_PrefabInstance: {fileID: 6581692051367871238}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &5567562650907637938 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 1591225009867570100, guid: 5ab262a3a0172854eb42489d4c4065b7,
-    type: 3}
-  m_PrefabInstance: {fileID: 6581692051367871238}
+  m_PrefabInstance: {fileID: 2847676919692169513}
   m_PrefabAsset: {fileID: 0}

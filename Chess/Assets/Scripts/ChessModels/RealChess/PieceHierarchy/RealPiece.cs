@@ -3,34 +3,38 @@ using UnityEngine;
 
 public abstract class RealPiece : MonoBehaviour, IPiece
 {
-    public bool IsFirstMove => _isFirstMove;
-
-    protected bool _isFirstMove = true;
-    
     public delegate void PieceMoveHandler();
     public static event PieceMoveHandler OnPieceMoved;
 
     public delegate void PieceDeadHandler(RealPiece chessRealPiece);
     public static event PieceDeadHandler OnPieceDied;
-    
-    public abstract PieceType MyType { get; }
+
+    public bool IsFirstMove => _isFirstMove;
+    protected bool _isFirstMove = true;
     public abstract string TypeCode { get; }
+    public string ColorCode => _colorCode;
+    private string _colorCode;
 
     public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
-    public string ColorCode => _colorCode;
-    [SerializeField] private string _colorCode;
-
-    [SerializeField] private PieceColor _myColor;
+    [SerializeField] protected Sprite _blackSprite;
+    [SerializeField] protected Sprite _whiteSprite;
 
     protected GameManager _gameManager;
-
-    [SerializeField] private Collider2D _collider;
 
     private Vector3 _normalSize;
     private Vector3 _selectedSize;
 
-    public Transform PiecesTransform => transform;
+    public RealPiece SetColorCode(string colorCode)
+    {
+        _colorCode = colorCode;
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (_colorCode == "w") spriteRenderer.sprite = _whiteSprite;
+        if (_colorCode == "b") spriteRenderer.sprite = _blackSprite;
+        return this;
+    }
+
     public void Move(RealSquare realSquare)
     {
         transform.position = realSquare.transform.position + Offset;
@@ -45,7 +49,7 @@ public abstract class RealPiece : MonoBehaviour, IPiece
             if (enemyPiece != null && _gameManager.WhoseTurn == ColorCode)
             {
                 var squareWithPiece = realSquare.RealBoard.GetRealSquareWithPiece(enemyPiece);
-                squareWithPiece.RealRealPieceOnIt = null;
+                squareWithPiece.RealPieceOnIt = null;
 
                 enemyPiece.Death();
             }

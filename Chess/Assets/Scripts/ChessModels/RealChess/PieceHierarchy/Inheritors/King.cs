@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class King : RealPiece
 {
-    public override PieceType MyType => PieceType.King;
     public override string TypeCode => "K";
 
     private List<ISquare> _attacks = new List<ISquare>();

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Knight : RealPiece
 {
-    public override PieceType MyType => PieceType.Knight;
     public override string TypeCode => "k";
 
     public override List<ISquare> GetAttacks(ISquare square) => SquareListBasedOnActionType(square, ActionType.Attack);

@@ -164,7 +164,15 @@ public class Analyzer
 
         return new AbsPieceToken(pieceData.Coordinates, absPiece, pieceData.IsFirstMove);
     }
-    
+
+    private static RealPieceToken CreateRealPieceTokenFromCode(string pieceCode)
+    {
+        var pieceData = PieceDataFromCode(pieceCode);
+        var realPiece = CreateRealPieceBasedOnPieceData(pieceData);
+
+        return new RealPieceToken(pieceData.Coordinates, realPiece, pieceData.IsFirstMove);
+    }
+
     private static PieceData PieceDataFromCode(string pieceCode)
     {
         var x = CoordinateFromCode(pieceCode, out pieceCode);
@@ -191,6 +199,43 @@ public class Analyzer
         if (pieceData.TypeCode == "b") return new AbsBishop(pieceData.ColorCode, pieceData.IsFirstMove);
         if (pieceData.TypeCode == "Q") return new AbsQueen(pieceData.ColorCode, pieceData.IsFirstMove);
         if (pieceData.TypeCode == "K") return new AbsKing(pieceData.ColorCode, pieceData.IsFirstMove);
+        return null;
+    }
+
+    public static RealChessBoard RealBoardFromChessCode(ChessCode chessCode)
+    {
+        var realBoard = CreateRealBoardBasedOnSizeCode(chessCode.BoardSize);
+        return RecreatePiecesFromChessCodeOnRealBoard(chessCode, realBoard);
+    }
+
+    public static RealChessBoard RecreatePiecesFromChessCodeOnRealBoard(ChessCode chessCode, RealChessBoard realBoard)
+    {
+        var pieceCodes = PieceCodeListFromChessCode(chessCode);
+
+        foreach (var pieceCode in pieceCodes)
+        {
+            var realPieceToken = CreateRealPieceTokenFromCode(pieceCode);
+            var x = realPieceToken.SquareCoordinates.x;
+            var y = realPieceToken.SquareCoordinates.y;
+
+            var square = realBoard.RealSquares[x, y];
+            square.RealPieceOnIt = realPieceToken.RealPiece;
+            square.RealPieceOnIt.transform.position = square.transform.position;
+        }
+
+        return realBoard;
+    }
+
+    private static RealPiece CreateRealPieceBasedOnPieceData(PieceData pieceData)
+    {
+        var prefabsStorage = SingletonRegistry.Instance.PrefabsStorage;
+
+        if (pieceData.TypeCode == "p") return Object.Instantiate(prefabsStorage.Pawn, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        if (pieceData.TypeCode == "r") return Object.Instantiate(prefabsStorage.Rook, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        if (pieceData.TypeCode == "k") return Object.Instantiate(prefabsStorage.Knight, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        if (pieceData.TypeCode == "b") return Object.Instantiate(prefabsStorage.Bishop, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        if (pieceData.TypeCode == "Q") return Object.Instantiate(prefabsStorage.Queen, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        if (pieceData.TypeCode == "K") return Object.Instantiate(prefabsStorage.King, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
         return null;
     }
 
@@ -230,7 +275,7 @@ public class Analyzer
 
     #region f(x) returns squares where piece can go and don't create check situation for its king
 
-        public static List<ISquare> MovesWithoutCheckForKing(ISquare squareWithPiece, ActionType actionType)
+    public static List<ISquare> MovesWithoutCheckForKing(ISquare squareWithPiece, ActionType actionType)
     {
         var movesWithoutCheck = new List<ISquare>();
         var piecesMoves = actionType == ActionType.Movement ? 
@@ -293,10 +338,15 @@ public class Analyzer
     {
         TryGetPieceStateCode(from, out var fromPieceState);
         TryGetPieceStateCode(to, out var toPieceState);
+
+        var fromCoordinates = GetCodeOfSquaresCoordinates(from);
+        var toCoordinates = GetCodeOfSquaresCoordinates(to);
+
         var piecesState = current.PiecesState;
 
         var newPiecesState = piecesState.Replace(fromPieceState, "");
         newPiecesState = newPiecesState.Replace(toPieceState, fromPieceState);
+        newPiecesState = newPiecesState.Replace(fromCoordinates, toCoordinates);
 
         return new ChessCode(newPiecesState, current.BoardSize, current.WhoseTurn);
     }
@@ -333,6 +383,20 @@ public class AbsPieceToken
     {
         SquareCoordinates = squareCoordinates;
         AbsPiece = absPiece;
+        IsFirstMove = isFirstMove;
+    }
+}
+
+public class RealPieceToken
+{
+    public readonly Vector2Int SquareCoordinates;
+    public readonly RealPiece RealPiece;
+    public readonly bool IsFirstMove;
+
+    public RealPieceToken(Vector2Int squareCoordinates, RealPiece realPiece, bool isFirstMove)
+    {
+        SquareCoordinates = squareCoordinates;
+        RealPiece = realPiece;
         IsFirstMove = isFirstMove;
     }
 }

@@ -9,10 +9,10 @@ public class PieceTurnsDisplayer : MonoBehaviour
 
     private void ShowTurnsOfPieceStandsOnSquare(RealSquare realSquare)
     {
-        var moves = realSquare.RealRealPieceOnIt.GetMoves(realSquare);
+        var moves = realSquare.RealPieceOnIt.GetMoves(realSquare);
         var realMoves = moves.Select(move => realSquare.RealBoard.RealSquareWithCoordinates(move.Coordinates)).ToList();
 
-        var attacks = realSquare.RealRealPieceOnIt.GetAttacks(realSquare);
+        var attacks = realSquare.RealPieceOnIt.GetAttacks(realSquare);
         var realAttacks = attacks.Select(attack => realSquare.RealBoard.RealSquareWithCoordinates(attack.Coordinates)).ToList();
 
         ActivateListOfSquares(realMoves);

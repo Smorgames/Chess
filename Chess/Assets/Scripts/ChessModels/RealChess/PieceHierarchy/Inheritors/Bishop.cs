@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Bishop : RealPiece
 {
-    public override PieceType MyType => PieceType.Bishop;
     public override string TypeCode => "b";
     
     private List<ISquare> _attacks = new List<ISquare>();
