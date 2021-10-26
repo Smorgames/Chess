@@ -6,10 +6,10 @@ public class ChessboardBuilder
     {
         var centerCoord = new Vector2(0, 0);
         var boardSize = new Vector2Int(8, 8);
-        return BuildArbitraryChessboard(centerCoord, boardSize);
+        return BuildArbitraryChessBoard(centerCoord, boardSize);
     }
 
-    public static RealChessBoard BuildArbitraryChessboard(Vector2 boardCenterCoordinate, Vector2Int boardSize)
+    public static RealChessBoard BuildArbitraryChessBoard(Vector2 boardCenterCoordinate, Vector2Int boardSize)
     {
         var board = CreateChessboardTemplate(boardSize);
         

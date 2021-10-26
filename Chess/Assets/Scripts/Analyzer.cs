@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using AbstractChess;
 using UnityEngine;
@@ -72,119 +71,106 @@ public class Analyzer
     }
 
     #endregion
-
+    
     #region f(x) Create abstract chess board from chess code
 
     public static AbsChessBoard AbsBoardFromChessCode(ChessCode chessCode)
     {
-        var absBoard = CreateAbsBoardFormBoardSizeCode(chessCode.BoardSize);
-        var piecesState = chessCode.PiecesState;
+        var pieceCodes = PieceCodeListFromChessCode(chessCode);
+        var absBoard = CreateAbsBoardBasedOnSizeCode(chessCode.BoardSize);
 
-        for (int i = 0; i < piecesState.Length; ++i)
+        foreach (var pieceCode in pieceCodes)
         {
-            var stringBuilder = new StringBuilder();
-            var j = i;
-
-            while (piecesState[j] != '_')
-            {
-                stringBuilder.Append(piecesState[j]);
-                ++j;
-            }
-
-            var absPieceToken = CreateAbsPieceTokenFromCode(stringBuilder.ToString());
-            
+            var absPieceToken = CreateAbsPieceTokenFromCode(pieceCode);
             var x = absPieceToken.SquareCoordinates.x;
             var y = absPieceToken.SquareCoordinates.y;
-
+            
             absBoard.AbsSquares[x, y].AbsPieceOnIt = absPieceToken.AbsPiece;
-            i = j;
         }
 
         return absBoard;
     }
-
-    private static AbsChessBoard CreateAbsBoardFormBoardSizeCode(string boardSizeCode)
+    private static IEnumerable<string> PieceCodeListFromChessCode(ChessCode chessCode)
     {
-        var stringBuilder = new StringBuilder();
-        var i = 0;
+        var piecesState = chessCode.PiecesState;
+        var pieceCodes = new List<string>();
         
-        while (boardSizeCode[i] != ';')
+        for (int i = 0; i < piecesState.Length; ++i)
         {
-            stringBuilder.Append(boardSizeCode[i]);
-            ++i;
-        }
-        ++i;
-        int.TryParse(stringBuilder.ToString(), out var x);
-        stringBuilder.Clear();
-        
-        while (i < boardSizeCode.Length)
-        {
-            stringBuilder.Append(boardSizeCode[i]);
-            ++i;
-        }
-        
-        int.TryParse(stringBuilder.ToString(), out var y);
+            var pieceCode = new StringBuilder();
+            var j = i;
 
-        // var x = CoordinateFromCode(boardSizeCode, out boardSizeCode);
-        // var y = CoordinateFromCode(boardSizeCode, out boardSizeCode);
-        return new AbsChessBoard(x, y);
+            while (piecesState[j] != '_')
+            {
+                pieceCode.Append(piecesState[j]);
+                ++j;
+            }
+
+            pieceCodes.Add(pieceCode.ToString());
+            i = j;
+        }
+
+        return pieceCodes;
+    }
+    private static Vector2Int BoardSizeFromCode(string sizeCode)
+    {
+        var x = CoordinateFromCode(sizeCode, out sizeCode);
+        var y = CoordinateFromCode(sizeCode, out sizeCode);
+
+        return new Vector2Int(x, y);
+    }
+    private static AbsChessBoard CreateAbsBoardBasedOnSizeCode(string sizeCode)
+    {
+        var size = BoardSizeFromCode(sizeCode);
+        return new AbsChessBoard(size);
+    }
+    private static RealChessBoard CreateRealBoardBasedOnSizeCode(string sizeCode) => CreateRealBoardBasedOnSizeCode(sizeCode, Vector2.zero);
+    private static RealChessBoard CreateRealBoardBasedOnSizeCode(string sizeCode, Vector2 boardCenter)
+    {
+        var size = BoardSizeFromCode(sizeCode);
+        return ChessboardBuilder.BuildArbitraryChessBoard(boardCenter, size);
     }
 
-    private static int CoordinateFromCode(string boardSizeCode, out string newBoardSizeCode)
+    private static int CoordinateFromCode(string code, out string newCode)
     {
-        var code = boardSizeCode;
-        var stringBuilder = new StringBuilder();
+        var sb = new StringBuilder();
         var i = 0;
 
-        while (code[i] != ';')
+        while (i < code.Length && code[i] != ';')
         {
-            stringBuilder.Append(code[i]);
+            sb.Append(code[i]);
             ++i;
         }
-        ++i;
-        stringBuilder.Append(code[i]);
-
-        var stringCoordinate = stringBuilder.ToString();
-        var parsed = int.TryParse(stringCoordinate, out var coordinateValue);
+        
+        var parsed = int.TryParse(sb.ToString(), out var value);
+        
+        if (i < code.Length && code[i] == ';') sb.Append(code[i]);
 
         if (parsed)
         {
-            newBoardSizeCode = code.Replace(stringCoordinate, "");
-            return coordinateValue;
+            newCode = code.Remove(0, sb.Length);
+            return value;
         }
 
-        Debug.Log($"Incorrect board size code! Must be Integer, but equals {stringCoordinate}");
-        newBoardSizeCode = "";
+        newCode = "";
+        Debug.LogError($"Incorrect value for {nameof(code)}! It must be integer, but equals: [{sb}]");
         return 0;
     }
-
+    
     private static AbsPieceToken CreateAbsPieceTokenFromCode(string pieceCode)
     {
-        var stringBuilder = new StringBuilder();
-        var i = 0;
-        
-        while (pieceCode[i] != ';')
-        {
-            stringBuilder.Append(pieceCode[i]);
-            ++i;
-        }
-        
-        ++i;
-        int.TryParse(stringBuilder.ToString(), out var x);
-        stringBuilder.Clear();
-        
-        while (pieceCode[i] != ';')
-        {
-            stringBuilder.Append(pieceCode[i]);
-            ++i;
-        }
-        
-        ++i;
-        int.TryParse(stringBuilder.ToString(), out var y);
-        
-        // var x = CoordinateFromCode(pieceCode, out pieceCode);
-        // var y = CoordinateFromCode(pieceCode, out pieceCode);
+        var pieceData = PieceDataFromCode(pieceCode);
+        var absPiece = CreateAbsPieceBasedOnPieceData(pieceData);
 
+        return new AbsPieceToken(pieceData.Coordinates, absPiece, pieceData.IsFirstMove);
+    }
+    
+    private static PieceData PieceDataFromCode(string pieceCode)
+    {
+        var x = CoordinateFromCode(pieceCode, out pieceCode);
+        var y = CoordinateFromCode(pieceCode, out pieceCode);
+
+        var i = 0;
         var colorCode = pieceCode[i].ToString();
         i += 2;
 
@@ -192,28 +178,59 @@ public class Analyzer
         i += 2;
         
         var isFirstMove = pieceCode[i] == '1';
-
         var coordinates = new Vector2Int(x, y);
-        var absPiece = CreateAbsPieceBasedOnPieceParameters(typeCode, colorCode, isFirstMove);
 
-        return new AbsPieceToken(coordinates, absPiece, isFirstMove);
+        return new PieceData(coordinates, colorCode, typeCode, isFirstMove);
     }
 
-    private static AbsPiece CreateAbsPieceBasedOnPieceParameters(string typeCode, string colorCode, bool isFirstMove)
+    private static AbsPiece CreateAbsPieceBasedOnPieceData(PieceData pieceData)
     {
-        if (typeCode == "p") return new AbsPawn(colorCode, isFirstMove);
-        if (typeCode == "r") return new AbsRook(colorCode, isFirstMove);
-        if (typeCode == "k") return new AbsKnight(colorCode, isFirstMove);
-        if (typeCode == "b") return new AbsBishop(colorCode, isFirstMove);
-        if (typeCode == "Q") return new AbsQueen(colorCode, isFirstMove);
-        if (typeCode == "K") return new AbsKing(colorCode, isFirstMove);
+        if (pieceData.TypeCode == "p") return new AbsPawn(pieceData.ColorCode, pieceData.IsFirstMove);
+        if (pieceData.TypeCode == "r") return new AbsRook(pieceData.ColorCode, pieceData.IsFirstMove);
+        if (pieceData.TypeCode == "k") return new AbsKnight(pieceData.ColorCode, pieceData.IsFirstMove);
+        if (pieceData.TypeCode == "b") return new AbsBishop(pieceData.ColorCode, pieceData.IsFirstMove);
+        if (pieceData.TypeCode == "Q") return new AbsQueen(pieceData.ColorCode, pieceData.IsFirstMove);
+        if (pieceData.TypeCode == "K") return new AbsKing(pieceData.ColorCode, pieceData.IsFirstMove);
         return null;
     }
 
     #endregion
-    
-    
-    public static List<ISquare> MovesWithoutCheckForKing(ISquare squareWithPiece, ActionType actionType)
+
+    #region f(x) Create real chess board from chess code
+
+    // public static RealChessBoard RealBoardFromChessCode(ChessCode chessCode)
+    // {
+    //     var absBoard = CreateAbsBoardFormBoardSizeCode(chessCode.BoardSize);
+    //     var piecesState = chessCode.PiecesState;
+    //
+    //     for (int i = 0; i < piecesState.Length; ++i)
+    //     {
+    //         var stringBuilder = new StringBuilder();
+    //         var j = i;
+    //
+    //         while (piecesState[j] != '_')
+    //         {
+    //             stringBuilder.Append(piecesState[j]);
+    //             ++j;
+    //         }
+    //
+    //         var absPieceToken = CreateAbsPieceTokenFromCode(stringBuilder.ToString());
+    //         
+    //         var x = absPieceToken.SquareCoordinates.x;
+    //         var y = absPieceToken.SquareCoordinates.y;
+    //
+    //         absBoard.AbsSquares[x, y].AbsPieceOnIt = absPieceToken.AbsPiece;
+    //         i = j;
+    //     }
+    //
+    //     return absBoard;
+    // }
+
+    #endregion
+
+    #region f(x) returns squares where piece can go and don't create check situation for its king
+
+        public static List<ISquare> MovesWithoutCheckForKing(ISquare squareWithPiece, ActionType actionType)
     {
         var movesWithoutCheck = new List<ISquare>();
         var piecesMoves = actionType == ActionType.Movement ? 
@@ -302,6 +319,8 @@ public class Analyzer
         
         return $"{x};{y}";
     }
+
+    #endregion
 }
 
 public class AbsPieceToken
@@ -318,14 +337,17 @@ public class AbsPieceToken
     }
 }
 
-public class PiecesTypeStorage
+public class PieceData
 {
-    public readonly Type RealPieceType;
-    public readonly Type AbsPieceType;
+    public readonly Vector2Int Coordinates;
+    public readonly string ColorCode, TypeCode;
+    public readonly bool IsFirstMove;
 
-    public PiecesTypeStorage(Type realPieceType, Type absPieceType)
+    public PieceData(Vector2Int coordinates, string colorCode, string typeCode, bool isFirstMove)
     {
-        RealPieceType = realPieceType;
-        AbsPieceType = absPieceType;
+        Coordinates = coordinates;
+        ColorCode = colorCode;
+        TypeCode = typeCode;
+        IsFirstMove = isFirstMove;
     }
 }
