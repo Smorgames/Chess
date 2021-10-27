@@ -24,12 +24,12 @@ namespace AbstractChess
             };
 
             foreach (var dir in directions)
-                supposedMoves = SetMoves(MovesType.Movement, square, directions);
+                supposedMoves = SetMoves(ActionType.Movement, square, directions);
             
-            return supposedMoves;
+            return Analyzer.MovesWithoutCheckForKing(square, supposedMoves, ActionType.Movement);
         }
 
-        private List<ISquare> SetMoves(MovesType movesType, ISquare squareWithPiece, List<Vector2Int> moveDirections)
+        private List<ISquare> SetMoves(ActionType actionType, ISquare squareWithPiece, List<Vector2Int> moveDirections)
         {
             var squares = new List<ISquare>();
 
@@ -42,12 +42,12 @@ namespace AbstractChess
                 var square = squareWithPiece.Board.SquareWithCoordinates(coordinates);
                 var pieceOnSquare = squareWithPiece.PieceOnIt;
                 
-                var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && ColorCode != pieceOnSquare.ColorCode;
+                var conditionForAddAttackMove = actionType == ActionType.Attack && pieceOnSquare != null && ColorCode != pieceOnSquare.ColorCode;
                 
                 if (conditionForAddAttackMove) 
                     squares.Add(square);
 
-                var conditionForAddMoves = movesType == MovesType.Movement && pieceOnSquare == null;
+                var conditionForAddMoves = actionType == ActionType.Movement && pieceOnSquare == null;
                 
                 if (conditionForAddMoves)
                     squares.Add(square);
@@ -58,7 +58,7 @@ namespace AbstractChess
 
         public override List<ISquare> GetAttacks(ISquare square)
         {
-            var supposeMoves = new List<ISquare>();
+            var supposedMoves = new List<ISquare>();
             var directions = new List<Vector2Int>()
             {
                 _upRightDir, _upLeftDir, _downLeftDir, _downRightDir,
@@ -66,21 +66,15 @@ namespace AbstractChess
             };
 
             foreach (var dir in directions)
-                supposeMoves = SetMoves(MovesType.Attack, square, directions);
+                supposedMoves = SetMoves(ActionType.Attack, square, directions);
             
-            return supposeMoves;
+            return Analyzer.MovesWithoutCheckForKing(square, supposedMoves, ActionType.Attack);
         }
 
         public override string ToString()
         {
             var color = ColorCode == "w" ? "White" : "Black";
             return $"{color} king";
-        }
-
-        private enum MovesType
-        {
-            Attack,
-            Movement
         }
     }
 }

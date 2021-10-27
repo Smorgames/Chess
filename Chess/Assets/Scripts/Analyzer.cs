@@ -273,43 +273,37 @@ public class Analyzer
 
     #endregion
 
-    public static bool IsMateForKing(ISquare squareWithPiece)
+    public static bool IsMateForKing(IChessBoard board)
     {
-        var board = squareWithPiece.Board;
-        var kingColor = squareWithPiece.PieceOnIt.ColorCode;
-
         var actionSquares = new List<ISquare>();
 
         for (int x = 0; x < board.Size.x; x++)
         for (int y = 0; y < board.Size.y; y++)
+        {
+            var square = board.Squares[x, y];
+            var piece = square.PieceOnIt;
+
+            if (piece != null && piece.ColorCode == board.WhoseTurn)
             {
-                var square = board.Squares[x, y];
-                var piece = square.PieceOnIt;
+                actionSquares.AddRange(piece.GetMoves(square));
+                actionSquares.AddRange(piece.GetAttacks(square));
 
-                if (piece != null && piece.ColorCode == kingColor)
-                {
-                    actionSquares.AddRange(piece.GetMoves(square));
-                    actionSquares.AddRange(piece.GetAttacks(square));
-
-                    if (actionSquares.Count > 0) return false;
-                }
+                if (actionSquares.Count > 0) return false;
             }
+        }
 
         return true;
     }
 
     #region f(x) returns squares where piece can go and don't create check situation for its king
 
-    public static List<ISquare> MovesWithoutCheckForKing(ISquare squareWithPiece, ActionType actionType)
+    public static List<ISquare> MovesWithoutCheckForKing(ISquare squareWithPiece, List<ISquare> supposedMovesOrAttacks, ActionType actionType)
     {
         var movesWithoutCheck = new List<ISquare>();
-        var piecesMoves = actionType == ActionType.Movement ? 
-            squareWithPiece.PieceOnIt.GetMoves(squareWithPiece) : squareWithPiece.PieceOnIt.GetAttacks(squareWithPiece);
-
         var currentCode = EncodeChessBoard(squareWithPiece.Board);
         var kingColor = squareWithPiece.PieceOnIt.ColorCode;
 
-        foreach (var pieceMove in piecesMoves)
+        foreach (var pieceMove in supposedMovesOrAttacks)
         {
             var codeWhenPieceMoved = actionType == ActionType.Movement ? 
                 GetCodeWhenPieceMovedFromSquareToOther(currentCode, squareWithPiece, pieceMove) :

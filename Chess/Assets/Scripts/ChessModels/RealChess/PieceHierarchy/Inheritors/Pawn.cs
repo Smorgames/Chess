@@ -20,8 +20,8 @@ public class Pawn : RealPiece, IPawnDirection
 
         if (PieceStandsOnSquare(secondSquare) && PieceOnSquareHasOppositeColor(secondSquare))
             supposedAttackMoves.Add(secondSquare);
-
-        return supposedAttackMoves;
+        
+        return Analyzer.MovesWithoutCheckForKing(square, supposedAttackMoves, ActionType.Attack);
     }
     
     public override List<ISquare> GetMoves(ISquare square)
@@ -37,7 +37,7 @@ public class Pawn : RealPiece, IPawnDirection
         
         var secondMoveSquare = square.Board.SquareWithCoordinates(x, y + 2 * MoveDirection);
         TryAddSupposedMoveToList(secondMoveSquare, supposedMoves);
-        return supposedMoves;
+        return Analyzer.MovesWithoutCheckForKing(square, supposedMoves, ActionType.Movement);
     }
     
     private bool TryAddSupposedMoveToList(ISquare square, List<ISquare> supposedMoves)

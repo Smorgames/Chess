@@ -39,9 +39,7 @@ public class King : RealPiece
             }
         }
 
-        if (actionType == ActionType.Attack) return _attacks;
-        if (actionType == ActionType.Movement) return _moves;
-        return null;
+        return Analyzer.MovesWithoutCheckForKing(square, actionType == ActionType.Attack ? _attacks : _moves, actionType);
     }
     private void ClearMovesAndAttacks()
     {

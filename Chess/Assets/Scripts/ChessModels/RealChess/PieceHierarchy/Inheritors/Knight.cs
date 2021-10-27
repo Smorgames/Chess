@@ -34,7 +34,7 @@ public class Knight : RealPiece
                 if (!supposedMove.IsGhost && PieceStandsOnSquare(supposedMove) && PieceOnSquareHasOppositeColor(supposedMove))
                     supposedMoves.Add(supposedMove);
         }
-
-        return supposedMoves;
+        
+        return Analyzer.MovesWithoutCheckForKing(square, supposedMoves, actionType);
     }
 }

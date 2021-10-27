@@ -14,6 +14,8 @@ public class TestAnalyzer : MonoBehaviour
         Test6();
         Test7();
         Test8();
+        Test9();
+        Test10();
     }
 
     private void Test1()
@@ -144,7 +146,8 @@ public class TestAnalyzer : MonoBehaviour
         Analyzer.RecreatePiecesFromChessCodeOnRealBoard(new ChessCode("0;2;b;Q;1_1;0;w;p;0_2;0;w;K;1_"), board);
 
         var squareWithWhitePawn = board.Squares[1, 0];
-        var movesWithoutCheck = Analyzer.MovesWithoutCheckForKing(squareWithWhitePawn, ActionType.Movement);
+        var pawnMoves = squareWithWhitePawn.PieceOnIt.GetMoves(squareWithWhitePawn);
+        var movesWithoutCheck = Analyzer.MovesWithoutCheckForKing(squareWithWhitePawn, pawnMoves, ActionType.Movement);
 
         var assert1 = movesWithoutCheck.Count == 1;
         var assert2 = movesWithoutCheck[0].Coordinates == new Vector2Int(1, 1);
@@ -193,8 +196,10 @@ public class TestAnalyzer : MonoBehaviour
         var absBoard = Analyzer.AbsBoardFromChessCode(chessCode);
 
         var squareWithWhitePawn = absBoard.Squares[1, 1];
-        var movesWithoutCheck = Analyzer.MovesWithoutCheckForKing(squareWithWhitePawn, ActionType.Movement);
-        var attacksWithoutCheck = Analyzer.MovesWithoutCheckForKing(squareWithWhitePawn, ActionType.Attack);
+        var pawnMoves = squareWithWhitePawn.PieceOnIt.GetMoves(squareWithWhitePawn);
+        var pawnAttacks = squareWithWhitePawn.PieceOnIt.GetAttacks(squareWithWhitePawn);
+        var movesWithoutCheck = Analyzer.MovesWithoutCheckForKing(squareWithWhitePawn, pawnMoves, ActionType.Movement);
+        var attacksWithoutCheck = Analyzer.MovesWithoutCheckForKing(squareWithWhitePawn, pawnAttacks, ActionType.Attack);
 
         var assert1 = movesWithoutCheck.Count + attacksWithoutCheck.Count == 1;
         var assert2 = attacksWithoutCheck[0].Coordinates == new Vector2Int(0, 2);
@@ -214,11 +219,34 @@ public class TestAnalyzer : MonoBehaviour
         var chessCode = new ChessCode(piecesState, boardSize, whoseTurn);
         var absBoard = Analyzer.AbsBoardFromChessCode(chessCode);
 
-        var squareWithWhiteKing = absBoard.Squares[1, 1];
-        var assert = Analyzer.IsMateForKing(squareWithWhiteKing);
+        var assert = Analyzer.IsMateForKing(absBoard);
 
         var text = assert ? "[Passed]".Color("Green") : "[Failed]".Color("Red");
         var test = $"{nameof(TestAnalyzer)} [Test9]:".Bold().Color("LightBlue");
+        var debug = $"{test} Checking the correctness of the {nameof(Analyzer)}.{nameof(Analyzer.IsMateForKing)}() {text}";
+
+        Debug.Log(debug);
+    }
+    
+    private void Test10()
+    {
+        var piecesState = "0;0;b;r;0_0;1;b;r;0_1;3;b;b;0_3;1;w;K;0_";
+        var boardSize = "4;4";
+        var whoseTurn = "w";
+        var chessCode = new ChessCode(piecesState, boardSize, whoseTurn);
+        var absBoard = Analyzer.AbsBoardFromChessCode(chessCode);
+
+        var assert1 = !Analyzer.IsMateForKing(absBoard);
+        var kingsSquare = absBoard.Squares[3, 1];
+        
+        var moves = kingsSquare.PieceOnIt.GetMoves(kingsSquare);
+        var attacks = kingsSquare.PieceOnIt.GetAttacks(kingsSquare);
+        
+        var assert2 = moves.Count + attacks.Count == 1;
+        var assert3 = moves[0].Coordinates == new Vector2Int(3, 2);
+
+        var text = assert1 && assert2 && assert3 ? "[Passed]".Color("Green") : "[Failed]".Color("Red");
+        var test = $"{nameof(TestAnalyzer)} [Test10]:".Bold().Color("LightBlue");
         var debug = $"{test} Checking the correctness of the {nameof(Analyzer)}.{nameof(Analyzer.IsMateForKing)}() {text}";
 
         Debug.Log(debug);

@@ -32,7 +32,7 @@ namespace AbstractChess
                 moves.Add(secondMoveSquare);
             }
 
-            return moves;
+            return Analyzer.MovesWithoutCheckForKing(absSquare, moves, ActionType.Movement);
         }
         private ISquare GetSquareToMove(ISquare absSquareWithChessPiece, int moveDistance)
         {
@@ -46,22 +46,22 @@ namespace AbstractChess
 
         public override List<ISquare> GetAttacks(ISquare square)
         {
-            var attackSquares = new List<ISquare>();
+            var attacks = new List<ISquare>();
             
             var firstAttackSquare = GetAttackSquare(square, 1);
             var secondAttackSquare = GetAttackSquare(square, -1);
-            var supposedAttackSquares = new List<ISquare>() { firstAttackSquare, secondAttackSquare };
+            var supposedAttacks = new List<ISquare>() { firstAttackSquare, secondAttackSquare };
 
-            foreach (var s in supposedAttackSquares)
-                if (s.PieceOnIt != null)
+            foreach (var attack in supposedAttacks)
+                if (attack.PieceOnIt != null)
                 {
-                    var squareChessPieceColor = s.PieceOnIt.ColorCode;
+                    var squareChessPieceColor = attack.PieceOnIt.ColorCode;
 
                     if (ColorCode != squareChessPieceColor)
-                        attackSquares.Add(s);
+                        attacks.Add(attack);
                 }
 
-            return attackSquares;
+            return Analyzer.MovesWithoutCheckForKing(square, attacks, ActionType.Attack);
         }
         private ISquare GetAttackSquare(ISquare absSquareWithChessPiece, int xOffset)
         {

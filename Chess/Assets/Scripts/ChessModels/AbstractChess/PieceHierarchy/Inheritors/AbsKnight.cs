@@ -32,15 +32,17 @@ namespace AbstractChess
 
         public override List<ISquare> GetMoves(ISquare square)
         {
-            return GetMoves(square, MovesType.Movement);
+            var supposedMoves = GetMoves(square, ActionType.Movement);
+            return Analyzer.MovesWithoutCheckForKing(square, supposedMoves, ActionType.Movement);
         }
 
         public override List<ISquare> GetAttacks(ISquare square)
         {
-            return GetMoves(square, MovesType.Attack);
+            var supposedMoves = GetMoves(square, ActionType.Attack);
+            return Analyzer.MovesWithoutCheckForKing(square, supposedMoves, ActionType.Attack);
         }
 
-        private List<ISquare> GetMoves(ISquare squareWithPiece, MovesType movesType)
+        private List<ISquare> GetMoves(ISquare squareWithPiece, ActionType actionType)
         {
             var squares = new List<ISquare>();
 
@@ -49,12 +51,12 @@ namespace AbstractChess
                 var square = squareWithPiece.Board.SquareWithCoordinates(squareWithPiece.Coordinates + dir);
                 var pieceOnSquare = square.PieceOnIt;
 
-                var conditionForAddAttackMove = movesType == MovesType.Attack && pieceOnSquare != null && ColorCode != pieceOnSquare.ColorCode;
+                var conditionForAddAttackMove = actionType == ActionType.Attack && pieceOnSquare != null && ColorCode != pieceOnSquare.ColorCode;
                 
                 if (conditionForAddAttackMove) 
                     squares.Add(square);
 
-                var conditionForAddMoves = movesType == MovesType.Movement && pieceOnSquare == null;
+                var conditionForAddMoves = actionType == ActionType.Movement && pieceOnSquare == null;
                 
                 if (conditionForAddMoves)
                     squares.Add(square);
@@ -67,12 +69,6 @@ namespace AbstractChess
         {
             var color = ColorCode == "w" ? "White" : "Black";
             return $"{color} knight";
-        }
-
-        private enum MovesType
-        {
-            Attack,
-            Movement
         }
     }
 }
