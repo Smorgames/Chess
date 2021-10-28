@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PieceTurnsDisplayer : MonoBehaviour
 {
-    public PiecesPossibleMoves PieceTurns { get => _pieceMoves; }
-    private PiecesPossibleMoves _pieceMoves = new PiecesPossibleMoves();
+    public PiecesPossibleMoves PieceTurns { get; } = new PiecesPossibleMoves();
 
     private void ShowTurnsOfPieceStandsOnSquare(RealSquare realSquare)
     {
@@ -15,27 +14,27 @@ public class PieceTurnsDisplayer : MonoBehaviour
         var attacks = realSquare.RealPieceOnIt.GetAttacks(realSquare);
         var realAttacks = attacks.Select(attack => realSquare.RealBoard.RealSquareWithCoordinates(attack.Coordinates)).ToList();
 
-        ActivateListOfSquares(realMoves);
-        ActivateListOfSquares(realAttacks);
+        PieceTurns.AttackTurns.AddRange(realAttacks);
+        PieceTurns.AttackTurns.AddRange(realMoves);
+        
+        DeactivateAllSquaresHighlights(realSquare);
+        ActivateListOfSquares(realMoves, ActionType.Movement);
+        ActivateListOfSquares(realAttacks, ActionType.Attack);
     }
 
-    private void ActivateListOfSquares(List<RealSquare> moves)
+    private void ActivateListOfSquares(List<RealSquare> squares, ActionType actionType)
     {
-        foreach (var move in moves)
-            move.ActivateHighlight();
+        foreach (var square in squares)
+            square.SetEnabledHighlight(true, actionType);
     }
 
     public void DeactivateAllSquaresHighlights(RealSquare realSquare)
     {
-        for (int x = 0; x < realSquare.RealBoard.Size.x; x++)
-        for (int y = 0; y < realSquare.RealBoard.Size.y; y++)
-            realSquare.RealBoard.RealSquares[x, y].DeactivateHighlight();
-    }
-
-    private void DeactivateListOfSquares(List<RealSquare> realSquares)
-    {
-        foreach (var move in realSquares)
-            move.DeactivateHighlight();
+        var board = realSquare.RealBoard;
+        
+        for (int x = 0; x < board.Size.x; x++)
+        for (int y = 0; y < board.Size.y; y++)
+            board.RealSquares[x, y].DeactivateAllHighlights();
     }
 
     #region Events
@@ -55,8 +54,6 @@ public class PieceTurnsDisplayer : MonoBehaviour
 
 public class PiecesPossibleMoves
 {
-    public RealPiece RealPiece { get => _realPiece; set => _realPiece = value; }
-    private RealPiece _realPiece;
     public List<RealSquare> MoveTurns { get => _moveTurns; set => _moveTurns = value; }
     private List<RealSquare> _moveTurns = new List<RealSquare>();
     public List<RealSquare> AttackTurns { get => _attackTurns; set => _attackTurns = value; }

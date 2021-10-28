@@ -44,13 +44,17 @@ public class RealSquare : MonoBehaviour, ISquare
         RealBoard = board;
     }
 
-    public void ActivateHighlight()
+    public void SetEnabledHighlight(bool isEnabled, ActionType actionType)
     {
-        _moveHighlight.SetActive(true);
+        if (actionType == ActionType.Attack)
+            _attackHighlight.SetActive(isEnabled);
+        else
+            _moveHighlight.SetActive(isEnabled);
     }
 
-    public void DeactivateHighlight()
+    public void DeactivateAllHighlights()
     {
-        _moveHighlight.SetActive(false);
+        SetEnabledHighlight(false, ActionType.Attack);
+        SetEnabledHighlight(false, ActionType.Movement);
     }
 }
