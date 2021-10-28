@@ -24,10 +24,9 @@ public class TestAnalyzer : MonoBehaviour
         var center = new Vector2(12, 0);
         var size = new Vector2Int(1, 3);
         var realBoard = ChessboardBuilder.BuildArbitraryChessBoard(center, size);
-        realBoard.WhoseTurn = "w";
 
         // Put black King on square [0; 1]
-        var chessCode = new ChessCode("0;1;b;K;1_");
+        var chessCode = new ChessCode("0;1;b;K;1_", size, "w");
         Analyzer.RecreatePiecesFromChessCodeOnRealBoard(chessCode, realBoard);
 
         // Check encode methode
@@ -49,10 +48,9 @@ public class TestAnalyzer : MonoBehaviour
         var center = new Vector2(12, -5);
         var size = new Vector2Int(2, 3);
         var board = ChessboardBuilder.BuildArbitraryChessBoard(center, size);
-        board.WhoseTurn = "w";
 
         // Put black King on square [0; 1] 
-        Analyzer.RecreatePiecesFromChessCodeOnRealBoard(new ChessCode("0;1;b;K;1_"), board);
+        Analyzer.RecreatePiecesFromChessCodeOnRealBoard(new ChessCode("0;1;b;K;1_", size, "w"), board);
 
         var absBoard = Analyzer.AbsBoardFromRealBoard(board);
 
@@ -140,10 +138,9 @@ public class TestAnalyzer : MonoBehaviour
         var center = new Vector2(-12, -5);
         var size = new Vector2Int(3, 3);
         var board = ChessboardBuilder.BuildArbitraryChessBoard(center, size);
-        board.WhoseTurn = "w";
 
         // Put black Queen on [0; 2], white Pawn [1; 0], white King on [2; 0]
-        Analyzer.RecreatePiecesFromChessCodeOnRealBoard(new ChessCode("0;2;b;Q;1_1;0;w;p;0_2;0;w;K;1_"), board);
+        Analyzer.RecreatePiecesFromChessCodeOnRealBoard(new ChessCode("0;2;b;Q;1_1;0;w;p;0_2;0;w;K;1_", size, "w"), board);
 
         var squareWithWhitePawn = board.Squares[1, 0];
         var pawnMoves = squareWithWhitePawn.PieceOnIt.GetMoves(squareWithWhitePawn);

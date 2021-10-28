@@ -57,7 +57,7 @@ namespace AbstractChess
             }
         }
 
-        protected void ClearAttacksAndMoves()
+        private void ClearAttacksAndMoves()
         {
             Attacks.Clear();
             Moves.Clear();

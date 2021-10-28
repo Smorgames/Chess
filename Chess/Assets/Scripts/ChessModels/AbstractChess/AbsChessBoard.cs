@@ -48,8 +48,8 @@ namespace AbstractChess
         private void Constructor(Vector2Int boardSize)
         {
             _size = boardSize;
-            _ghostSquare = new AbsSquare(new Vector2Int(-1, -1), this);
-            
+            _ghostSquare = new AbsSquare(new Vector2Int(-1, -1), this) {IsGhost = true};
+
             _absSquares = new AbsSquare[_size.x, _size.y];
 
             for (int x = 0; x < _size.x; x++)

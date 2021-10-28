@@ -46,10 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6a08f542c667f44a025891620d8452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _highlight: {fileID: 7877402310290964889}
-  _blackHighlight: {fileID: 0}
-  _whiteHighlight: {fileID: 0}
-  _collider: {fileID: 3863680785828508115}
+  _moveHighlight: {fileID: 7877402310290964889}
+  _attackHighlight: {fileID: 7877402310290964889}
+  _isGhost: 0
 --- !u!212 &6221665650509939947
 SpriteRenderer:
   m_ObjectHideFlags: 0

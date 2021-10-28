@@ -4,7 +4,7 @@ namespace AbstractChess
 {
     public class AbsSquare : ISquare
     {
-        public bool IsGhost { get; }
+        public bool IsGhost { get; set; }
         public IPiece PieceOnIt => AbsPieceOnIt;
         public AbsPiece AbsPieceOnIt { get; set; }
 

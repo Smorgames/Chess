@@ -1,34 +1,19 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace AbstractChess
 {
-    public class AbsBishop : LinearlyMovingAbsPiece
+    public class AbsBishop : AbsPiece, IBishop
     {        
         public override string TypeCode => "b";
+        public IPiece MyIPiece => this;
 
         public AbsBishop(string colorCode, bool isFirstMove) : base(colorCode, isFirstMove)
         {
             
         }
 
-        public override List<ISquare> GetAttacks(ISquare square)
-        {
-            FillAttacksAndMoves(square);
-            return Attacks;
-        }
-    
-        public override List<ISquare> GetMoves(ISquare square)
-        {
-            FillAttacksAndMoves(square);
-            return Moves;
-        }
-
-        private void FillAttacksAndMoves(ISquare square)
-        {
-            var directions = new List<Vector2Int>() { UpRightDirection, UpLeftDirection, DownRightDirection, DownLeftDirection };
-            FillAttacksAndMovesSquares(square, directions);
-        }
+        public override List<ISquare> GetAttacks(ISquare square) => this.BishopSquaresForAction(square, ActionType.Attack);
+        public override List<ISquare> GetMoves(ISquare square) => this.BishopSquaresForAction(square, ActionType.Movement);
 
         public override string ToString()
         {

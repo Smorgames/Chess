@@ -15,7 +15,7 @@ public class RealSquare : MonoBehaviour, ISquare
 
     #region Interface implementation
 
-    public bool IsGhost => _isGhost;
+    public bool IsGhost { get => _isGhost; set => _isGhost = value;}
     [SerializeField] private bool _isGhost;
     public Vector2Int Coordinates { get; private set; }
     public IPiece PieceOnIt => RealPieceOnIt;

@@ -31,7 +31,6 @@ public class Analyzer
 
         return new ChessCode(piecesState, boardSize, whoseTurn);
     }
-
     private static string GetBoardSizeCode(IChessBoard chessBoard)
     {
         var x = chessBoard.Size.x.ToString();
@@ -39,7 +38,6 @@ public class Analyzer
 
         return $"{x};{y}";
     }
-
     private static bool TryGetPieceStateCode(ISquare square, out string pieceState)
     {
         var piece = square.PieceOnIt;
@@ -72,7 +70,7 @@ public class Analyzer
 
     #endregion
     
-    #region f(x) Create abstract chess board from chess code
+    #region f(x) create abstract chess board from chess code
 
     public static AbsChessBoard AbsBoardFromChessCode(ChessCode chessCode)
     {
@@ -88,6 +86,7 @@ public class Analyzer
             absBoard.AbsSquares[x, y].AbsPieceOnIt = absPieceToken.AbsPiece;
         }
 
+        absBoard.WhoseTurn = chessCode.WhoseTurn;
         return absBoard;
     }
     private static IEnumerable<string> PieceCodeListFromChessCode(ChessCode chessCode)
@@ -112,23 +111,18 @@ public class Analyzer
 
         return pieceCodes;
     }
+
+    private static AbsChessBoard CreateAbsBoardBasedOnSizeCode(string sizeCode)
+    {
+        var size = BoardSizeFromCode(sizeCode);
+        return new AbsChessBoard(size);
+    }
     private static Vector2Int BoardSizeFromCode(string sizeCode)
     {
         var x = CoordinateFromCode(sizeCode, out sizeCode);
         var y = CoordinateFromCode(sizeCode, out sizeCode);
 
         return new Vector2Int(x, y);
-    }
-    private static AbsChessBoard CreateAbsBoardBasedOnSizeCode(string sizeCode)
-    {
-        var size = BoardSizeFromCode(sizeCode);
-        return new AbsChessBoard(size);
-    }
-    private static RealChessBoard CreateRealBoardBasedOnSizeCode(string sizeCode) => CreateRealBoardBasedOnSizeCode(sizeCode, Vector2.zero);
-    private static RealChessBoard CreateRealBoardBasedOnSizeCode(string sizeCode, Vector2 boardCenter)
-    {
-        var size = BoardSizeFromCode(sizeCode);
-        return ChessboardBuilder.BuildArbitraryChessBoard(boardCenter, size);
     }
 
     private static int CoordinateFromCode(string code, out string newCode)
@@ -202,12 +196,6 @@ public class Analyzer
         return null;
     }
 
-    public static RealChessBoard RealBoardFromChessCode(ChessCode chessCode)
-    {
-        var realBoard = CreateRealBoardBasedOnSizeCode(chessCode.BoardSize);
-        return RecreatePiecesFromChessCodeOnRealBoard(chessCode, realBoard);
-    }
-
     public static RealChessBoard RecreatePiecesFromChessCodeOnRealBoard(ChessCode chessCode, RealChessBoard realBoard)
     {
         var pieceCodes = PieceCodeListFromChessCode(chessCode);
@@ -223,6 +211,7 @@ public class Analyzer
             square.RealPieceOnIt.transform.position = square.transform.position;
         }
 
+        realBoard.WhoseTurn = chessCode.WhoseTurn;
         return realBoard;
     }
 
@@ -241,37 +230,24 @@ public class Analyzer
 
     #endregion
 
-    #region f(x) Create real chess board from chess code
+    #region f(x) create real chess board from chess code
 
-    // public static RealChessBoard RealBoardFromChessCode(ChessCode chessCode)
-    // {
-    //     var absBoard = CreateAbsBoardFormBoardSizeCode(chessCode.BoardSize);
-    //     var piecesState = chessCode.PiecesState;
-    //
-    //     for (int i = 0; i < piecesState.Length; ++i)
-    //     {
-    //         var stringBuilder = new StringBuilder();
-    //         var j = i;
-    //
-    //         while (piecesState[j] != '_')
-    //         {
-    //             stringBuilder.Append(piecesState[j]);
-    //             ++j;
-    //         }
-    //
-    //         var absPieceToken = CreateAbsPieceTokenFromCode(stringBuilder.ToString());
-    //         
-    //         var x = absPieceToken.SquareCoordinates.x;
-    //         var y = absPieceToken.SquareCoordinates.y;
-    //
-    //         absBoard.AbsSquares[x, y].AbsPieceOnIt = absPieceToken.AbsPiece;
-    //         i = j;
-    //     }
-    //
-    //     return absBoard;
-    // }
+    public static RealChessBoard RealBoardFromChessCode(ChessCode chessCode)
+    {
+        var realBoard = CreateRealBoardBasedOnSizeCode(chessCode.BoardSize);
+        return RecreatePiecesFromChessCodeOnRealBoard(chessCode, realBoard);
+    }
+    
+    private static RealChessBoard CreateRealBoardBasedOnSizeCode(string sizeCode) => CreateRealBoardBasedOnSizeCode(sizeCode, Vector2.zero);
+    private static RealChessBoard CreateRealBoardBasedOnSizeCode(string sizeCode, Vector2 boardCenter)
+    {
+        var size = BoardSizeFromCode(sizeCode);
+        return ChessboardBuilder.BuildArbitraryChessBoard(boardCenter, size);
+    }
 
     #endregion
+
+    #region f(x) find out is mate for King
 
     public static bool IsMateForKing(IChessBoard board)
     {
@@ -295,13 +271,15 @@ public class Analyzer
         return true;
     }
 
+    #endregion
+
     #region f(x) returns squares where piece can go and don't create check situation for its king
 
     public static List<ISquare> MovesWithoutCheckForKing(ISquare squareWithPiece, List<ISquare> supposedMovesOrAttacks, ActionType actionType)
     {
         var movesWithoutCheck = new List<ISquare>();
         var currentCode = EncodeChessBoard(squareWithPiece.Board);
-        var kingColor = squareWithPiece.PieceOnIt.ColorCode;
+        var kingColor = squareWithPiece.Board.WhoseTurn;
 
         foreach (var pieceMove in supposedMovesOrAttacks)
         {
@@ -388,6 +366,12 @@ public class Analyzer
         
         return $"{x};{y}";
     }
+
+    #endregion
+
+    #region f(x) arrange chess pieces on real chess board
+
+    
 
     #endregion
 }

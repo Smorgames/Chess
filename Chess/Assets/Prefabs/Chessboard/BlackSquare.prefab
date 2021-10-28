@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7714463600364054775}
   - component: {fileID: 1027117853517405351}
   m_Layer: 0
-  m_Name: BlackCell
+  m_Name: BlackSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6a08f542c667f44a025891620d8452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _highlight: {fileID: 4040130127604094603}
-  _collider: {fileID: 1027117853517405351}
+  _moveHighlight: {fileID: 4040130127604094603}
+  _attackHighlight: {fileID: 4040130127604094603}
+  _isGhost: 0
 --- !u!212 &7714463600364054775
 SpriteRenderer:
   m_ObjectHideFlags: 0
