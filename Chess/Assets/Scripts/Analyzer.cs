@@ -217,14 +217,14 @@ public class Analyzer
 
     private static RealPiece CreateRealPieceBasedOnPieceData(PieceData pieceData)
     {
-        var prefabsStorage = SingletonRegistry.Instance.PrefabsStorage;
+        var prefabsStorage = ReferenceRegistry.Instance.PrefabsStorage;
 
-        if (pieceData.TypeCode == "p") return Object.Instantiate(prefabsStorage.Pawn, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
-        if (pieceData.TypeCode == "r") return Object.Instantiate(prefabsStorage.Rook, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
-        if (pieceData.TypeCode == "k") return Object.Instantiate(prefabsStorage.Knight, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
-        if (pieceData.TypeCode == "b") return Object.Instantiate(prefabsStorage.Bishop, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
-        if (pieceData.TypeCode == "Q") return Object.Instantiate(prefabsStorage.Queen, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
-        if (pieceData.TypeCode == "K") return Object.Instantiate(prefabsStorage.King, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        // if (pieceData.TypeCode == "p") return Object.Instantiate(prefabsStorage.Pawn, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        // if (pieceData.TypeCode == "r") return Object.Instantiate(prefabsStorage.Rook, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        // if (pieceData.TypeCode == "k") return Object.Instantiate(prefabsStorage.Knight, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        // if (pieceData.TypeCode == "b") return Object.Instantiate(prefabsStorage.Bishop, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        // if (pieceData.TypeCode == "Q") return Object.Instantiate(prefabsStorage.Queen, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
+        // if (pieceData.TypeCode == "K") return Object.Instantiate(prefabsStorage.King, Vector3.zero, Quaternion.identity).SetColorCode(pieceData.ColorCode);
         return null;
     }
 
@@ -242,7 +242,7 @@ public class Analyzer
     private static RealChessBoard CreateRealBoardBasedOnSizeCode(string sizeCode, Vector2 boardCenter)
     {
         var size = BoardSizeFromCode(sizeCode);
-        return ChessboardBuilder.BuildArbitraryChessBoard(boardCenter, size);
+        return null; //ChessboardBuilder.BuildArbitraryChessBoard(boardCenter, size);
     }
 
     #endregion

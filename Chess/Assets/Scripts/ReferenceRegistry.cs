@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class SingletonRegistry : MonoBehaviour
+public class ReferenceRegistry : MonoBehaviour
 {
-    public static SingletonRegistry Instance;
+    public static ReferenceRegistry Instance;
 
     private void Awake()
     {

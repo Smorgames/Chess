@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        var board = ChessboardBuilder.BuildMainChessboard();
-        Analyzer.RecreatePiecesFromChessCodeOnRealBoard(_startChessCode, board);
+        var board = ChessboardBuilder.BuildStandardChessboard();
+        //Analyzer.RecreatePiecesFromChessCodeOnRealBoard(_startChessCode, board);
         SubscribeMethodsOnEvent();
     }
 

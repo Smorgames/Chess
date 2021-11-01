@@ -1,43 +1,40 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class PieceShifter : MonoBehaviour
 {
     [SerializeField] private PieceTurnsDisplayer _pieceTurnDisplayer;
 
-    private RealSquare _fromSquare;
-    private RealSquare _toSquare;
+    private NewSquare _fromSquare;
+    private NewSquare _toSquare;
 
-    private void SelectSquareFromGo(RealSquare realSquare)
+    private void SelectSquareFromGo(object s, SquareWithPieceClickedArgs a)
     {
-        _fromSquare = realSquare;
+        _fromSquare = a.Square;
     }
 
-    private void SelectSquareToGo(RealSquare square)
+    private void SelectSquareToGo(object s, EmptySquareClickedArgs a)
     {
-        if (PieceCanGoToSquare(square))
-            _toSquare = square;
+        if (PieceCanGoToSquare(a.Square))
+            _toSquare = a.Square;
         else
         {
-            _pieceTurnDisplayer.DeactivateAllSquaresHighlights(square);
+            _pieceTurnDisplayer.DeactivateAllSquaresHighlights(a.Square.Board);
             ResetSquareFields();
         }
 
         if (_fromSquare != null)
         {
             MoveChessPiece();
-            UpdateStateOnChessboard(square);
+            UpdateStateOnChessboard(a.Square);
         }    
     }
 
-    private bool PieceCanGoToSquare(RealSquare realSquare)
+    private bool PieceCanGoToSquare(NewSquare realSquare)
     {
-        var possibleTurns = _pieceTurnDisplayer.PieceTurns.GetAllPossibleTurns();
+        var possibleTurns = _pieceTurnDisplayer.PieceTurns;
 
-        for (int i = 0; i < possibleTurns.Count; i++)
-            if (realSquare == possibleTurns[i])
-                return true;
-
-        return false;
+        return possibleTurns.Any(t => realSquare == t);
     }
 
     private void ResetSquareFields()
@@ -47,17 +44,19 @@ public class PieceShifter : MonoBehaviour
 
     private void MoveChessPiece()
     {
-        var piece = _fromSquare.RealPieceOnIt;
+        var piece = _fromSquare.PieceOnIt;
+        _fromSquare.PieceOnIt = null;
+        
+        var enemyPiece = _toSquare.PieceOnIt;
+        if (enemyPiece != null) enemyPiece.Death();
+        _toSquare.PieceOnIt = piece;
 
-        _fromSquare.RealPieceOnIt = null;
-        _toSquare.RealPieceOnIt = piece;
-
-        piece.Move(_toSquare);
+        piece.MoveTo(_toSquare);
     }
 
-    private void UpdateStateOnChessboard(RealSquare realSquare)
+    private void UpdateStateOnChessboard(NewSquare square)
     {
-        _pieceTurnDisplayer.DeactivateAllSquaresHighlights(realSquare);
+        _pieceTurnDisplayer.DeactivateAllSquaresHighlights(square.Board);
         ResetSquareFields();
     }
 
@@ -74,14 +73,14 @@ public class PieceShifter : MonoBehaviour
 
     private void SubscrubeOnEvents()
     {
-        RealSquare.OnSquareWithPieceClicked += SelectSquareFromGo;
-        RealSquare.OnEmptySquareClicked += SelectSquareToGo;
+        NewSquare.OnSquareWithPieceClicked += SelectSquareFromGo;
+        NewSquare.OnEmptySquareClicked += SelectSquareToGo;
     }
 
     private void UnsubscrubeOnEvents()
     {
-        RealSquare.OnSquareWithPieceClicked -= SelectSquareFromGo;
-        RealSquare.OnEmptySquareClicked -= SelectSquareToGo;
+        NewSquare.OnSquareWithPieceClicked -= SelectSquareFromGo;
+        NewSquare.OnEmptySquareClicked -= SelectSquareToGo;
     }
     #endregion
 }
