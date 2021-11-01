@@ -6,9 +6,11 @@ public class NewGameManager : MonoBehaviour
     public static EventHandler<TurnOrderEventArgs> OnTurnOrderChanged;
     public enum GameState { Initialization, Playing, Ended }
 
-    private GameState _currentState;
-    
+    public ChessPlayer WhitePlayer { get; private set; }
+    public ChessPlayer BlackPlayer { get; private set; }
     public NewPieceColor WhoseTurn { get; private set; }
+
+    private GameState _currentState;
 
     public static NewGameManager Instance;
     private void Awake()

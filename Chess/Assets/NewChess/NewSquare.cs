@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class NewSquare : MonoBehaviour
 {
-    public static EventHandler<SquareWithPieceClickedArgs> OnSquareWithPieceClicked;
+    public static EventHandler<ActivePieceClickedArgs> OnActivePieceClicked;
+    public static EventHandler<InactivePieceClickedArgs> OnInactivePieceClicked;
     public static EventHandler<EmptySquareClickedArgs> OnEmptySquareClicked;
     
     [SerializeField] private GameObject _moveHighlight;
@@ -24,7 +25,9 @@ public class NewSquare : MonoBehaviour
     private void OnMouseDown()
     {
         if (PieceOnIt != null && PieceOnIt.MySignature.MyColor == NewGameManager.Instance.WhoseTurn)
-            OnSquareWithPieceClicked?.Invoke(this, new SquareWithPieceClickedArgs() { Square = this });
+            OnActivePieceClicked?.Invoke(this, new ActivePieceClickedArgs() { Square = this });
+        else if (PieceOnIt != null && PieceOnIt.MySignature.MyColor != NewGameManager.Instance.WhoseTurn)
+            OnInactivePieceClicked?.Invoke(this, new InactivePieceClickedArgs() { Square = this });
         else if (PieceOnIt == null)
             OnEmptySquareClicked?.Invoke(this, new EmptySquareClickedArgs() { Square = this });
     }
@@ -56,12 +59,16 @@ public class NewSquare : MonoBehaviour
     private void TurnOrderChanged(object sender, TurnOrderEventArgs e)
     {
         if (PieceOnIt == null) return;
-        if (PieceOnIt.MySignature.MyColor == e.WhoseTurn)
-            PieceOnIt.UpdateSupposedMoves(this);
+        PieceOnIt.UpdateSupposedMoves(this);
     }
 }
 
-public class SquareWithPieceClickedArgs : EventArgs
+public class ActivePieceClickedArgs : EventArgs
+{
+    public NewSquare Square;
+}
+
+public class InactivePieceClickedArgs : EventArgs
 {
     public NewSquare Square;
 }

@@ -8,40 +8,41 @@ public class PieceShifter : MonoBehaviour
     private NewSquare _fromSquare;
     private NewSquare _toSquare;
 
-    private void SelectSquareFromGo(object s, SquareWithPieceClickedArgs a)
+    private void SelectSquareFromGo(object s, ActivePieceClickedArgs a)
     {
         _fromSquare = a.Square;
     }
 
-    private void SelectSquareToGo(object s, EmptySquareClickedArgs a)
+    private void ClickedOnEmptySquare(object s, EmptySquareClickedArgs a)
+    {
+        if (_fromSquare == null) return;
+
+        if (PieceCanGoToSquare(a.Square))
+            _toSquare = a.Square;
+
+        if (_fromSquare != null && _toSquare != null)
+            MoveChessPiece();
+        
+        ResetChessBoardState(a.Square);
+    }
+    private void ResetChessBoardState(NewSquare square)
+    {
+        _pieceTurnDisplayer.DeactivateAllSquaresHighlights(square.Board);
+        ResetSquareFields();
+    }
+    private void ResetSquareFields() => _fromSquare = _toSquare = null;
+
+    private void SelectSquareToGo(object s, InactivePieceClickedArgs a)
     {
         if (PieceCanGoToSquare(a.Square))
             _toSquare = a.Square;
-        else
-        {
-            _pieceTurnDisplayer.DeactivateAllSquaresHighlights(a.Square.Board);
-            ResetSquareFields();
-        }
 
-        if (_fromSquare != null)
-        {
+        if (_fromSquare != null && _toSquare != null)
             MoveChessPiece();
-            UpdateStateOnChessboard(a.Square);
-        }    
+          
+        ResetChessBoardState(a.Square);
     }
-
-    private bool PieceCanGoToSquare(NewSquare realSquare)
-    {
-        var possibleTurns = _pieceTurnDisplayer.PieceTurns;
-
-        return possibleTurns.Any(t => realSquare == t);
-    }
-
-    private void ResetSquareFields()
-    {
-        _fromSquare = _toSquare = null;
-    }
-
+    private bool PieceCanGoToSquare(NewSquare square) => _pieceTurnDisplayer.PieceTurns.Any(move => square == move);
     private void MoveChessPiece()
     {
         var piece = _fromSquare.PieceOnIt;
@@ -52,12 +53,6 @@ public class PieceShifter : MonoBehaviour
         _toSquare.PieceOnIt = piece;
 
         piece.MoveTo(_toSquare);
-    }
-
-    private void UpdateStateOnChessboard(NewSquare square)
-    {
-        _pieceTurnDisplayer.DeactivateAllSquaresHighlights(square.Board);
-        ResetSquareFields();
     }
 
     #region Events
@@ -73,14 +68,16 @@ public class PieceShifter : MonoBehaviour
 
     private void SubscrubeOnEvents()
     {
-        NewSquare.OnSquareWithPieceClicked += SelectSquareFromGo;
-        NewSquare.OnEmptySquareClicked += SelectSquareToGo;
+        NewSquare.OnActivePieceClicked += SelectSquareFromGo;
+        NewSquare.OnInactivePieceClicked += SelectSquareToGo;
+        NewSquare.OnEmptySquareClicked += ClickedOnEmptySquare;
     }
 
     private void UnsubscrubeOnEvents()
     {
-        NewSquare.OnSquareWithPieceClicked -= SelectSquareFromGo;
-        NewSquare.OnEmptySquareClicked -= SelectSquareToGo;
+        NewSquare.OnActivePieceClicked -= SelectSquareFromGo;
+        NewSquare.OnInactivePieceClicked -= SelectSquareToGo;
+        NewSquare.OnEmptySquareClicked -= ClickedOnEmptySquare;
     }
     #endregion
 }

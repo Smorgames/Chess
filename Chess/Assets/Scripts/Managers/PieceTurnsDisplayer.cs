@@ -6,9 +6,8 @@ public class PieceTurnsDisplayer : MonoBehaviour
 {
     public List<NewSquare> PieceTurns { get; private set; } = new List<NewSquare>();
 
-    private void ShowTurnsOfPieceStandsOnSquare(object s, SquareWithPieceClickedArgs a)
+    private void ShowTurnsOfPieceStandsOnSquare(object s, ActivePieceClickedArgs a)
     {
-        PieceTurns.Clear();
         var square = a.Square;
         var piece = square.PieceOnIt;
         var moves = NewAnalyzer.MovesWithoutCheckForKing(square, piece.SupposedMoves);
@@ -32,12 +31,12 @@ public class PieceTurnsDisplayer : MonoBehaviour
 
     private void Start()
     {
-        NewSquare.OnSquareWithPieceClicked += ShowTurnsOfPieceStandsOnSquare;
+        NewSquare.OnActivePieceClicked += ShowTurnsOfPieceStandsOnSquare;
     }
 
     private void OnDestroy()
     {
-        NewSquare.OnSquareWithPieceClicked -= ShowTurnsOfPieceStandsOnSquare;
+        NewSquare.OnActivePieceClicked -= ShowTurnsOfPieceStandsOnSquare;
     }
 
     #endregion

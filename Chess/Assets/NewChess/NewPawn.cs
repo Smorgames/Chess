@@ -6,8 +6,8 @@ public class NewPawn : NewPiece
 
     public override void UpdateSupposedMoves(NewSquare squareWithPiece)
     {
-        base.UpdateSupposedMoves(squareWithPiece);
-        
+        SupposedMoves.Clear();
+
         var x = squareWithPiece.Coordinates.x;
         var y = squareWithPiece.Coordinates.y;
         

@@ -30,10 +30,7 @@ public abstract class NewPiece : MonoBehaviour
         if (MySignature.MyType == NewPieceType.King) PieceCode = MySignature.MyColor == NewPieceColor.White ? "K" : "k";
     }
 
-    public virtual void UpdateSupposedMoves(NewSquare squareWithPiece)
-    {
-        SupposedMoves.Clear();
-    }
+    public abstract void UpdateSupposedMoves(NewSquare squareWithPiece);
 
     public void MoveTo(NewSquare square)
     {

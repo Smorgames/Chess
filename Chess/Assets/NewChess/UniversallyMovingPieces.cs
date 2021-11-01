@@ -29,7 +29,8 @@ public abstract class UniversallyMovingPieces : NewPiece
                 
                 if (supposedMove.PieceOnIt != null)
                 {
-                    if (supposedMove.PieceOnIt.MySignature.MyColor == square.PieceOnIt.MySignature.MyColor) supposedSquares.Add(supposedMove);
+                    if (supposedMove.PieceOnIt.MySignature.MyColor != square.PieceOnIt.MySignature.MyColor)
+                        supposedSquares.Add(supposedMove);
                     break;
                 }
                 

@@ -5,8 +5,8 @@ public class NewKnight : UniversallyMovingPieces
 {
     public override void UpdateSupposedMoves(NewSquare squareWithPiece)
     {
-        base.UpdateSupposedMoves(squareWithPiece);
-        
+        SupposedMoves.Clear();
+
         var directions = new List<Vector2Int>()
         {
             _upRight + _up, _upRight + _right,
