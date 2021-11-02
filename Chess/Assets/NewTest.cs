@@ -10,14 +10,14 @@ public class NewTest : MonoBehaviour
         var rookPref = ReferenceRegistry.Instance.PrefabsStorage.Rook;
         
         var king = Instantiate(kingPref, transform.position, Quaternion.identity);
-        king.Init(NewPieceColor.Black, NewPieceType.King, true);
+        king.Init("b", true);
         var king1 = Instantiate(kingPref, transform.position, Quaternion.identity);
-        king1.Init(NewPieceColor.White, NewPieceType.King, true);
+        king1.Init("w", true);
         
         var rook1 = Instantiate(rookPref, transform.position, Quaternion.identity);
-        rook1.Init(NewPieceColor.White, NewPieceType.Rook, true);
+        rook1.Init("w", true);
         var rook2 = Instantiate(rookPref, transform.position, Quaternion.identity);
-        rook2.Init(NewPieceColor.White, NewPieceType.Rook, true);
+        rook2.Init("w", true);
 
         board.Squares[3, 0].PieceOnIt = king;
         king.transform.position = board.Squares[3, 0].transform.position;
@@ -33,7 +33,7 @@ public class NewTest : MonoBehaviour
         rook2.UpdateSupposedMoves(board.Squares[2, 6]);
         king1.UpdateSupposedMoves(board.Squares[7, 7]);
 
-        var mate = NewAnalyzer.MateForKing(board, NewPieceColor.Black);
+        var mate = NewAnalyzer.MateForKing(board, "b");
         var kingMoves = NewAnalyzer.MovesWithoutCheckForKing(board.Squares[3, 0], king.SupposedMoves);
     }
 }

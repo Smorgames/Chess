@@ -6,28 +6,22 @@ public abstract class NewPiece : MonoBehaviour
 {
     public static EventHandler<PieceMovedEventArgs> OnPieceMoved;
     
-    public string PieceCode { get; private set; }
-    public Signature MySignature;
-    public List<NewSquare> SupposedMoves = new List<NewSquare>();
+    public abstract string TypeCode { get; }
+    public string ColorCode { get; private set; }
+    public bool IsFirstMove { get; private set; }
+    public List<NewSquare> SupposedMoves { get; protected set; } = new List<NewSquare>();
 
-    private static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
+    public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
-    public void Init(NewPieceColor myColor, NewPieceType myType, bool isFirstMove)
+    [SerializeField] private Sprite _whiteSprite;
+    [SerializeField] private Sprite _blackSprite;
+
+    public void Init(string colorCode, bool isFirstMove)
     {
-        MySignature.MyColor = myColor;
-        MySignature.MyType = myType;
-        MySignature.IsFirstMove = isFirstMove;
-        //SetPieceCode();
-    }
-
-    private void SetPieceCode()
-    {
-        if (MySignature.MyType == NewPieceType.Pawn) PieceCode = MySignature.MyColor == NewPieceColor.White ? "P" : "p";
-        if (MySignature.MyType == NewPieceType.Rook) PieceCode = MySignature.MyColor == NewPieceColor.White ? "R" : "r";
-        if (MySignature.MyType == NewPieceType.Knight) PieceCode = MySignature.MyColor == NewPieceColor.White ? "N" : "n";
-        if (MySignature.MyType == NewPieceType.Bishop) PieceCode = MySignature.MyColor == NewPieceColor.White ? "B" : "b";
-        if (MySignature.MyType == NewPieceType.Queen) PieceCode = MySignature.MyColor == NewPieceColor.White ? "Q" : "q";
-        if (MySignature.MyType == NewPieceType.King) PieceCode = MySignature.MyColor == NewPieceColor.White ? "K" : "k";
+        if (colorCode == "w" || colorCode == "b")
+            ColorCode = colorCode;
+        IsFirstMove = isFirstMove;
+        GetComponent<SpriteRenderer>().sprite = ColorCode == "w" ? _whiteSprite : _blackSprite;
     }
 
     public abstract void UpdateSupposedMoves(NewSquare squareWithPiece);
@@ -35,7 +29,7 @@ public abstract class NewPiece : MonoBehaviour
     public void MoveTo(NewSquare square)
     {
         transform.position = square.transform.position + Offset;
-        if (MySignature.IsFirstMove) MySignature.IsFirstMove = false;
+        if (IsFirstMove) IsFirstMove = false;
         OnPieceMoved?.Invoke(this, new PieceMovedEventArgs());
     }
     

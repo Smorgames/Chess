@@ -2,7 +2,9 @@
 
 public class NewPawn : NewPiece
 {
-    private int _verticalMoveMultiplier => MySignature.MyColor == NewPieceColor.White ? 1 : -1;
+    public override string TypeCode => "p";
+
+    private int _verticalMoveMultiplier => ColorCode == "w" ? 1 : -1;
 
     public override void UpdateSupposedMoves(NewSquare squareWithPiece)
     {
@@ -22,7 +24,7 @@ public class NewPawn : NewPiece
         if (firstMoveSquare.PieceOnIt == null) SupposedMoves.Add(firstMoveSquare);
         else return;
 
-        if (!MySignature.IsFirstMove) return;
+        if (!IsFirstMove) return;
         
         var secondMoveSquare = squareWithPiece.Board.SquareWithCoordinates(x, y + 2 * _verticalMoveMultiplier);
         if (secondMoveSquare == null) return;
@@ -32,7 +34,7 @@ public class NewPawn : NewPiece
     private void TryAddSquareThatPawnAttacks(NewSquare square, List<NewSquare> supposedSquaresForMove)
     {
         if (square == null) return;
-        if (square.PieceOnIt != null && square.PieceOnIt.MySignature.MyColor != MySignature.MyColor)
+        if (square.PieceOnIt != null && square.PieceOnIt.ColorCode != ColorCode)
             supposedSquaresForMove.Add(square);
     }
 }

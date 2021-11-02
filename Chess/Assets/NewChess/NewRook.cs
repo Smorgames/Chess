@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class NewRook : UniversallyMovingPieces
 {
+    public override string TypeCode => "r";
+
     public override void UpdateSupposedMoves(NewSquare squareWithPiece)
     {
         SupposedMoves.Clear();

@@ -24,9 +24,9 @@ public class NewSquare : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (PieceOnIt != null && PieceOnIt.MySignature.MyColor == NewGameManager.Instance.WhoseTurn)
+        if (PieceOnIt != null && PieceOnIt.ColorCode == NewGameManager.Instance.WhoseTurn)
             OnActivePieceClicked?.Invoke(this, new ActivePieceClickedArgs() { Square = this });
-        else if (PieceOnIt != null && PieceOnIt.MySignature.MyColor != NewGameManager.Instance.WhoseTurn)
+        else if (PieceOnIt != null && PieceOnIt.ColorCode != NewGameManager.Instance.WhoseTurn)
             OnInactivePieceClicked?.Invoke(this, new InactivePieceClickedArgs() { Square = this });
         else if (PieceOnIt == null)
             OnEmptySquareClicked?.Invoke(this, new EmptySquareClickedArgs() { Square = this });

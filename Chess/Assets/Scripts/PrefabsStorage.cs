@@ -4,6 +4,7 @@ using UnityEngine;
 public class PrefabsStorage : MonoBehaviour
 {    
     public NewPawn Pawn => _pawn;
+    [Header("Chess piece prefabs")]
     [SerializeField] private NewPawn _pawn;
     public NewRook Rook => _rook;
     [SerializeField] private NewRook _rook;

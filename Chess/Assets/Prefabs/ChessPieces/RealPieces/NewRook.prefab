@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d550409fbb1fd3e4d905106be9e77dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _whiteSprite: {fileID: 7970158032838120485, guid: 5193023d2654b714db0bfe64a6d53a11,
+    type: 3}
+  _blackSprite: {fileID: -2647962682813126139, guid: 5193023d2654b714db0bfe64a6d53a11,
+    type: 3}
 --- !u!1001 &7801718067065046181
 PrefabInstance:
   m_ObjectHideFlags: 0

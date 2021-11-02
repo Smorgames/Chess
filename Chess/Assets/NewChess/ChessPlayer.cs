@@ -2,7 +2,7 @@
 
 public class ChessPlayer
 {
-    public readonly NewPieceColor TeamColor;
+    public NewPieceColor TeamColor { get; set; }
     public List<NewPiece> PlayerPieces { get; private set; }
 
     public ChessPlayer(NewPieceColor teamColor)

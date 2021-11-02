@@ -29,7 +29,7 @@ public abstract class UniversallyMovingPieces : NewPiece
                 
                 if (supposedMove.PieceOnIt != null)
                 {
-                    if (supposedMove.PieceOnIt.MySignature.MyColor != square.PieceOnIt.MySignature.MyColor)
+                    if (supposedMove.PieceOnIt.ColorCode != square.PieceOnIt.ColorCode)
                         supposedSquares.Add(supposedMove);
                     break;
                 }
@@ -56,7 +56,7 @@ public abstract class UniversallyMovingPieces : NewPiece
                 continue;
             }
             
-            if (supposedMove.PieceOnIt.MySignature.MyColor != square.PieceOnIt.MySignature.MyColor) supposedMoves.Add(supposedMove);
+            if (supposedMove.PieceOnIt.ColorCode != square.PieceOnIt.ColorCode) supposedMoves.Add(supposedMove);
         }
 
         return supposedMoves;

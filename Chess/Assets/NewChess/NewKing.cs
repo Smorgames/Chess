@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class NewKing : UniversallyMovingPieces
 {
+    public override string TypeCode => "k";
+
     public override void UpdateSupposedMoves(NewSquare squareWithPiece)
     {
         SupposedMoves.Clear();
