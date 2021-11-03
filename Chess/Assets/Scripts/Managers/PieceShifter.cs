@@ -20,7 +20,7 @@ public class PieceShifter : MonoBehaviour
 
         if (_fromSquare != null && _toSquare != null)
             MoveChessPiece();
-        
+
         ResetChessBoardState(a.MySquare);
     }
     private void ResetChessBoardState(Square square)
@@ -37,7 +37,7 @@ public class PieceShifter : MonoBehaviour
 
         if (_fromSquare != null && _toSquare != null)
             MoveChessPiece();
-          
+
         ResetChessBoardState(a.MySquare);
     }
     private bool PieceCanGoToSquare(Square square) => ReferenceRegistry.Instance.MyPieceMovesHighlighter.PieceMoves.Any(move => square == move);
@@ -47,7 +47,12 @@ public class PieceShifter : MonoBehaviour
         _fromSquare.PieceOnIt = null;
         
         var enemyPiece = _toSquare.PieceOnIt;
-        if (enemyPiece != null) enemyPiece.Death();
+        if (enemyPiece != null)
+        {
+            if (enemyPiece.ColorCode == "w") GameManager.Instance.WhitePlayer.RemovePiece(enemyPiece);
+            else GameManager.Instance.BlackPlayer.RemovePiece(enemyPiece);
+            enemyPiece.Death();
+        }
         _toSquare.PieceOnIt = piece;
 
         piece.MoveTo(_toSquare);

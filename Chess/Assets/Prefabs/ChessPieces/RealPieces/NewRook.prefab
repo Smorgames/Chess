@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d550409fbb1fd3e4d905106be9e77dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _renderer: {fileID: 7742629418374645977}
   _whiteSprite: {fileID: 7970158032838120485, guid: 5193023d2654b714db0bfe64a6d53a11,
     type: 3}
   _blackSprite: {fileID: -2647962682813126139, guid: 5193023d2654b714db0bfe64a6d53a11,
@@ -139,6 +140,12 @@ PrefabInstance:
 --- !u!1 &5631206071556789216 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2477917854985525061, guid: 5ab262a3a0172854eb42489d4c4065b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7801718067065046181}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &7742629418374645977 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
     type: 3}
   m_PrefabInstance: {fileID: 7801718067065046181}
   m_PrefabAsset: {fileID: 0}

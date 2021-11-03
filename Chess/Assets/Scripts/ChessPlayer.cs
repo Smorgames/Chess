@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class ChessPlayer
 {
@@ -16,6 +17,16 @@ public class ChessPlayer
         {
             var pieceSquare = GameManager.Instance.GameBoard.SquareWithPiece(piece);
             piece.UpdateSupposedMoves(pieceSquare);
+        }
+    }
+
+    public void SetPiecesTransparency(float alpha)
+    {
+        foreach (var piece in PlayerPieces)
+        {
+            var color = piece.Renderer.color;
+            color.a = alpha;
+            piece.Renderer.color = color;
         }
     }
 

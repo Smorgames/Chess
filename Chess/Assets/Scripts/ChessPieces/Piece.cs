@@ -13,6 +13,9 @@ public abstract class Piece : MonoBehaviour
 
     public static readonly Vector3 Offset = new Vector3(0f, 0f, 1f);
 
+    public SpriteRenderer Renderer => _renderer;
+    [SerializeField] private SpriteRenderer _renderer;
+    
     [SerializeField] private Sprite _whiteSprite;
     [SerializeField] private Sprite _blackSprite;
 
@@ -21,7 +24,7 @@ public abstract class Piece : MonoBehaviour
         if (colorCode == "w" || colorCode == "b")
             ColorCode = colorCode;
         IsFirstMove = isFirstMove;
-        GetComponent<SpriteRenderer>().sprite = ColorCode == "w" ? _whiteSprite : _blackSprite;
+        _renderer.sprite = ColorCode == "w" ? _whiteSprite : _blackSprite;
     }
 
     public abstract void UpdateSupposedMoves(Square squareWithPiece);

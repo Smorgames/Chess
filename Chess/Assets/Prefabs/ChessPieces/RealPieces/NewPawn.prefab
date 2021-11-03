@@ -83,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b2651a8b324a54bb12aecf5e45ba74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _renderer: {fileID: 8079835584149110216}
   _whiteSprite: {fileID: 24965338684803766, guid: 5193023d2654b714db0bfe64a6d53a11,
     type: 3}
   _blackSprite: {fileID: 8736564960913313170, guid: 5193023d2654b714db0bfe64a6d53a11,

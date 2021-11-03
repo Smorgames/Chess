@@ -8,6 +8,7 @@ public class Pawn : Piece
 
     public override void UpdateSupposedMoves(Square squareWithPiece)
     {
+        if (squareWithPiece == null) return;
         SupposedMoves.Clear();
 
         var x = squareWithPiece.Coordinates.x;
