@@ -3,46 +3,44 @@ using UnityEngine;
 
 public class PieceShifter : MonoBehaviour
 {
-    [SerializeField] private PieceTurnsDisplayer _pieceTurnDisplayer;
-
-    private NewSquare _fromSquare;
-    private NewSquare _toSquare;
+    private Square _fromSquare;
+    private Square _toSquare;
 
     private void SelectSquareFromGo(object s, ActivePieceClickedArgs a)
     {
-        _fromSquare = a.Square;
+        _fromSquare = a.MySquare;
     }
 
     private void ClickedOnEmptySquare(object s, EmptySquareClickedArgs a)
     {
         if (_fromSquare == null) return;
 
-        if (PieceCanGoToSquare(a.Square))
-            _toSquare = a.Square;
+        if (PieceCanGoToSquare(a.MySquare))
+            _toSquare = a.MySquare;
 
         if (_fromSquare != null && _toSquare != null)
             MoveChessPiece();
         
-        ResetChessBoardState(a.Square);
+        ResetChessBoardState(a.MySquare);
     }
-    private void ResetChessBoardState(NewSquare square)
+    private void ResetChessBoardState(Square square)
     {
-        _pieceTurnDisplayer.DeactivateAllSquaresHighlights(square.Board);
+        ReferenceRegistry.Instance.MyPieceMovesHighlighter.DeactivateAllSquaresHighlights(square.Board);
         ResetSquareFields();
     }
     private void ResetSquareFields() => _fromSquare = _toSquare = null;
 
     private void SelectSquareToGo(object s, InactivePieceClickedArgs a)
     {
-        if (PieceCanGoToSquare(a.Square))
-            _toSquare = a.Square;
+        if (PieceCanGoToSquare(a.MySquare))
+            _toSquare = a.MySquare;
 
         if (_fromSquare != null && _toSquare != null)
             MoveChessPiece();
           
-        ResetChessBoardState(a.Square);
+        ResetChessBoardState(a.MySquare);
     }
-    private bool PieceCanGoToSquare(NewSquare square) => _pieceTurnDisplayer.PieceTurns.Any(move => square == move);
+    private bool PieceCanGoToSquare(Square square) => ReferenceRegistry.Instance.MyPieceMovesHighlighter.PieceMoves.Any(move => square == move);
     private void MoveChessPiece()
     {
         var piece = _fromSquare.PieceOnIt;
@@ -58,26 +56,26 @@ public class PieceShifter : MonoBehaviour
     #region Events
     private void Start()
     {
-        SubscrubeOnEvents();
+        SubscribeEvents();
     }
 
     private void OnDestroy()
     {
-        UnsubscrubeOnEvents();
+        UnsubscribeEvents();
     }
 
-    private void SubscrubeOnEvents()
+    private void SubscribeEvents()
     {
-        NewSquare.OnActivePieceClicked += SelectSquareFromGo;
-        NewSquare.OnInactivePieceClicked += SelectSquareToGo;
-        NewSquare.OnEmptySquareClicked += ClickedOnEmptySquare;
+        Square.OnPieceWhoseTurnNowClicked += SelectSquareFromGo;
+        Square.OnPieceIsNotTurnNowClicked += SelectSquareToGo;
+        Square.OnEmptySquareClicked += ClickedOnEmptySquare;
     }
 
-    private void UnsubscrubeOnEvents()
+    private void UnsubscribeEvents()
     {
-        NewSquare.OnActivePieceClicked -= SelectSquareFromGo;
-        NewSquare.OnInactivePieceClicked -= SelectSquareToGo;
-        NewSquare.OnEmptySquareClicked -= ClickedOnEmptySquare;
+        Square.OnPieceWhoseTurnNowClicked -= SelectSquareFromGo;
+        Square.OnPieceIsNotTurnNowClicked -= SelectSquareToGo;
+        Square.OnEmptySquareClicked -= ClickedOnEmptySquare;
     }
     #endregion
 }
