@@ -5,13 +5,17 @@ public class GameManager : MonoBehaviour
 {
     public static EventHandler<TurnOrderEventArgs> OnTurnOrderChanged;
 
-    private enum GameState { Initialization, Playing, Ended }
-    private GameState _currentState;
+    public enum GameState { Initialization, Playing, Paused, Ended }
+    public GameState CurrentState { get; set; }
 
     public string WhoseTurn { get; private set; }
+
     public ChessPlayer WhitePlayer { get; private set; } = new ChessPlayer("w");
     public ChessPlayer BlackPlayer { get; private set; } = new ChessPlayer("b");
+    public ChessPlayer[] Players => _players;
     private ChessPlayer[] _players = new ChessPlayer[2];
+    public ChessPlayer PlayerWhoseTurn => WhoseTurn == "w" ? WhitePlayer : BlackPlayer;
+    public ChessPlayer PlayerWhoNotTurn => WhoseTurn == "w" ? BlackPlayer : WhitePlayer;
 
     public Board GameBoard => _gameBoard;
     private Board _gameBoard;
@@ -36,12 +40,12 @@ public class GameManager : MonoBehaviour
 
     private void Initialization()
     {
-        _currentState = GameState.Initialization;
+        CurrentState = GameState.Initialization;
         _players[0] = WhitePlayer;
         _players[1] = BlackPlayer;
         EventSubscription();
         _gameBoard = ChessboardBuilder.BuildStandardChessboard();
-        var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.StartChessState);
+        var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.PawnPromotionHelp);
         GameSetuper.ArrangePiecesOnBoard(pieceSignatures, _gameBoard);
         // After pieces had been arranged on board, GameSetuper triggers event OnPiecesArranged and GameManager raises PieceArranged function 
     }
@@ -70,53 +74,19 @@ public class GameManager : MonoBehaviour
     {
         WhoseTurn = WhoseTurn == "w" ? "b" : "w";
         foreach (var player in _players) player.UpdatePiecesSupposedMoves();
-        if (WhoseTurn == "w")
-        {
-            WhitePlayer.SetPiecesTransparency(1f);
-            BlackPlayer.SetPiecesTransparency(0.5f);
-        }
-        else
-        {
-            WhitePlayer.SetPiecesTransparency(0.5f);
-            BlackPlayer.SetPiecesTransparency(1f);
-        }
+        
+        PlayerWhoseTurn.ActivatePieces();
+        PlayerWhoNotTurn.DeactivatePieces();
+        
         var gameEnd = CheckMateHandler.MateForKing(_gameBoard, WhoseTurn);
         if (gameEnd)
         {
             var whoWin = WhoseTurn == "w" ? "Black" : "White";
+            CurrentState = GameState.Ended;
             Debug.Log($"{whoWin} player won this chess game!");
         }
-
-        if (WhoseTurn == "w")
-        {
-            foreach (var piece in WhitePlayer.PlayerPieces)
-            {
-                var pieceSquare = GameManager.Instance.GameBoard.SquareWithPiece(piece);
-                var possibleMoves = CheckMateHandler.MovesWithoutCheckForKing(pieceSquare, piece.SupposedMoves);
-
-                if (possibleMoves.Count <= 0)
-                {
-                    var color = piece.Renderer.color;
-                    color.a = 0.5f;
-                    piece.Renderer.color = color;
-                }
-            }
-        }
-        else
-        {
-            foreach (var piece in BlackPlayer.PlayerPieces)
-            {
-                var pieceSquare = GameManager.Instance.GameBoard.SquareWithPiece(piece);
-                var possibleMoves = CheckMateHandler.MovesWithoutCheckForKing(pieceSquare, piece.SupposedMoves);
-
-                if (possibleMoves.Count <= 0)
-                {
-                    var color = piece.Renderer.color;
-                    color.a = 0.5f;
-                    piece.Renderer.color = color;
-                }
-            }
-        }
+        
+        PlayerWhoseTurn.DeactivatePiecesWhoCanNotMove();
     }
     
     private void PiecesArranged(object sender, PiecesArrangedArgs e)
@@ -125,7 +95,7 @@ public class GameManager : MonoBehaviour
         foreach (var player in _players) player.UpdatePiecesSupposedMoves();
         WhoseTurn = "b";
         ChangeTurnOrder();
-        _currentState = GameState.Playing;
+        CurrentState = GameState.Playing;
     }
     private void FillPlayersPieces()
     {

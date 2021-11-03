@@ -4,7 +4,7 @@ using UnityEngine;
 public class Square : MonoBehaviour
 {
     public static EventHandler<ActivePieceClickedArgs> OnPieceWhoseTurnNowClicked;
-    public static EventHandler<InactivePieceClickedArgs> OnPieceIsNotTurnNowClicked;
+    public static EventHandler<InactivePieceClickedArgs> OnPieceWhoNotTurnNowClicked;
     public static EventHandler<EmptySquareClickedArgs> OnEmptySquareClicked;
     
     [SerializeField] private GameObject _moveHighlight;
@@ -24,10 +24,12 @@ public class Square : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (GameManager.Instance.CurrentState == GameManager.GameState.Paused) return;
+        
         if (PieceOnIt != null && PieceOnIt.ColorCode == GameManager.Instance.WhoseTurn)
             OnPieceWhoseTurnNowClicked?.Invoke(this, new ActivePieceClickedArgs() { MySquare = this });
         else if (PieceOnIt != null && PieceOnIt.ColorCode != GameManager.Instance.WhoseTurn)
-            OnPieceIsNotTurnNowClicked?.Invoke(this, new InactivePieceClickedArgs() { MySquare = this });
+            OnPieceWhoNotTurnNowClicked?.Invoke(this, new InactivePieceClickedArgs() { MySquare = this });
         else if (PieceOnIt == null)
             OnEmptySquareClicked?.Invoke(this, new EmptySquareClickedArgs() { MySquare = this });
     }

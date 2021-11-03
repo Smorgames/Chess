@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class ChessPlayer
 {
@@ -20,14 +19,29 @@ public class ChessPlayer
         }
     }
 
-    public void SetPiecesTransparency(float alpha)
+    public void DeactivatePiecesWhoCanNotMove()
     {
         foreach (var piece in PlayerPieces)
         {
-            var color = piece.Renderer.color;
-            color.a = alpha;
-            piece.Renderer.color = color;
+            var pieceSquare = GameManager.Instance.GameBoard.SquareWithPiece(piece);
+            piece.UpdateSupposedMoves(pieceSquare);
+            var possibleMoves = CheckMateHandler.MovesWithoutCheckForKing(pieceSquare, piece.SupposedMoves);
+
+            if (possibleMoves.Count <= 0) 
+                piece.Deactivate();
         }
+    }
+
+    public void ActivatePieces()
+    {
+        foreach (var piece in PlayerPieces)
+            piece.Activate();
+    }
+    
+    public void DeactivatePieces()
+    {
+        foreach (var piece in PlayerPieces)
+            piece.Deactivate();
     }
 
     public void AddPiece(Piece piece)

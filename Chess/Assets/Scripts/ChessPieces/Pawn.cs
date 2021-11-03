@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Pawn : Piece
 {
@@ -30,6 +31,18 @@ public class Pawn : Piece
         var secondMoveSquare = squareWithPiece.Board.SquareWithCoordinates(x, y + 2 * _verticalMoveMultiplier);
         if (secondMoveSquare == null) return;
         if (secondMoveSquare.PieceOnIt == null) SupposedMoves.Add(secondMoveSquare);
+    }
+
+    public override void MoveTo(Square square)
+    {
+        transform.position = square.transform.position + Offset;
+        if (IsFirstMove) IsFirstMove = false;
+
+        var promotionCoordinate = ColorCode == "w" ? square.Board.Size.y - 1 : 0;
+        if (square.Coordinates.y == promotionCoordinate)
+            ReferenceRegistry.Instance.MyPawnPromotion.Activate(this);
+        else
+            OnPieceMoved?.Invoke(this, new PieceMovedEventArgs());
     }
 
     private void TryAddSquareThatPawnAttacks(Square square, List<Square> supposedSquaresForMove)

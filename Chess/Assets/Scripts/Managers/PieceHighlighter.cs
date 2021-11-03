@@ -2,14 +2,16 @@
 using System.Linq;
 using UnityEngine;
 
-public class PieceMovesHighlighter : MonoBehaviour
+public class PieceHighlighter : MonoBehaviour
 {
     public List<Square> PieceMoves { get; private set; } = new List<Square>();
 
     private void HighlightPieceMoves(object s, ActivePieceClickedArgs a)
     {
+        DeselectAllPieces();
         var square = a.MySquare;
         var piece = square.PieceOnIt;
+        piece.Select();
         var pieceMoves = CheckMateHandler.MovesWithoutCheckForKing(square, piece.SupposedMoves);
         
         DeactivateAllSquaresHighlights(square.Board);
@@ -20,23 +22,36 @@ public class PieceMovesHighlighter : MonoBehaviour
         PieceMoves = pieceMoves;
     }
 
+    private void DeselectAllPieces()
+    {
+        foreach (var player in GameManager.Instance.Players)
+        foreach (var piece in player.PlayerPieces)
+            if (piece.transform.localScale == Piece.SelectedSize) piece.Deselect();
+    }
     public void DeactivateAllSquaresHighlights(Board board)
     {
         for (var x = 0; x < board.Size.x; x++)
         for (var y = 0; y < board.Size.y; y++)
             board.Squares[x, y].DeactivateAllHighlights();
     }
+    
+    private void EmptySquareClicked(object sender, EmptySquareClickedArgs e) => DeselectAllPieces();
+    private void OnPieceWhoNotTurnNowClicked(object sender, InactivePieceClickedArgs e) => DeselectAllPieces();
 
     #region Events
 
     private void Start()
     {
         Square.OnPieceWhoseTurnNowClicked += HighlightPieceMoves;
+        Square.OnEmptySquareClicked += EmptySquareClicked;
+        Square.OnPieceWhoNotTurnNowClicked += OnPieceWhoNotTurnNowClicked;
     }
-
+    
     private void OnDestroy()
     {
         Square.OnPieceWhoseTurnNowClicked -= HighlightPieceMoves;
+        Square.OnEmptySquareClicked -= EmptySquareClicked;
+        Square.OnPieceWhoNotTurnNowClicked -= OnPieceWhoNotTurnNowClicked;
     }
 
     #endregion

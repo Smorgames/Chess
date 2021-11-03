@@ -17,6 +17,9 @@ public class ReferenceRegistry : MonoBehaviour
     public PrefabsStorage MyPrefabsStorage => _prefabsStorage;
     [SerializeField] private PrefabsStorage _prefabsStorage;
 
-    public PieceMovesHighlighter MyPieceMovesHighlighter => _pieceMovesHighlighter;
-    [SerializeField] private PieceMovesHighlighter _pieceMovesHighlighter;
+    public PieceHighlighter MyPieceHighlighter => pieceHighlighter;
+    [SerializeField] private PieceHighlighter pieceHighlighter;
+
+    public PawnPromotion MyPawnPromotion => _pawnPromotion;
+    [SerializeField] private PawnPromotion _pawnPromotion;
 }
