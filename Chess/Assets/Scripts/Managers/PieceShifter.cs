@@ -49,12 +49,28 @@ public class PieceShifter : MonoBehaviour
         var enemyPiece = _toSquare.PieceOnIt;
         if (enemyPiece != null)
         {
-            if (enemyPiece.ColorCode == "w") Game.Instance.WhitePlayer.RemovePiece(enemyPiece);
-            else Game.Instance.BlackPlayer.RemovePiece(enemyPiece);
+            var player = Game.Instance.GetPlayerBasedOnColorCode(enemyPiece.ColorCode);
+            player.RemovePiece(enemyPiece);
             enemyPiece.Death();
         }
         _toSquare.PieceOnIt = piece;
 
+        if (piece is King king)
+        {
+            foreach (var castlingMove in king.CastlingMoves)
+            {
+                if (_toSquare == castlingMove.KingSquare)
+                {
+                    var rook = castlingMove.CastleRook;
+                    var rookSquare = castlingMove.RookSquare;
+
+                    rookSquare.Board.SquareWithPiece(rook).PieceOnIt = null;
+                    rook.ChangePosition(rookSquare);
+                    rookSquare.PieceOnIt = rook;
+                }
+            }
+        }
+        
         piece.MoveTo(_toSquare);
     }
 

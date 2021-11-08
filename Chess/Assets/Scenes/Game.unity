@@ -1221,7 +1221,7 @@ GameObject:
   - component: {fileID: 1965904646}
   - component: {fileID: 1965904647}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1253,6 +1253,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9410460129612a24c8663bff24fea734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WhitePlayer:
+    MyKing: {fileID: 0}
+    MyPieces: []
+  BlackPlayer:
+    MyKing: {fileID: 0}
+    MyPieces: []
 --- !u!1 &2077583156
 GameObject:
   m_ObjectHideFlags: 0

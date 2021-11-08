@@ -42,7 +42,7 @@ public class CheckMateAnalyser
         {
             var attackedPiece = move.PieceOnIt;
             if (attackedPiece == null) continue;
-            if (attackedPiece is King) return true;
+            if (attackedPiece is King && attackedPiece.ColorCode != enemyColor) return true;
         }
         
         return false;

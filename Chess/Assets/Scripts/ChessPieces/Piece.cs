@@ -39,9 +39,14 @@ public abstract class Piece : MonoBehaviour
 
     public virtual void MoveTo(Square square)
     {
+        ChangePosition(square);
+        OnPieceMoved?.Invoke(this, new PieceMovedEventArgs());
+    }
+
+    public void ChangePosition(Square square)
+    {
         transform.position = square.transform.position + Offset;
         if (IsFirstMove) IsFirstMove = false;
-        OnPieceMoved?.Invoke(this, new PieceMovedEventArgs());
     }
 
     public void Select()

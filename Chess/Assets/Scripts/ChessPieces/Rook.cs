@@ -9,6 +9,6 @@ public class Rook : UniversallyMovingPiece
     {
         SupposedMoves.Clear();
         var directions = new List<Vector2Int>() { _up, _down, _left, _right };
-        SupposedMoves = IterativelyAddedSquares(squareWithPiece, directions);
+        SupposedMoves = IterativelyAddedSquares(squareWithPiece, directions, true);
     }
 }

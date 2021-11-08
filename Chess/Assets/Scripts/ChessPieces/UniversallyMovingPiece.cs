@@ -31,24 +31,34 @@ public abstract class UniversallyMovingPiece : Piece
                 
                 if (supposedMove.PieceOnIt != null)
                 {
-                    if (isItRook)
+                    if (isItRook && supposedMove.PieceOnIt is King king)
                     {
-                        var king = (King) supposedMove.PieceOnIt;
                         var rook = (Rook) square.PieceOnIt;
                         var castlingMoves = king.CastlingMoves;
-                        
-                        if (!castlingMoves.ContainsKey(rook))
-                            castlingMoves.Add(rook, new CastlingMove());
 
-                        if (CanCastling(square, supposedMove))
+                        foreach (var castlingMove in castlingMoves)
+                            if (!Equals(castlingMove.CastleRook, rook))
+                                king.CastlingMoves.Add(new CastlingMove(rook));
+
+                        var canCastle = CanCastle(square, supposedMove);
+                        if (canCastle)
                         {
-                            castlingMoves[rook] = GetCastlingMove(square, supposedMove, direction);
-                            Debug.Log($"Rook on Square[{square.Coordinates.x}, {square.Coordinates.y}] can castle move with king on Square[{supposedMove.Coordinates.x}, {supposedMove.Coordinates.y}]." +
-                                      $"After castling Rook will be on Square[{castlingMoves[rook].RookSquare.Coordinates.x}, {castlingMoves[rook].RookSquare.Coordinates.y}] and King on Square" +
-                                      $"[{castlingMoves[rook].KingSquare.Coordinates.x}, {castlingMoves[rook].KingSquare.Coordinates.y}]");
+                            var castlingMove = GetCastlingMove(square, supposedMove, direction);
+
+                            foreach (var move in castlingMoves)
+                                if (Equals(move.CastleRook, rook))
+                                    move.CastlePossible(rook, castlingMove.RookSquare, castlingMove.KingSquare);
+                            
+                            // Debug.Log($"Rook on Square[{square.Coordinates.x}, {square.Coordinates.y}] can castle move with king on Square[{supposedMove.Coordinates.x}, {supposedMove.Coordinates.y}]." +
+                            //           $"After castling Rook will be on Square[{castlingMoves[rook].RookSquare.Coordinates.x}, {castlingMoves[rook].RookSquare.Coordinates.y}] and King on Square" +
+                            //           $"[{castlingMoves[rook].KingSquare.Coordinates.x}, {castlingMoves[rook].KingSquare.Coordinates.y}]");
                         }
-                        // else
-                        //     castlingMoves[rook] = new CastlingMove();
+                        else
+                        {
+                            foreach (var move in castlingMoves)
+                                if (Equals(move.CastleRook, rook))
+                                    move.CastleImpossible();
+                        }
                     }
                     
                     if (supposedMove.PieceOnIt.ColorCode != square.PieceOnIt.ColorCode)
@@ -72,10 +82,10 @@ public abstract class UniversallyMovingPiece : Piece
         var kingCastlingSquare = board.SquareWithCoordinates(kingCoord);
         var rookCastlingSquare = board.SquareWithCoordinates(rookCoord);
         
-        return new CastlingMove() { KingSquare = kingCastlingSquare, RookSquare = rookCastlingSquare };
+        return new CastlingMove(null);
     }
 
-    private static bool CanCastling(Square rookSquare, Square kingSquare)
+    private static bool CanCastle(Square rookSquare, Square kingSquare)
     {
         var king = (King)kingSquare.PieceOnIt;
         var rook = (Rook)rookSquare.PieceOnIt;

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class King : UniversallyMovingPiece
 {
     public override string TypeCode => "k";
 
-    public Dictionary<Rook, CastlingMove> CastlingMoves = new Dictionary<Rook, CastlingMove>();
+    public List<CastlingMove> CastlingMoves { get; } = new List<CastlingMove>();
 
     public override void UpdateSupposedMoves(Square squareWithPiece)
     {
@@ -19,13 +20,35 @@ public class King : UniversallyMovingPiece
     private void AddCastlingMovesToSupposedMoves()
     {
         foreach (var castlingMove in CastlingMoves)
-            if (castlingMove.Value.KingSquare != null && castlingMove.Value.RookSquare != null)
-                SupposedMoves.Add(castlingMove.Value.KingSquare);
+            if (castlingMove.KingSquare != null && castlingMove.RookSquare != null)
+                SupposedMoves.Add(castlingMove.KingSquare);
     }
 }
 
 public class CastlingMove
 {
-    public Square RookSquare;
-    public Square KingSquare;
+    public Rook CastleRook { get; private set; }
+    public Square RookSquare { get; private set; }
+    public Square KingSquare { get; private set; }
+
+    public CastlingMove(Rook rook)
+    {
+        Reset();
+        CastleRook = rook;
+    }
+
+    public void CastlePossible(Rook rook, Square rookSquare, Square kingSquare)
+    {
+        CastleRook = rook;
+        RookSquare = rookSquare;
+        KingSquare = kingSquare;
+    }
+
+    public void CastleImpossible() => Reset();
+
+    private void Reset()
+    {
+        RookSquare = KingSquare = null;
+        CastleRook = null;
+    }
 }
