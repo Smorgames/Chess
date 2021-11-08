@@ -49,8 +49,8 @@ public class PieceShifter : MonoBehaviour
         var enemyPiece = _toSquare.PieceOnIt;
         if (enemyPiece != null)
         {
-            if (enemyPiece.ColorCode == "w") GameManager.Instance.WhitePlayer.RemovePiece(enemyPiece);
-            else GameManager.Instance.BlackPlayer.RemovePiece(enemyPiece);
+            if (enemyPiece.ColorCode == "w") Game.Instance.WhitePlayer.RemovePiece(enemyPiece);
+            else Game.Instance.BlackPlayer.RemovePiece(enemyPiece);
             enemyPiece.Death();
         }
         _toSquare.PieceOnIt = piece;

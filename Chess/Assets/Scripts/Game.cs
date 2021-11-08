@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class Game : MonoBehaviour
 {
     public static EventHandler<TurnOrderEventArgs> OnTurnOrderChanged;
 
@@ -10,19 +10,23 @@ public class GameManager : MonoBehaviour
 
     public string WhoseTurn { get; private set; }
 
-    public ChessPlayer WhitePlayer { get; private set; } = new ChessPlayer("w");
-    public ChessPlayer BlackPlayer { get; private set; } = new ChessPlayer("b");
+    #region Players getters
+
+    public ChessPlayer WhitePlayer = new ChessPlayer("w");
+    public ChessPlayer BlackPlayer = new ChessPlayer("b");
     public ChessPlayer[] Players => _players;
     private ChessPlayer[] _players = new ChessPlayer[2];
     public ChessPlayer PlayerWhoseTurn => WhoseTurn == "w" ? WhitePlayer : BlackPlayer;
     public ChessPlayer PlayerWhoNotTurn => WhoseTurn == "w" ? BlackPlayer : WhitePlayer;
+
+    #endregion
 
     public Board GameBoard => _gameBoard;
     private Board _gameBoard;
 
     #region Singleton
 
-    public static GameManager Instance;
+    public static Game Instance;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -45,7 +49,7 @@ public class GameManager : MonoBehaviour
         _players[1] = BlackPlayer;
         EventSubscription();
         _gameBoard = ChessboardBuilder.BuildStandardChessboard();
-        var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.PawnPromotionHelp);
+        var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.CastlingTest);
         GameSetuper.ArrangePiecesOnBoard(pieceSignatures, _gameBoard);
         // After pieces had been arranged on board, GameSetuper triggers event OnPiecesArranged and GameManager raises PieceArranged function 
     }
@@ -78,7 +82,7 @@ public class GameManager : MonoBehaviour
         PlayerWhoseTurn.ActivatePieces();
         PlayerWhoNotTurn.DeactivatePieces();
         
-        var gameEnd = CheckMateHandler.MateForKing(_gameBoard, WhoseTurn);
+        var gameEnd = CheckMateAnalyser.MateForKing(_gameBoard, WhoseTurn);
         if (gameEnd)
         {
             var whoWin = WhoseTurn == "w" ? "Black" : "White";
@@ -92,7 +96,6 @@ public class GameManager : MonoBehaviour
     private void PiecesArranged(object sender, PiecesArrangedArgs e)
     {
         FillPlayersPieces();
-        foreach (var player in _players) player.UpdatePiecesSupposedMoves();
         WhoseTurn = "b";
         ChangeTurnOrder();
         CurrentState = GameState.Playing;
@@ -104,13 +107,13 @@ public class GameManager : MonoBehaviour
         {
             var piece = _gameBoard.Squares[x, y].PieceOnIt;
             if (piece == null) continue;
-        
-            if (piece.ColorCode == "w") WhitePlayer.AddPiece(piece);
-            else BlackPlayer.AddPiece(piece);
+
+            var player = GetPlayerBasedOnColorCode(piece.ColorCode);
+            player.AddPiece(piece);
+            if (piece is King king) player.MyKing = king;
         }
     }
-
-    public void TriggerUpdateSupposedMoves() => OnTurnOrderChanged?.Invoke(this, new TurnOrderEventArgs());
+    public ChessPlayer GetPlayerBasedOnColorCode(string colorCode) => colorCode == "w" ? WhitePlayer : BlackPlayer;
 }
 
 public class TurnOrderEventArgs : EventArgs

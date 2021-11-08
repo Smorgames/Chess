@@ -12,8 +12,9 @@ public class PieceHighlighter : MonoBehaviour
         var square = a.MySquare;
         var piece = square.PieceOnIt;
         piece.Select();
-        var pieceMoves = CheckMateHandler.MovesWithoutCheckForKing(square, piece.SupposedMoves);
-        
+
+        var pieceMoves = CheckMateAnalyser.MovesWithoutCheckForKing(square, piece.SupposedMoves);
+
         DeactivateAllSquaresHighlights(square.Board);
 
         foreach (var move in pieceMoves.Where(move => move != null))
@@ -24,8 +25,8 @@ public class PieceHighlighter : MonoBehaviour
 
     private void DeselectAllPieces()
     {
-        foreach (var player in GameManager.Instance.Players)
-        foreach (var piece in player.PlayerPieces)
+        foreach (var player in Game.Instance.Players)
+        foreach (var piece in player.MyPieces)
             if (piece.transform.localScale == Piece.SelectedSize) piece.Deselect();
     }
     public void DeactivateAllSquaresHighlights(Board board)

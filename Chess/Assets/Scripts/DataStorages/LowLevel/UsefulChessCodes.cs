@@ -9,8 +9,13 @@
         "/8;8/w"
     );
     
-    public static ChessCode PawnPromotionHelp { get; } = new ChessCode
+    public static ChessCode PawnPromotionTest { get; } = new ChessCode
     (
         "0;7;wkt_0;0;bkt_6;6;wpt_"
+    );
+    
+    public static ChessCode CastlingTest { get; } = new ChessCode
+    (
+        "4;0;wkt_0;0;wrt_7;0;wrt_4;7;bkt_"
     );
 }

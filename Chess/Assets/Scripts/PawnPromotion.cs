@@ -10,10 +10,10 @@ public class PawnPromotion : MonoBehaviour
 
     public void Activate(Pawn pawn)
     {
-        GameManager.Instance.CurrentState = GameManager.GameState.Paused;
+        Game.Instance.CurrentState = Game.GameState.Paused;
         _panel.SetActive(true);
         SetButtonSprites(pawn.ColorCode);
-        var square = GameManager.Instance.GameBoard.SquareWithPiece(pawn);
+        var square = Game.Instance.GameBoard.SquareWithPiece(pawn);
         SetSquareForButtons(square);
     }
 

@@ -25,12 +25,12 @@ public class PieceReplacerButton : MonoBehaviour
         
         var piece = Instantiate(_pieceThatReplaces, transform.position, Quaternion.identity);
         piece.Init(pawn.ColorCode, false);
-        GameManager.Instance.PlayerWhoseTurn.RemovePiece(pawn);
+        Game.Instance.PlayerWhoseTurn.RemovePiece(pawn);
         pawn.Death();
-        GameManager.Instance.PlayerWhoseTurn.AddPiece(piece);
+        Game.Instance.PlayerWhoseTurn.AddPiece(piece);
         piece.transform.position = _squareWithPieceNeedReplace.transform.position + Piece.Offset;
         _squareWithPieceNeedReplace.PieceOnIt = piece;
-        GameManager.Instance.CurrentState = GameManager.GameState.Playing;
+        Game.Instance.CurrentState = Game.GameState.Playing;
         Piece.OnPieceMoved?.Invoke(piece, new PieceMovedEventArgs());
         _squareWithPieceNeedReplace = null;
         ReferenceRegistry.Instance.MyPawnPromotion.Deactivate();

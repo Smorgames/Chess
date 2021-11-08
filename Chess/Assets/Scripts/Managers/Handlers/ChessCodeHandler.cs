@@ -17,7 +17,7 @@ public class ChessCodeHandler
 
         var piecesCode = stringBuilder.ToString();
         var boardSizeCode = GetBoardSizeCode(board);
-        var whoseTurnCode = GameManager.Instance.WhoseTurn;
+        var whoseTurnCode = Game.Instance.WhoseTurn;
 
         return new ChessCode($"{piecesCode}/{boardSizeCode}/{whoseTurnCode}");
     }

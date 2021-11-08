@@ -24,11 +24,11 @@ public class Square : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.Instance.CurrentState == GameManager.GameState.Paused) return;
+        if (Game.Instance.CurrentState == Game.GameState.Paused) return;
         
-        if (PieceOnIt != null && PieceOnIt.ColorCode == GameManager.Instance.WhoseTurn)
+        if (PieceOnIt != null && PieceOnIt.ColorCode == Game.Instance.WhoseTurn)
             OnPieceWhoseTurnNowClicked?.Invoke(this, new ActivePieceClickedArgs() { MySquare = this });
-        else if (PieceOnIt != null && PieceOnIt.ColorCode != GameManager.Instance.WhoseTurn)
+        else if (PieceOnIt != null && PieceOnIt.ColorCode != Game.Instance.WhoseTurn)
             OnPieceWhoNotTurnNowClicked?.Invoke(this, new InactivePieceClickedArgs() { MySquare = this });
         else if (PieceOnIt == null)
             OnEmptySquareClicked?.Invoke(this, new EmptySquareClickedArgs() { MySquare = this });
@@ -50,12 +50,12 @@ public class Square : MonoBehaviour
 
     private void Start()
     {
-        GameManager.OnTurnOrderChanged += TurnOrderChanged;
+        Game.OnTurnOrderChanged += TurnOrderChanged;
     }
 
     private void OnDestroy()
     {
-        GameManager.OnTurnOrderChanged -= TurnOrderChanged;
+        Game.OnTurnOrderChanged -= TurnOrderChanged;
     }
     
     private void TurnOrderChanged(object sender, TurnOrderEventArgs e)

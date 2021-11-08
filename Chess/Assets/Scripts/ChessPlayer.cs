@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 
+[System.Serializable]
 public class ChessPlayer
 {
     public readonly string TeamColor;
-    public List<Piece> PlayerPieces { get; private set; } = new List<Piece>();
+
+    public King MyKing;
+    public List<Piece> MyPieces = new List<Piece>();
 
     public ChessPlayer(string teamColor)
     {
@@ -12,20 +15,20 @@ public class ChessPlayer
 
     public void UpdatePiecesSupposedMoves()
     {
-        foreach (var piece in PlayerPieces)
+        foreach (var piece in MyPieces)
         {
-            var pieceSquare = GameManager.Instance.GameBoard.SquareWithPiece(piece);
+            var pieceSquare = Game.Instance.GameBoard.SquareWithPiece(piece);
             piece.UpdateSupposedMoves(pieceSquare);
         }
     }
 
     public void DeactivatePiecesWhoCanNotMove()
     {
-        foreach (var piece in PlayerPieces)
+        foreach (var piece in MyPieces)
         {
-            var pieceSquare = GameManager.Instance.GameBoard.SquareWithPiece(piece);
+            var pieceSquare = Game.Instance.GameBoard.SquareWithPiece(piece);
             piece.UpdateSupposedMoves(pieceSquare);
-            var possibleMoves = CheckMateHandler.MovesWithoutCheckForKing(pieceSquare, piece.SupposedMoves);
+            var possibleMoves = CheckMateAnalyser.MovesWithoutCheckForKing(pieceSquare, piece.SupposedMoves);
 
             if (possibleMoves.Count <= 0) 
                 piece.Deactivate();
@@ -34,25 +37,25 @@ public class ChessPlayer
 
     public void ActivatePieces()
     {
-        foreach (var piece in PlayerPieces)
+        foreach (var piece in MyPieces)
             piece.Activate();
     }
     
     public void DeactivatePieces()
     {
-        foreach (var piece in PlayerPieces)
+        foreach (var piece in MyPieces)
             piece.Deactivate();
     }
 
     public void AddPiece(Piece piece)
     {
-        if (!PlayerPieces.Contains(piece))
-            PlayerPieces.Add(piece);
+        if (!MyPieces.Contains(piece))
+            MyPieces.Add(piece);
     }
 
     public void RemovePiece(Piece piece)
     {
-        if (PlayerPieces.Contains(piece))
-            PlayerPieces.Remove(piece);
+        if (MyPieces.Contains(piece))
+            MyPieces.Remove(piece);
     }
 }
