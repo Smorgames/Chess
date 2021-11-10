@@ -6,14 +6,24 @@ public class King : UniversallyMovingPiece
 {
     public override string TypeCode => "k";
 
-    public List<CastlingMove> CastlingMoves { get; } = new List<CastlingMove>();
+    public List<CastlingMove> CastlingMoves { get; private set; } = new List<CastlingMove>();
+
+    public CastlingMove GetCastlingMoveBasedOnRook(Rook rook)
+    {
+        foreach (var castling in CastlingMoves)
+            if (Equals(rook, castling.CastleRook))
+                return castling;
+
+        var newCastling = new CastlingMove(rook);
+        CastlingMoves.Add(newCastling);
+        return newCastling;
+    }
 
     public override void UpdateSupposedMoves(Square squareWithPiece)
     {
         SupposedMoves.Clear();
         var directions = new List<Vector2Int>() { _up, _down, _left, _right, _upRight, _upLeft, _downRight, _downLeft };
         SupposedMoves = OneDirectionOneMove(squareWithPiece, directions);
-
         AddCastlingMovesToSupposedMoves();
     }
 
@@ -25,6 +35,7 @@ public class King : UniversallyMovingPiece
     }
 }
 
+[System.Serializable]
 public class CastlingMove
 {
     public Rook CastleRook { get; private set; }

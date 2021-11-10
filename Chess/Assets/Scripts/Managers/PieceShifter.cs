@@ -70,6 +70,32 @@ public class PieceShifter : MonoBehaviour
                 }
             }
         }
+
+        if (piece is Pawn pawn)
+        {
+            if (_toSquare.MyEnPassant.Possible && pawn.ColorCode != _toSquare.MyEnPassant.MyPawn.ColorCode)
+            {
+                var enemyPawn = _toSquare.MyEnPassant.MyPawn;
+                var player = Game.Instance.GetPlayerBasedOnColorCode(enemyPawn.ColorCode);
+                player.RemovePiece(enemyPawn);
+                enemyPawn.Death();
+            }
+
+            if (pawn.IsFirstMove)
+            {
+                var board = Game.Instance.GameBoard;
+                var yMoveFactor = pawn.ColorCode == "w" ? 1 : -1;
+
+                if (Mathf.Abs(_fromSquare.Coordinates.y - _toSquare.Coordinates.y) == 2)
+                {
+                    var x = _toSquare.Coordinates.x;
+                    var y = _fromSquare.Coordinates.y + yMoveFactor;
+                    var enPassantSquare = board.SquareWithCoordinates(x, y);
+
+                    enPassantSquare.ActivateEnPassant(pawn);
+                }
+            }
+        }
         
         piece.MoveTo(_toSquare);
     }

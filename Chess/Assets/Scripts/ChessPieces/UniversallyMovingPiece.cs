@@ -12,14 +12,15 @@ public abstract class UniversallyMovingPiece : Piece
     protected static Vector2Int _upLeft = new Vector2Int(-1, 1);
     protected static Vector2Int _downRight = new Vector2Int(1, -1);
     protected static Vector2Int _downLeft = new Vector2Int(-1, -1);
-    
+
     protected static List<Square> IterativelyAddedSquares(Square square, List<Vector2Int> directions) => IterativelyAddedSquares(square, directions, false);
     protected static List<Square> IterativelyAddedSquares(Square square, List<Vector2Int> directions, bool isItRook)
     {
-        if (square == null) return null;
         var supposedSquares = new List<Square>();
         var size = square.Board.Size;
         var longestBoardSide = size.x >= size.y ? size.x : size.y;
+
+        var canCastle = false;
         
         foreach (var direction in directions)
         {
@@ -34,35 +35,19 @@ public abstract class UniversallyMovingPiece : Piece
                     if (isItRook && supposedMove.PieceOnIt is King king)
                     {
                         var rook = (Rook) square.PieceOnIt;
-                        var castlingMoves = king.CastlingMoves;
+                        var kingCastlingMove = king.GetCastlingMoveBasedOnRook(rook);
 
-                        foreach (var castlingMove in castlingMoves)
-                            if (!Equals(castlingMove.CastleRook, rook))
-                                king.CastlingMoves.Add(new CastlingMove(rook));
-
-                        var canCastle = CanCastle(square, supposedMove);
+                        canCastle = CanCastle(square, supposedMove);
                         if (canCastle)
                         {
-                            var castlingMove = GetCastlingMove(square, supposedMove, direction);
-
-                            foreach (var move in castlingMoves)
-                                if (Equals(move.CastleRook, rook))
-                                    move.CastlePossible(rook, castlingMove.RookSquare, castlingMove.KingSquare);
-                            
-                            // Debug.Log($"Rook on Square[{square.Coordinates.x}, {square.Coordinates.y}] can castle move with king on Square[{supposedMove.Coordinates.x}, {supposedMove.Coordinates.y}]." +
-                            //           $"After castling Rook will be on Square[{castlingMoves[rook].RookSquare.Coordinates.x}, {castlingMoves[rook].RookSquare.Coordinates.y}] and King on Square" +
-                            //           $"[{castlingMoves[rook].KingSquare.Coordinates.x}, {castlingMoves[rook].KingSquare.Coordinates.y}]");
-                        }
-                        else
-                        {
-                            foreach (var move in castlingMoves)
-                                if (Equals(move.CastleRook, rook))
-                                    move.CastleImpossible();
+                            var castlingSquares = GetCastlingMove(square, supposedMove, direction);
+                            kingCastlingMove.CastlePossible(rook, castlingSquares.RookSquare, castlingSquares.KingSquare);
                         }
                     }
-                    
+
                     if (supposedMove.PieceOnIt.ColorCode != square.PieceOnIt.ColorCode)
                         supposedSquares.Add(supposedMove);
+
                     break;
                 }
                 
@@ -70,6 +55,15 @@ public abstract class UniversallyMovingPiece : Piece
             }
         }
 
+        if (isItRook && !canCastle)
+        {
+            var player = Game.Instance.GetPlayerBasedOnColorCode(square.PieceOnIt.ColorCode);
+            var king = player.MyKing;
+            var rook = (Rook)square.PieceOnIt;
+
+            king.GetCastlingMoveBasedOnRook(rook).CastleImpossible();
+        }
+            
         return supposedSquares;
     }
 
@@ -81,8 +75,11 @@ public abstract class UniversallyMovingPiece : Piece
         var board = kingSquare.Board;
         var kingCastlingSquare = board.SquareWithCoordinates(kingCoord);
         var rookCastlingSquare = board.SquareWithCoordinates(rookCoord);
-        
-        return new CastlingMove(null);
+
+        var castlingMove = new CastlingMove(null);
+        castlingMove.CastlePossible(null, rookCastlingSquare, kingCastlingSquare);
+
+        return castlingMove;
     }
 
     private static bool CanCastle(Square rookSquare, Square kingSquare)

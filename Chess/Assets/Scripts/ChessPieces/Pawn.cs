@@ -50,5 +50,7 @@ public class Pawn : Piece
         if (square == null) return;
         if (square.PieceOnIt != null && square.PieceOnIt.ColorCode != ColorCode)
             supposedSquaresForMove.Add(square);
+        if (square.MyEnPassant.Possible && square.MyEnPassant.MyPawn.ColorCode != ColorCode)
+            supposedSquaresForMove.Add(square);
     }
 }

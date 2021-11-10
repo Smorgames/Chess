@@ -15,6 +15,10 @@ public class Square : MonoBehaviour
     private Vector2Int _coordinates;
     public Piece PieceOnIt { get; set; }
 
+    public EnPassant MyEnPassant { get; private set; } = new EnPassant() { MyPawn = null, Possible = false };
+    public void ActivateEnPassant(Pawn pawn) => MyEnPassant.Set(pawn);
+    public void DeactivateEnPassant() => MyEnPassant.Reset();
+    
     public void Initialize(Vector2Int coordinates, Board board)
     {
         Board = board;
@@ -60,8 +64,29 @@ public class Square : MonoBehaviour
     
     private void TurnOrderChanged(object sender, TurnOrderEventArgs e)
     {
+        if (MyEnPassant.Possible && Game.Instance.WhoseTurn == MyEnPassant.MyPawn.ColorCode)
+            MyEnPassant.Reset();
         if (PieceOnIt == null) return;
         PieceOnIt.UpdateSupposedMoves(this);
+    }
+}
+
+[Serializable]
+public class EnPassant
+{
+    public Pawn MyPawn { get; set; }
+    public bool Possible { get; set; }
+
+    public void Set(Pawn pawn)
+    {
+        MyPawn = pawn;
+        Possible = true;
+    }
+    
+    public void Reset()
+    {
+        MyPawn = null;
+        Possible = false;
     }
 }
 

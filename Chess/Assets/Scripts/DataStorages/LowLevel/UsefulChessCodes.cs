@@ -16,6 +16,6 @@
     
     public static ChessCode CastlingTest { get; } = new ChessCode
     (
-        "4;0;wkt_0;0;wrt_7;0;wrt_4;7;bkt_"
+        "4;0;wkt_0;0;wrt_7;0;wrt_4;7;bkt_6;7;brf_"
     );
 }
