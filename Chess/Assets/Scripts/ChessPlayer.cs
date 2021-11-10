@@ -5,8 +5,8 @@ public class ChessPlayer
 {
     public readonly string TeamColor;
 
-    public King MyKing;
-    public List<Piece> MyPieces = new List<Piece>();
+    public King MyKing { get; set; }
+    public List<Piece> MyPieces { get; } = new List<Piece>();
 
     public ChessPlayer(string teamColor)
     {
