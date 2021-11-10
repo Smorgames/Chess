@@ -18,4 +18,14 @@
     (
         "4;0;wkt_0;0;wrt_7;0;wrt_4;7;bkt_6;7;brf_"
     );
+    
+    public static ChessCode MateTest { get; } = new ChessCode
+    (
+        "7;7;wqf_0;7;bkf_0;4;wkf_"
+    );
+    
+    public static ChessCode DrawTest { get; } = new ChessCode
+    (
+        "7;5;wqf_0;7;bkf_0;5;wkf_"
+    );
 }

@@ -58,6 +58,25 @@ public class CheckMateAnalyser
             if (piecesMoves.Count > 0) return false;
         }
 
-        return true;
+        return CheckForKing(kingColor);
+    }
+    
+    public static void MateOrDrawForKing(string kingColor, out bool mate, out bool draw)
+    {
+        var player = Game.Instance.GetPlayerBasedOnColorCode(kingColor);
+        var board = Game.Instance.GameBoard;
+
+        foreach (var piece in player.MyPieces)
+        {
+            var piecesMoves = MovesWithoutCheckForKing(board.SquareWithPiece(piece), piece.SupposedMoves);
+            if (piecesMoves.Count > 0)
+            {
+                mate = draw = false;
+                return;
+            }
+        }
+
+        mate = CheckForKing(kingColor);
+        draw = !mate;
     }
 }

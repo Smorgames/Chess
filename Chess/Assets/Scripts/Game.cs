@@ -49,7 +49,7 @@ public class Game : MonoBehaviour
         _players[1] = BlackPlayer;
         EventSubscription();
         _gameBoard = ChessboardBuilder.BuildStandardChessboard();
-        var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.StartChessState);
+        var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.DrawTest);
         GameSetuper.ArrangePiecesOnBoard(pieceSignatures, _gameBoard);
         // After pieces had been arranged on board, GameSetuper triggers event OnPiecesArranged and GameManager raises PieceArranged function 
     }
@@ -82,12 +82,18 @@ public class Game : MonoBehaviour
         PlayerWhoseTurn.ActivatePieces();
         PlayerWhoNotTurn.DeactivatePieces();
         
-        var gameEnd = CheckMateAnalyser.MateForKing(_gameBoard, WhoseTurn);
-        if (gameEnd)
+        CheckMateAnalyser.MateOrDrawForKing(WhoseTurn, out var mate, out var draw);
+        if (mate)
         {
             var whoWin = WhoseTurn == "w" ? "Black" : "White";
             CurrentState = GameState.Ended;
             Debug.Log($"{whoWin} player won this chess game!");
+        }
+
+        if (draw)
+        {
+            CurrentState = GameState.Ended;
+            Debug.Log($"Draw!");
         }
         
         OnTurnOrderChanged?.Invoke(this, new TurnOrderEventArgs());
