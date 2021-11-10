@@ -53,4 +53,10 @@ public class Pawn : Piece
         if (square.MyEnPassant.Possible && square.MyEnPassant.MyPawn.ColorCode != ColorCode)
             supposedSquaresForMove.Add(square);
     }
+
+    protected override void SetSprite()
+    {
+        var pawnSprites = ReferenceRegistry.Instance.MySpritesStorage.PawnSprites;
+        _renderer.sprite = ColorCode == "w" ? pawnSprites.White : pawnSprites.Black;
+    }
 }

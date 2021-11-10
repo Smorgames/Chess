@@ -22,18 +22,18 @@ public abstract class Piece : MonoBehaviour
     public static readonly Vector3 NormalSize = new Vector3(1f, 1f, 1f);
 
     public SpriteRenderer Renderer => _renderer;
-    [SerializeField] private SpriteRenderer _renderer;
-    
-    [SerializeField] private Sprite _whiteSprite;
-    [SerializeField] private Sprite _blackSprite;
+    [SerializeField] protected SpriteRenderer _renderer;
+
 
     public void Init(string colorCode, bool isFirstMove)
     {
         if (colorCode == "w" || colorCode == "b")
             ColorCode = colorCode;
         IsFirstMove = isFirstMove;
-        _renderer.sprite = ColorCode == "w" ? _whiteSprite : _blackSprite;
+        SetSprite();
     }
+
+    protected abstract void SetSprite();
 
     public abstract void UpdateSupposedMoves(Square squareWithPiece);
 

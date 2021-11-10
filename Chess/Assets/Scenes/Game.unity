@@ -322,6 +322,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8381278581355365301, guid: 9bb98ae86b87a5340bcfdd2756467cdb,
         type: 3}
+      propertyPath: _pieceType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381278581355365301, guid: 9bb98ae86b87a5340bcfdd2756467cdb,
+        type: 3}
       propertyPath: _blackSprite
       value: 
       objectReference: {fileID: -2925221628021560560, guid: 5193023d2654b714db0bfe64a6d53a11,
@@ -358,6 +363,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0fbc504abdec846a245010d6cf9f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &307382445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 307382446}
+  - component: {fileID: 307382447}
+  m_Layer: 0
+  m_Name: SpritesStorage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &307382446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307382445}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 365984378}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &307382447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307382445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48aeff314acdf584cb8bc9928f3d6440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pawnSprites:
+    White: {fileID: 24965338684803766, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    Black: {fileID: 8736564960913313170, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+  _rookSprites:
+    White: {fileID: 7970158032838120485, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    Black: {fileID: -2647962682813126139, guid: 5193023d2654b714db0bfe64a6d53a11,
+      type: 3}
+  _knightSprites:
+    White: {fileID: 205499288650012117, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    Black: {fileID: -2925221628021560560, guid: 5193023d2654b714db0bfe64a6d53a11,
+      type: 3}
+  _bishopSprites:
+    White: {fileID: 5209222130277788377, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    Black: {fileID: 2606153016120934048, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+  _queenSprites:
+    White: {fileID: 4271928469194566216, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    Black: {fileID: 8239140532275945989, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+  _kingSprites:
+    White: {fileID: 6623963105415861948, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    Black: {fileID: 4842974383721489020, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
 --- !u!1 &365984377
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +457,7 @@ Transform:
   - {fileID: 878070745}
   - {fileID: 547206652}
   - {fileID: 733065665}
+  - {fileID: 307382446}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -407,6 +476,7 @@ MonoBehaviour:
   _prefabsStorage: {fileID: 878070746}
   pieceHighlighter: {fileID: 547206651}
   _pawnPromotion: {fileID: 1058729135}
+  _spritesStorage: {fileID: 307382447}
 --- !u!1 &547206650
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,6 +992,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8381278581355365301, guid: 9bb98ae86b87a5340bcfdd2756467cdb,
         type: 3}
+      propertyPath: _pieceType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381278581355365301, guid: 9bb98ae86b87a5340bcfdd2756467cdb,
+        type: 3}
       propertyPath: _blackSprite
       value: 
       objectReference: {fileID: 8239140532275945989, guid: 5193023d2654b714db0bfe64a6d53a11,
@@ -1168,6 +1243,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8381278581355365301, guid: 9bb98ae86b87a5340bcfdd2756467cdb,
         type: 3}
+      propertyPath: _pieceType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381278581355365301, guid: 9bb98ae86b87a5340bcfdd2756467cdb,
+        type: 3}
       propertyPath: _blackSprite
       value: 
       objectReference: {fileID: 2606153016120934048, guid: 5193023d2654b714db0bfe64a6d53a11,
@@ -1253,12 +1333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9410460129612a24c8663bff24fea734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WhitePlayer:
-    MyKing: {fileID: 0}
-    MyPieces: []
-  BlackPlayer:
-    MyKing: {fileID: 0}
-    MyPieces: []
 --- !u!1 &2077583156
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,6 +1558,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 50.526283
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381278581355365301, guid: 9bb98ae86b87a5340bcfdd2756467cdb,
+        type: 3}
+      propertyPath: _pieceType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8381278581355365301, guid: 9bb98ae86b87a5340bcfdd2756467cdb,
         type: 3}

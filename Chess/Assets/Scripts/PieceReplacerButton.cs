@@ -1,20 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PieceReplacerButton : MonoBehaviour
 {
     [SerializeField] private Piece _pieceThatReplaces;
-
-    public Sprite WhiteSprite => _whiteSprite;
-    [SerializeField] private Sprite _whiteSprite;
-    public Sprite BlackSprite => _blackSprite;
-    [SerializeField] private Sprite _blackSprite;
-
-    [SerializeField] private Image _image; 
+    [SerializeField] private Image _image;
+    [SerializeField] private PieceTypes _pieceType;
+        
+    private Sprite _whiteSprite;
+    private Sprite _blackSprite;
     
     private Square _squareWithPieceNeedReplace;
 
-    public void SetSprite(string colorCode) => _image.sprite = colorCode == "w" ? _whiteSprite : _blackSprite;
+    public void SetSprite(string colorCode)
+    {
+        if (_whiteSprite == null || _blackSprite == null)
+        {
+            var spritesStorage = ReferenceRegistry.Instance.MySpritesStorage;
+            var spritesCouple = spritesStorage.TryGetSpritesByPieceType(_pieceType);
+            _whiteSprite = spritesCouple.White;
+            _blackSprite = spritesCouple.Black;
+        }
+        
+        _image.sprite = colorCode == "w" ? _whiteSprite : _blackSprite;
+    }
     public void SetSquareWithPieceNeedReplace(Square square) => _squareWithPieceNeedReplace = square;
     
     public void Replace()

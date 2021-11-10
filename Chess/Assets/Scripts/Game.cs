@@ -12,8 +12,8 @@ public class Game : MonoBehaviour
 
     #region Players getters
 
-    public ChessPlayer WhitePlayer = new ChessPlayer("w");
-    public ChessPlayer BlackPlayer = new ChessPlayer("b");
+    public ChessPlayer WhitePlayer { get; } = new ChessPlayer("w");
+    public ChessPlayer BlackPlayer { get; } = new ChessPlayer("b");
     public ChessPlayer[] Players => _players;
     private ChessPlayer[] _players = new ChessPlayer[2];
     public ChessPlayer PlayerWhoseTurn => WhoseTurn == "w" ? WhitePlayer : BlackPlayer;
@@ -49,7 +49,7 @@ public class Game : MonoBehaviour
         _players[1] = BlackPlayer;
         EventSubscription();
         _gameBoard = ChessboardBuilder.BuildStandardChessboard();
-        var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.DrawTest);
+        var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.StartChessState);
         GameSetuper.ArrangePiecesOnBoard(pieceSignatures, _gameBoard);
         // After pieces had been arranged on board, GameSetuper triggers event OnPiecesArranged and GameManager raises PieceArranged function 
     }

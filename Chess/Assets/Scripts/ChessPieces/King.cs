@@ -33,6 +33,12 @@ public class King : UniversallyMovingPiece
             if (castlingMove.KingSquare != null && castlingMove.RookSquare != null)
                 SupposedMoves.Add(castlingMove.KingSquare);
     }
+    
+    protected override void SetSprite()
+    {
+        var kingSprites = ReferenceRegistry.Instance.MySpritesStorage.KingSprites;
+        _renderer.sprite = ColorCode == "w" ? kingSprites.White : kingSprites.Black;
+    }
 }
 
 [System.Serializable]
