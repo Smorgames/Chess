@@ -1,4 +1,5 @@
-﻿public class ChessCode
+﻿[System.Serializable]
+public class ChessCode
 {
     public readonly string Value;
 

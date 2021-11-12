@@ -5,7 +5,7 @@ public class CheckMateAnalyser
     public static List<Square> MovesWithoutCheckForKing(Square squareWithPiece, List<Square> supposedPieceMoves)
     {
         var kingColor = squareWithPiece.PieceOnIt.ColorCode;
-        var board = squareWithPiece.Board;
+        var board = squareWithPiece.MyBoard;
 
         var enemyColor = kingColor == "w" ? "b" : "w";
         var enemyPlayer = Game.Instance.GetPlayerBasedOnColorCode(enemyColor);
@@ -14,13 +14,13 @@ public class CheckMateAnalyser
         
         foreach (var supposedMove in supposedPieceMoves)
         {
-            board.PlacePieceFromSquareToOther(squareWithPiece, supposedMove);
+            board.MyPiecePlacer.PlacePieceFromSquareToOther(squareWithPiece, supposedMove);
             enemyPlayer.UpdatePiecesSupposedMoves();
             
             var check = CheckForKing(kingColor);
             
             if (!check) correctMoves.Add(supposedMove);
-            board.UNDO_PlacePieceFromSquareToOther();
+            board.MyPiecePlacer.UNDO_PlacePieceFromSquareToOther();
             
             enemyPlayer.UpdatePiecesSupposedMoves();
         }

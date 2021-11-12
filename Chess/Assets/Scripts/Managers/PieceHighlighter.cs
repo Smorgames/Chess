@@ -6,7 +6,7 @@ public class PieceHighlighter : MonoBehaviour
 {
     public List<Square> PieceMoves { get; private set; } = new List<Square>();
 
-    private void HighlightPieceMoves(object s, ActivePieceClickedArgs a)
+    private void HighlightPieceMoves(object s, SquareClickedArgs a)
     {
         DeselectAllPieces();
         var square = a.MySquare;
@@ -15,7 +15,7 @@ public class PieceHighlighter : MonoBehaviour
 
         var pieceMoves = CheckMateAnalyser.MovesWithoutCheckForKing(square, piece.SupposedMoves);
 
-        DeactivateAllSquaresHighlights(square.Board);
+        DeactivateAllSquaresHighlights(square.MyBoard);
 
         foreach (var move in pieceMoves.Where(move => move != null))
             move.SetEnabledHighlight(true, move.PieceOnIt != null ? ActionType.Attack : ActionType.Movement);
@@ -36,8 +36,8 @@ public class PieceHighlighter : MonoBehaviour
             board.Squares[x, y].DeactivateAllHighlights();
     }
     
-    private void EmptySquareClicked(object sender, EmptySquareClickedArgs e) => DeselectAllPieces();
-    private void OnPieceWhoNotTurnNowClicked(object sender, InactivePieceClickedArgs e) => DeselectAllPieces();
+    private void EmptySquareClicked(object sender, SquareClickedArgs e) => DeselectAllPieces();
+    private void OnPieceWhoNotTurnNowClicked(object sender, SquareClickedArgs e) => DeselectAllPieces();
 
     #region Events
 

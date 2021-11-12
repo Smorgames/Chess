@@ -17,7 +17,7 @@ public abstract class UniversallyMovingPiece : Piece
     protected static List<Square> IterativelyAddedSquares(Square square, List<Vector2Int> directions, bool isItRook)
     {
         var supposedSquares = new List<Square>();
-        var size = square.Board.Size;
+        var size = square.MyBoard.Size;
         var longestBoardSide = size.x >= size.y ? size.x : size.y;
 
         var canCastle = false;
@@ -26,7 +26,7 @@ public abstract class UniversallyMovingPiece : Piece
         {
             for (int i = 1; i < longestBoardSide; i++)
             {
-                var supposedMove = square.Board.SquareWithCoordinates(square.Coordinates.x + direction.x * i, square.Coordinates.y + direction.y * i);
+                var supposedMove = square.MyBoard.SquareWithCoordinates(square.Coordinates.x + direction.x * i, square.Coordinates.y + direction.y * i);
 
                 if (supposedMove == null) break;
                 
@@ -72,7 +72,7 @@ public abstract class UniversallyMovingPiece : Piece
         var kingMoveVector = -rookDirection * 2;
         var kingCoord = kingSquare.Coordinates + kingMoveVector;
         var rookCoord = kingCoord + rookDirection;
-        var board = kingSquare.Board;
+        var board = kingSquare.MyBoard;
         var kingCastlingSquare = board.SquareWithCoordinates(kingCoord);
         var rookCastlingSquare = board.SquareWithCoordinates(rookCoord);
 
@@ -96,7 +96,7 @@ public abstract class UniversallyMovingPiece : Piece
         
         foreach (var direction in directions)
         {
-            var supposedMove = square.Board.SquareWithCoordinates(square.Coordinates + direction);
+            var supposedMove = square.MyBoard.SquareWithCoordinates(square.Coordinates + direction);
             if (supposedMove == null) continue;
 
             if (supposedMove.PieceOnIt == null)

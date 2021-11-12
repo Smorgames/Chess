@@ -4,10 +4,10 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     public static EventHandler<TurnOrderEventArgs> OnTurnOrderChanged;
-
+    
     public enum GameState { Initialization, Playing, Paused, Ended }
     public GameState CurrentState { get; set; }
-
+    
     public string WhoseTurn { get; private set; }
 
     #region Players getters
@@ -21,8 +21,7 @@ public class Game : MonoBehaviour
 
     #endregion
 
-    public Board GameBoard => _gameBoard;
-    private Board _gameBoard;
+    public Board GameBoard { get; private set; }
 
     #region Singleton
 
@@ -35,8 +34,6 @@ public class Game : MonoBehaviour
 
     #endregion
 
-    #region Initialization and events
-
     private void Start()
     {
         Initialization();
@@ -47,32 +44,29 @@ public class Game : MonoBehaviour
         CurrentState = GameState.Initialization;
         _players[0] = WhitePlayer;
         _players[1] = BlackPlayer;
-        EventSubscription();
-        _gameBoard = ChessboardBuilder.BuildStandardChessboard();
+        EventsManipulation(EventsManipulationType.Subscribe);
+        GameBoard = ChessboardBuilder.BuildStandardChessboard();
         var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.StartChessState);
-        GameSetuper.ArrangePiecesOnBoard(pieceSignatures, _gameBoard);
+        GameSetuper.ArrangePiecesOnBoard(pieceSignatures, GameBoard);
         // After pieces had been arranged on board, GameSetuper triggers event OnPiecesArranged and GameManager raises PieceArranged function 
     }
     
-    private void OnDestroy()
+    private void OnDestroy() => EventsManipulation(EventsManipulationType.Unsubscribe);
+
+    private void EventsManipulation(EventsManipulationType type)
     {
-        EventUnsubscription();
+        if (type == EventsManipulationType.Subscribe)
+        {
+            Piece.OnPieceMoved += PieceMoved;
+            GameSetuper.OnPiecesArranged += PiecesArranged;
+        }
+        else
+        {
+            Piece.OnPieceMoved -= PieceMoved;
+            GameSetuper.OnPiecesArranged -= PiecesArranged;
+        }
     }
 
-    private void EventSubscription()
-    {
-        Piece.OnPieceMoved += PieceMoved;
-        GameSetuper.OnPiecesArranged += PiecesArranged;
-    }
-
-    private void EventUnsubscription()
-    {
-        Piece.OnPieceMoved -= PieceMoved;
-        GameSetuper.OnPiecesArranged -= PiecesArranged;
-    }
-
-    #endregion
-    
     private void PieceMoved(object sender, PieceMovedEventArgs e) => ChangeTurnOrder();
     private void ChangeTurnOrder()
     {
@@ -109,10 +103,10 @@ public class Game : MonoBehaviour
     }
     private void FillPlayersPieces()
     {
-        for (var x = 0; x < _gameBoard.Size.x; x++)
-        for (var y = 0; y < _gameBoard.Size.y; y++)
+        for (var x = 0; x < GameBoard.Size.x; x++)
+        for (var y = 0; y < GameBoard.Size.y; y++)
         {
-            var piece = _gameBoard.Squares[x, y].PieceOnIt;
+            var piece = GameBoard.Squares[x, y].PieceOnIt;
             if (piece == null) continue;
 
             var player = GetPlayerBasedOnColorCode(piece.ColorCode);
@@ -121,6 +115,11 @@ public class Game : MonoBehaviour
         }
     }
     public ChessPlayer GetPlayerBasedOnColorCode(string colorCode) => colorCode == "w" ? WhitePlayer : BlackPlayer;
+}
+
+public enum EventsManipulationType
+{
+    Subscribe, Unsubscribe
 }
 
 public class TurnOrderEventArgs : EventArgs

@@ -6,12 +6,12 @@ public class PieceShifter : MonoBehaviour
     private Square _fromSquare;
     private Square _toSquare;
 
-    private void SelectSquareFromGo(object s, ActivePieceClickedArgs a)
+    private void SelectSquareFromGo(object s, SquareClickedArgs a)
     {
         _fromSquare = a.MySquare;
     }
 
-    private void ClickedOnEmptySquare(object s, EmptySquareClickedArgs a)
+    private void ClickedOnEmptySquare(object s, SquareClickedArgs a)
     {
         if (_fromSquare == null) return;
 
@@ -25,12 +25,12 @@ public class PieceShifter : MonoBehaviour
     }
     private void ResetChessBoardState(Square square)
     {
-        ReferenceRegistry.Instance.MyPieceHighlighter.DeactivateAllSquaresHighlights(square.Board);
+        ReferenceRegistry.Instance.MyPieceHighlighter.DeactivateAllSquaresHighlights(square.MyBoard);
         ResetSquareFields();
     }
     private void ResetSquareFields() => _fromSquare = _toSquare = null;
 
-    private void SelectSquareToGo(object s, InactivePieceClickedArgs a)
+    private void SelectSquareToGo(object s, SquareClickedArgs a)
     {
         if (PieceCanGoToSquare(a.MySquare))
             _toSquare = a.MySquare;
@@ -64,7 +64,7 @@ public class PieceShifter : MonoBehaviour
                     var rook = castlingMove.CastleRook;
                     var rookSquare = castlingMove.RookSquare;
 
-                    rookSquare.Board.SquareWithPiece(rook).PieceOnIt = null;
+                    rookSquare.MyBoard.SquareWithPiece(rook).PieceOnIt = null;
                     rook.ChangePosition(rookSquare);
                     rookSquare.PieceOnIt = rook;
                 }
@@ -92,7 +92,7 @@ public class PieceShifter : MonoBehaviour
                     var y = _fromSquare.Coordinates.y + yMoveFactor;
                     var enPassantSquare = board.SquareWithCoordinates(x, y);
 
-                    enPassantSquare.ActivateEnPassant(pawn);
+                    enPassantSquare.MyEnPassant.Set(pawn);
                 }
             }
         }
