@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ChessboardBuilder
+public class BoardBuilder
 {
     public static Board BuildStandardChessboard()
     {
@@ -11,7 +11,7 @@ public class ChessboardBuilder
 
     public static Board BuildArbitraryChessBoard(Vector2 boardCenterCoordinate, Vector2Int boardSize)
     {
-        var board = CreateChessboardTemplate(boardSize);
+        var board = CreateSettledBoard(boardSize);
         
         var squarePref = ReferenceRegistry.Instance.MyPrefabsStorage.SquaresPrefabs[0];
         var squarePrefSize = squarePref.GetComponent<SpriteRenderer>().sprite.bounds.size;
@@ -29,7 +29,7 @@ public class ChessboardBuilder
                 var boardMatrixCoord = new Vector2Int(x, y);
                 var squareNum = x * boardSize.x + y;
 
-                var square = CreateAndInitializeSquare(gameCoord, boardMatrixCoord, squareNum, board);
+                var square = CreateSettledSquare(gameCoord, boardMatrixCoord, squareNum, board);
                 
                 square.transform.parent = board.transform;
                 board.Squares[x, y] = square;
@@ -39,27 +39,25 @@ public class ChessboardBuilder
         return board;
     }
 
-    private static Board CreateChessboardTemplate(Vector2Int boardSize)
+    private static Board CreateSettledBoard(Vector2Int boardSize)
     {
-        var board = new GameObject("Chessboard");
+        var board = new GameObject("Board");
         var chessboardComponent = board.AddComponent<Board>();
         chessboardComponent.Initialize(boardSize);
         board.transform.position = Vector3.zero;
         return board.GetComponent<Board>();
     }
 
-    private static Square CreateAndInitializeSquare(Vector2 gameCoordinates, Vector2Int boardMatrixCoordinates, int squareNumber, Board board)
+    private static Square CreateSettledSquare(Vector2 gameCoordinates, Vector2Int boardMatrixCoordinates, int squareNumber, Board board)
     {
-        var squares = ReferenceRegistry.Instance.MyPrefabsStorage.SquaresPrefabs;
+        var squaresPrefabs = ReferenceRegistry.Instance.MyPrefabsStorage.SquaresPrefabs;
         
-        var index = (boardMatrixCoordinates.x + boardMatrixCoordinates.y) % squares.Count;
-        var square = Object.Instantiate(squares[index], Vector3.zero, Quaternion.identity).GetComponent<Square>();
-        square.transform.position = gameCoordinates;
-        
-        var squareName = $"Square {squareNumber}";
-        square.name = squareName;
+        var index = (boardMatrixCoordinates.x + boardMatrixCoordinates.y) % squaresPrefabs.Count;
+        var square = Object.Instantiate(squaresPrefabs[index], Vector3.zero, Quaternion.identity).GetComponent<Square>();
+        var squareName = $"Square[{boardMatrixCoordinates.x},{boardMatrixCoordinates.y}]";
 
-        square.Initialize(boardMatrixCoordinates, board);
+        square.transform.position = gameCoordinates;
+        square.Initialize(boardMatrixCoordinates, board, squareName);
 
         return square;
     }

@@ -22,6 +22,11 @@ public class Square : MonoBehaviour
         MyBoard = board;
         SetCoordinates(coordinates);
     }
+    public void Initialize(Vector2Int coordinates, Board board, string squareName)
+    {
+        Initialize(coordinates, board);
+        name = squareName;
+    }
     
     private void SetCoordinates(Vector2Int coordinates) => _coordinates = coordinates;
 

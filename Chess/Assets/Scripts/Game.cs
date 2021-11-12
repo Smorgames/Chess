@@ -45,7 +45,7 @@ public class Game : MonoBehaviour
         _players[0] = WhitePlayer;
         _players[1] = BlackPlayer;
         EventsManipulation(EventsManipulationType.Subscribe);
-        GameBoard = ChessboardBuilder.BuildStandardChessboard();
+        GameBoard = BoardBuilder.BuildStandardChessboard();
         var pieceSignatures = ChessCodeHandler.GetPieceSignaturesFromChessCode(UsefulChessCodes.StartChessState);
         GameSetuper.ArrangePiecesOnBoard(pieceSignatures, GameBoard);
         // After pieces had been arranged on board, GameSetuper triggers event OnPiecesArranged and GameManager raises PieceArranged function 
