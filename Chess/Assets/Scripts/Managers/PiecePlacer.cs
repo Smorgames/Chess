@@ -1,6 +1,6 @@
 ﻿public class PiecePlacer
 {
-    private Cache _cache = new Cache();
+    private MoveCache _moveCache = new MoveCache();
     
     public void PlacePieceFromSquareToOther(Square fromSquare, Square toSquare)
     {
@@ -9,7 +9,7 @@
         
         var toPiece = toSquare.PieceOnIt;
         
-        _cache.DoCache(fromSquare, toSquare);
+        _moveCache.DoCache(fromSquare, toSquare);
 
         fromSquare.PieceOnIt = null;
         toSquare.PieceOnIt = fromPiece;
@@ -24,31 +24,34 @@
     
     public void UNDO_PlacePieceFromSquareToOther()
     {
-        _cache.ToSquare.PieceOnIt = _cache.ToPiece;
-        _cache.FromSquare.PieceOnIt = _cache.FromPiece;
+        _moveCache.ToSquare.PieceOnIt = _moveCache.ToPiece;
+        _moveCache.FromSquare.PieceOnIt = _moveCache.FromPiece;
 
-        if (_cache.ToPiece != null)
+        if (_moveCache.ToPiece != null)
         {
-            var toPieceColor = _cache.ToPiece.ColorCode;
+            var toPieceColor = _moveCache.ToPiece.ColorCode;
             var player = Game.Instance.GetPlayerBasedOnColorCode(toPieceColor);
-            player.AddPiece(_cache.ToPiece);
+            player.AddPiece(_moveCache.ToPiece);
         }
     }
+}
 
-    private class Cache
+public class MoveCache
+{
+    public Piece FromPiece;
+    public Square FromSquare;
+
+    public Piece ToPiece;
+    public Square ToSquare;
+
+    public bool IsFirstMove;
+
+    public void DoCache(Square fromSquare, Square toSquare)
     {
-        public Piece FromPiece;
-        public Square FromSquare;
-
-        public Piece ToPiece;
-        public Square ToSquare;
-
-        public void DoCache(Square fromSquare, Square toSquare)
-        {
-            ToSquare = toSquare;
-            FromSquare = fromSquare;
-            ToPiece = toSquare.PieceOnIt;
-            FromPiece = fromSquare.PieceOnIt;
-        }
+        ToSquare = toSquare;
+        FromSquare = fromSquare;
+        ToPiece = toSquare.PieceOnIt;
+        FromPiece = fromSquare.PieceOnIt;
+        IsFirstMove = FromPiece.IsFirstMove;
     }
 }

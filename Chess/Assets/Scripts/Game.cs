@@ -68,7 +68,7 @@ public class Game : MonoBehaviour
     }
 
     private void PieceMoved(object sender, PieceMovedEventArgs e) => ChangeTurnOrder();
-    private void ChangeTurnOrder()
+    public void ChangeTurnOrder()
     {
         WhoseTurn = WhoseTurn == "w" ? "b" : "w";
         foreach (var player in _players) player.UpdatePiecesSupposedMoves();

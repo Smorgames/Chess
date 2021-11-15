@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,32 +18,36 @@ public class Memento : MonoBehaviour
     #endregion
 
     private Stack<ChessCode> _gameStates = new Stack<ChessCode>();
-    private Tuple<Move, Move> _move;
+    private Stack<List<MoveCache>> _cachedMoves = new Stack<List<MoveCache>>();
+
+    private bool _needRememberGameState = false;
+    
+    public void AddMove(List<MoveCache> movesOnThisTurn) => _cachedMoves.Push(movesOnThisTurn);
+
+    public void UndoMove()
+    {
+        var moves = _cachedMoves.Pop();
+
+        foreach (var move in moves)
+        {
+            
+        }
+
+        _needRememberGameState = false;
+        Game.Instance.ChangeTurnOrder();
+    }
 
     private void AddCurrentState(object s, TurnOrderEventArgs a)
     {
-        var gameBoard = Game.Instance.GameBoard;
-        var chessCode = ChessCodeHandler.EncodeBoard(gameBoard);
-        _gameStates.Push(chessCode);
-    }
-
-    private class Move
-    {
-        public readonly Square FromSquare;
-        public readonly Piece FromPiece;
-
-        public readonly Square ToSquare;
-        public readonly Piece ToPiece;
-
-        public Move(Square fromSquare, Piece fromPiece, Square toSquare, Piece toPiece)
+        if (_needRememberGameState)
         {
-            FromSquare = fromSquare;
-            FromPiece = fromPiece;
-            ToSquare = toSquare;
-            ToPiece = toPiece;
+            var chessCode = ChessCodeHandler.EncodeBoard(Game.Instance.GameBoard);
+            _gameStates.Push(chessCode);
         }
+
+        _needRememberGameState = true;
     }
-    
+
     #region Events
 
     private void Start() => EventsManipulation(EventsManipulationType.Subscribe);
