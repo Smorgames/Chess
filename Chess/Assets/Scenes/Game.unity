@@ -407,25 +407,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pawnSprites:
-    White: {fileID: 24965338684803766, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
-    Black: {fileID: 8736564960913313170, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
-  _rookSprites:
-    White: {fileID: 7970158032838120485, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
-    Black: {fileID: -2647962682813126139, guid: 5193023d2654b714db0bfe64a6d53a11,
+    White: {fileID: -190427645437889769, guid: fff55a0fe08ca8447866708ff1ce7371, type: 3}
+    Black: {fileID: -2455635294200822801, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
+  _rookSprites:
+    White: {fileID: 4167902192646684152, guid: fff55a0fe08ca8447866708ff1ce7371, type: 3}
+    Black: {fileID: 8722082921441630010, guid: 87c9967d1a8d25842b8543ac786fc34f, type: 3}
   _knightSprites:
-    White: {fileID: 205499288650012117, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
-    Black: {fileID: -2925221628021560560, guid: 5193023d2654b714db0bfe64a6d53a11,
+    White: {fileID: -8243608473562641220, guid: fff55a0fe08ca8447866708ff1ce7371,
+      type: 3}
+    Black: {fileID: -5029045998188158733, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
   _bishopSprites:
-    White: {fileID: 5209222130277788377, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
-    Black: {fileID: 2606153016120934048, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    White: {fileID: -4209293873126123158, guid: fff55a0fe08ca8447866708ff1ce7371,
+      type: 3}
+    Black: {fileID: 2489323302343023830, guid: 87c9967d1a8d25842b8543ac786fc34f, type: 3}
   _queenSprites:
-    White: {fileID: 4271928469194566216, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
-    Black: {fileID: 8239140532275945989, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    White: {fileID: 1747114032200019052, guid: fff55a0fe08ca8447866708ff1ce7371, type: 3}
+    Black: {fileID: -9123985352547874406, guid: 87c9967d1a8d25842b8543ac786fc34f,
+      type: 3}
   _kingSprites:
-    White: {fileID: 6623963105415861948, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
-    Black: {fileID: 4842974383721489020, guid: 5193023d2654b714db0bfe64a6d53a11, type: 3}
+    White: {fileID: -6185609143308591411, guid: fff55a0fe08ca8447866708ff1ce7371,
+      type: 3}
+    Black: {fileID: -6801229620481291038, guid: 87c9967d1a8d25842b8543ac786fc34f,
+      type: 3}
 --- !u!1 &365984377
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,7 +867,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
