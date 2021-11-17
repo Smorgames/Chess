@@ -17,9 +17,9 @@ public class PieceReplacerButton : MonoBehaviour
         if (_whiteSprite == null || _blackSprite == null)
         {
             var spritesStorage = ReferenceRegistry.Instance.MySpritesStorage;
-            var spritesCouple = spritesStorage.TryGetSpritesByPieceType(_pieceType);
-            _whiteSprite = spritesCouple.White;
-            _blackSprite = spritesCouple.Black;
+            var spritesCouple = spritesStorage.TryGetGraphicDataByPieceType(_pieceType);
+            _whiteSprite = spritesCouple.WhiteSprite;
+            _blackSprite = spritesCouple.BlackSprite;
         }
         
         _image.sprite = colorCode == "w" ? _whiteSprite : _blackSprite;

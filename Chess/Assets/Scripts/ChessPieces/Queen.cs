@@ -14,7 +14,7 @@ public class Queen : UniversallyMovingPiece
 
     protected override void SetSprite()
     {
-        var queenSprites = ReferenceRegistry.Instance.MySpritesStorage.QueenSprites;
-        _renderer.sprite = ColorCode == "w" ? queenSprites.White : queenSprites.Black;
+        var queenSprites = ReferenceRegistry.Instance.MySpritesStorage.QueenGraphicData;
+        _renderer.sprite = ColorCode == "w" ? queenSprites.WhiteSprite : queenSprites.BlackSprite;
     }
 }

@@ -14,7 +14,7 @@ public class Bishop : UniversallyMovingPiece
     
     protected override void SetSprite()
     {
-        var bishopSprites = ReferenceRegistry.Instance.MySpritesStorage.BishopSprites;
-        _renderer.sprite = ColorCode == "w" ? bishopSprites.White : bishopSprites.Black;
+        var bishopSprites = ReferenceRegistry.Instance.MySpritesStorage.BishopGraphicData;
+        _renderer.sprite = ColorCode == "w" ? bishopSprites.WhiteSprite : bishopSprites.BlackSprite;
     }
 }

@@ -35,8 +35,8 @@ public class King : UniversallyMovingPiece
     
     protected override void SetSprite()
     {
-        var kingSprites = ReferenceRegistry.Instance.MySpritesStorage.KingSprites;
-        _renderer.sprite = ColorCode == "w" ? kingSprites.White : kingSprites.Black;
+        var kingSprites = ReferenceRegistry.Instance.MySpritesStorage.KingGraphicData;
+        _renderer.sprite = ColorCode == "w" ? kingSprites.WhiteSprite : kingSprites.BlackSprite;
     }
 }
 

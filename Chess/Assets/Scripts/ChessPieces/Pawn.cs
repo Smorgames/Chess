@@ -55,7 +55,7 @@ public class Pawn : Piece
 
     protected override void SetSprite()
     {
-        var pawnSprites = ReferenceRegistry.Instance.MySpritesStorage.PawnSprites;
-        _renderer.sprite = ColorCode == "w" ? pawnSprites.White : pawnSprites.Black;
+        var pawnSprites = ReferenceRegistry.Instance.MySpritesStorage.PawnGraphicData;
+        _renderer.sprite = ColorCode == "w" ? pawnSprites.WhiteSprite : pawnSprites.BlackSprite;
     }
 }

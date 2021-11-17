@@ -1,31 +1,37 @@
 fileFormatVersion: 2
-guid: ca7926bf9a781b94dab17fd6d0d1bfbb
+guid: 949e62edf9d5c2942b774edeca1a76d8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2055903378186817056
-    second: FireAnim_0
+      213: -6349036467908879500
+    second: PawnFire2_0
   - first:
-      213: 123638620475686820
-    second: FireAnim_1
+      213: 1232150844504209273
+    second: PawnFire2_1
   - first:
-      213: -9084913960649895143
-    second: FireAnim_2
+      213: 2495959213081368452
+    second: PawnFire2_2
   - first:
-      213: 1659678493267295502
-    second: FireAnim_3
+      213: -6236384109155047747
+    second: PawnFire2_3
   - first:
-      213: -2119457911851303678
-    second: FireAnim_4
+      213: -6730323173426375467
+    second: PawnFire2_4
   - first:
-      213: -8490523133135605316
-    second: FireAnim_5
+      213: 3071359733899750563
+    second: PawnFire2_5
   - first:
-      213: -6603710295742517376
-    second: FireAnim_6
+      213: 5338677705291122998
+    second: PawnFire2_6
   - first:
-      213: -7437621132503643740
-    second: FireAnim_7
+      213: 1036119690554102013
+    second: PawnFire2_7
+  - first:
+      213: -9136127929409500101
+    second: PawnFire2_8
+  - first:
+      213: -5878474737113567292
+    second: PawnFire2_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -88,7 +94,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,7 +106,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -112,7 +118,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -124,7 +130,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,7 +142,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -147,169 +153,211 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FireAnim_0
+      name: PawnFire2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 8
-        height: 11
+        width: 10
+        height: 9
       alignment: 9
-      pivot: {x: 0.6875, y: 0.045454547}
+      pivot: {x: 0.65, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e136aa25c6f773e0800000000000000
-      internalID: -2055903378186817056
+      spriteID: 47b5a4898f0b3e7a0800000000000000
+      internalID: -6349036467908879500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireAnim_1
+      name: PawnFire2_1
       rect:
         serializedVersion: 2
-        x: 8
+        x: 10
         y: 0
-        width: 8
-        height: 11
+        width: 10
+        height: 9
       alignment: 9
-      pivot: {x: 0.6875, y: 0.045454547}
+      pivot: {x: 0.65, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4aff8f59ba047b100800000000000000
-      internalID: 123638620475686820
+      spriteID: 977fe543aaa791110800000000000000
+      internalID: 1232150844504209273
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireAnim_2
+      name: PawnFire2_2
       rect:
         serializedVersion: 2
-        x: 16
+        x: 20
         y: 0
-        width: 8
-        height: 11
+        width: 10
+        height: 9
       alignment: 9
-      pivot: {x: 0.6875, y: 0.045454547}
+      pivot: {x: 0.65, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 913d97003e6ebe180800000000000000
-      internalID: -9084913960649895143
+      spriteID: 487149d1ead63a220800000000000000
+      internalID: 2495959213081368452
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireAnim_3
+      name: PawnFire2_3
       rect:
         serializedVersion: 2
-        x: 24
+        x: 30
         y: 0
-        width: 8
-        height: 11
+        width: 10
+        height: 9
       alignment: 9
-      pivot: {x: 0.6875, y: 0.045454547}
+      pivot: {x: 0.65, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0d7d88dbcc580710800000000000000
-      internalID: 1659678493267295502
+      spriteID: db62ceac1b9e379a0800000000000000
+      internalID: -6236384109155047747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireAnim_4
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 8
-        height: 11
-      alignment: 9
-      pivot: {x: 0.6875, y: 0.045454547}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 20d36bf224c2692e0800000000000000
-      internalID: -2119457911851303678
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FireAnim_5
+      name: PawnFire2_4
       rect:
         serializedVersion: 2
         x: 40
         y: 0
-        width: 8
-        height: 11
+        width: 10
+        height: 9
       alignment: 9
-      pivot: {x: 0.6875, y: 0.045454547}
+      pivot: {x: 0.65, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb13734f13a9b2a80800000000000000
-      internalID: -8490523133135605316
+      spriteID: 5d457588bb61992a0800000000000000
+      internalID: -6730323173426375467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireAnim_6
+      name: PawnFire2_5
       rect:
         serializedVersion: 2
-        x: 48
+        x: 50
         y: 0
-        width: 8
-        height: 11
+        width: 10
+        height: 9
       alignment: 9
-      pivot: {x: 0.6875, y: 0.045454547}
+      pivot: {x: 0.65, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 08f6da65978ea54a0800000000000000
-      internalID: -6603710295742517376
+      spriteID: 3ac688cb769af9a20800000000000000
+      internalID: 3071359733899750563
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FireAnim_7
+      name: PawnFire2_6
       rect:
         serializedVersion: 2
-        x: 56
+        x: 60
         y: 0
-        width: 8
-        height: 11
+        width: 10
+        height: 9
       alignment: 9
-      pivot: {x: 0.6875, y: 0.045454547}
+      pivot: {x: 0.65, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a98e277cf248c890800000000000000
-      internalID: -7437621132503643740
+      spriteID: 639cc22661bc61a40800000000000000
+      internalID: 5338677705291122998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PawnFire2_7
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 0
+        width: 10
+        height: 9
+      alignment: 9
+      pivot: {x: 0.65, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df0d3447e59016e00800000000000000
+      internalID: 1036119690554102013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PawnFire2_8
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 10
+        height: 9
+      alignment: 9
+      pivot: {x: 0.65, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3c8501bd04f53180800000000000000
+      internalID: -9136127929409500101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PawnFire2_9
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 10
+        height: 9
+      alignment: 9
+      pivot: {x: 0.65, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cfec314f567b6ea0800000000000000
+      internalID: -5878474737113567292
       vertices: []
       indices: 
       edges: []

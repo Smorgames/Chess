@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 307382446}
   - component: {fileID: 307382447}
   m_Layer: 0
-  m_Name: SpritesStorage
+  m_Name: GraphicDataStorage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -406,31 +406,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48aeff314acdf584cb8bc9928f3d6440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pawnSprites:
-    White: {fileID: -190427645437889769, guid: fff55a0fe08ca8447866708ff1ce7371, type: 3}
-    Black: {fileID: -2455635294200822801, guid: 87c9967d1a8d25842b8543ac786fc34f,
+  _pawnGraphicData:
+    WhiteSprite: {fileID: -190427645437889769, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
-  _rookSprites:
-    White: {fileID: 4167902192646684152, guid: fff55a0fe08ca8447866708ff1ce7371, type: 3}
-    Black: {fileID: 8722082921441630010, guid: 87c9967d1a8d25842b8543ac786fc34f, type: 3}
-  _knightSprites:
-    White: {fileID: -8243608473562641220, guid: fff55a0fe08ca8447866708ff1ce7371,
+    BlackSprite: {fileID: -2455635294200822801, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    Black: {fileID: -5029045998188158733, guid: 87c9967d1a8d25842b8543ac786fc34f,
+    WhiteEffects: {fileID: 0}
+    BlackEffects: {fileID: 0}
+  _rookGraphicData:
+    WhiteSprite: {fileID: 4167902192646684152, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
-  _bishopSprites:
-    White: {fileID: -4209293873126123158, guid: fff55a0fe08ca8447866708ff1ce7371,
+    BlackSprite: {fileID: 8722082921441630010, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    Black: {fileID: 2489323302343023830, guid: 87c9967d1a8d25842b8543ac786fc34f, type: 3}
-  _queenSprites:
-    White: {fileID: 1747114032200019052, guid: fff55a0fe08ca8447866708ff1ce7371, type: 3}
-    Black: {fileID: -9123985352547874406, guid: 87c9967d1a8d25842b8543ac786fc34f,
+    WhiteEffects: {fileID: 0}
+    BlackEffects: {fileID: 0}
+  _knightGraphicData:
+    WhiteSprite: {fileID: -8243608473562641220, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
-  _kingSprites:
-    White: {fileID: -6185609143308591411, guid: fff55a0fe08ca8447866708ff1ce7371,
+    BlackSprite: {fileID: -5029045998188158733, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    Black: {fileID: -6801229620481291038, guid: 87c9967d1a8d25842b8543ac786fc34f,
+    WhiteEffects: {fileID: 0}
+    BlackEffects: {fileID: 0}
+  _bishopGraphicData:
+    WhiteSprite: {fileID: -4209293873126123158, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
+    BlackSprite: {fileID: 2489323302343023830, guid: 87c9967d1a8d25842b8543ac786fc34f,
+      type: 3}
+    WhiteEffects: {fileID: 0}
+    BlackEffects: {fileID: 0}
+  _queenGraphicData:
+    WhiteSprite: {fileID: 1747114032200019052, guid: fff55a0fe08ca8447866708ff1ce7371,
+      type: 3}
+    BlackSprite: {fileID: -9123985352547874406, guid: 87c9967d1a8d25842b8543ac786fc34f,
+      type: 3}
+    WhiteEffects: {fileID: 0}
+    BlackEffects: {fileID: 0}
+  _kingGraphicData:
+    WhiteSprite: {fileID: -6185609143308591411, guid: fff55a0fe08ca8447866708ff1ce7371,
+      type: 3}
+    BlackSprite: {fileID: -6801229620481291038, guid: 87c9967d1a8d25842b8543ac786fc34f,
+      type: 3}
+    WhiteEffects: {fileID: 0}
+    BlackEffects: {fileID: 0}
 --- !u!1 &365984377
 GameObject:
   m_ObjectHideFlags: 0

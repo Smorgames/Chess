@@ -25,6 +25,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RookFire
       objectReference: {fileID: 0}
+    - target: {fileID: 4207963148110641688, guid: c09f3ead38d141a4badf710501e8496e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.035
+      objectReference: {fileID: 0}
     - target: {fileID: 5658880275813164423, guid: c09f3ead38d141a4badf710501e8496e,
         type: 3}
       propertyPath: m_RootOrder
@@ -79,6 +84,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8821549645416349886, guid: c09f3ead38d141a4badf710501e8496e,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c09f3ead38d141a4badf710501e8496e, type: 3}

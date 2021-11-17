@@ -23,6 +23,6 @@ public class ReferenceRegistry : MonoBehaviour
     public PawnPromotion MyPawnPromotion => _pawnPromotion;
     [SerializeField] private PawnPromotion _pawnPromotion;
 
-    public SpritesStorage MySpritesStorage => _spritesStorage;
-    [SerializeField] private SpritesStorage _spritesStorage;
+    public GraphicDataStorage MySpritesStorage => _spritesStorage;
+    [SerializeField] private GraphicDataStorage _spritesStorage;
 }

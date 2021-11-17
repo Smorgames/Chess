@@ -1,37 +1,37 @@
 fileFormatVersion: 2
-guid: 240eb1c5ae66adf42ac0ab24a3f5c5a9
+guid: 068d85b779fff89498133bfbc4064a67
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1976977620891022942
-    second: RookFire_0
+      213: -7018613348400507538
+    second: PawnFire1_0
   - first:
-      213: 4391031338788915435
-    second: RookFire_1
+      213: -733161144023574172
+    second: PawnFire1_1
   - first:
-      213: -3865392281820678748
-    second: RookFire_2
+      213: -9126506513362073711
+    second: PawnFire1_2
   - first:
-      213: -1839032166849382280
-    second: RookFire_3
+      213: 8205776863238271493
+    second: PawnFire1_3
   - first:
-      213: 8616850246835808183
-    second: RookFire_4
+      213: 4575136128096298998
+    second: PawnFire1_4
   - first:
-      213: 4247224267925316851
-    second: RookFire_5
+      213: 555969332589384931
+    second: PawnFire1_5
   - first:
-      213: -6906492343550933478
-    second: RookFire_6
+      213: -1698092884893124046
+    second: PawnFire1_6
   - first:
-      213: 1977153705501139591
-    second: RookFire_7
+      213: 6268970711986053285
+    second: PawnFire1_7
   - first:
-      213: 3199464098285346540
-    second: RookFire_8
+      213: 5137270815327789518
+    second: PawnFire1_8
   - first:
-      213: 2820101767470795490
-    second: RookFire_9
+      213: -3622729077445502704
+    second: PawnFire1_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -153,211 +153,211 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RookFire_0
+      name: PawnFire1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a9c4e9045d5094e0800000000000000
-      internalID: -1976977620891022942
+      spriteID: e65d5c88850e89e90800000000000000
+      internalID: -7018613348400507538
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RookFire_1
+      name: PawnFire1_1
       rect:
         serializedVersion: 2
-        x: 9
+        x: 8
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be80f1aecb310fc30800000000000000
-      internalID: 4391031338788915435
+      spriteID: 4691b5fe2d943d5f0800000000000000
+      internalID: -733161144023574172
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RookFire_2
+      name: PawnFire1_2
       rect:
         serializedVersion: 2
-        x: 18
+        x: 16
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a5ba8c033e5b5ac0800000000000000
-      internalID: -3865392281820678748
+      spriteID: 197c3ce2ea2285180800000000000000
+      internalID: -9126506513362073711
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RookFire_3
+      name: PawnFire1_3
       rect:
         serializedVersion: 2
-        x: 27
+        x: 24
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 878fc64ecf17a76e0800000000000000
-      internalID: -1839032166849382280
+      spriteID: 502bf6fb496c0e170800000000000000
+      internalID: 8205776863238271493
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RookFire_4
+      name: PawnFire1_4
       rect:
         serializedVersion: 2
-        x: 36
+        x: 32
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b7a26d35a3359770800000000000000
-      internalID: 8616850246835808183
+      spriteID: 6f76c3281162e7f30800000000000000
+      internalID: 4575136128096298998
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RookFire_5
+      name: PawnFire1_5
       rect:
         serializedVersion: 2
-        x: 45
+        x: 40
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f46b1b08fb21fa30800000000000000
-      internalID: 4247224267925316851
+      spriteID: 3e4500f892337b700800000000000000
+      internalID: 555969332589384931
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RookFire_6
+      name: PawnFire1_6
       rect:
         serializedVersion: 2
-        x: 54
+        x: 48
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1601b24ec53720a0800000000000000
-      internalID: -6906492343550933478
+      spriteID: 23ab350a4892f68e0800000000000000
+      internalID: -1698092884893124046
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RookFire_7
+      name: PawnFire1_7
       rect:
         serializedVersion: 2
-        x: 63
+        x: 56
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7822ebad1d2407b10800000000000000
-      internalID: 1977153705501139591
+      spriteID: 5a0a14be5abdff650800000000000000
+      internalID: 6268970711986053285
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RookFire_8
+      name: PawnFire1_8
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 8
+        height: 11
+      alignment: 9
+      pivot: {x: 0.6875, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec1289e86904b4740800000000000000
+      internalID: 5137270815327789518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PawnFire1_9
       rect:
         serializedVersion: 2
         x: 72
         y: 0
-        width: 9
-        height: 8
+        width: 8
+        height: 11
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.6875, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ceed9e955a7c66c20800000000000000
-      internalID: 3199464098285346540
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RookFire_9
-      rect:
-        serializedVersion: 2
-        x: 81
-        y: 0
-        width: 9
-        height: 8
-      alignment: 9
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2ea4c80bd93032720800000000000000
-      internalID: 2820101767470795490
+      spriteID: 019d16d191b79bdc0800000000000000
+      internalID: -3622729077445502704
       vertices: []
       indices: 
       edges: []

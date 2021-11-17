@@ -22,7 +22,7 @@ public class Knight : UniversallyMovingPiece
     
     protected override void SetSprite()
     {
-        var knightSprites = ReferenceRegistry.Instance.MySpritesStorage.KnightSprites;
-        _renderer.sprite = ColorCode == "w" ? knightSprites.White : knightSprites.Black;
+        var knightSprites = ReferenceRegistry.Instance.MySpritesStorage.KnightGraphicData;
+        _renderer.sprite = ColorCode == "w" ? knightSprites.WhiteSprite : knightSprites.BlackSprite;
     }
 }

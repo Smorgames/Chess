@@ -14,7 +14,7 @@ public class Rook : UniversallyMovingPiece
     
     protected override void SetSprite()
     {
-        var rookSprites = ReferenceRegistry.Instance.MySpritesStorage.RookSprites;
-        _renderer.sprite = ColorCode == "w" ? rookSprites.White : rookSprites.Black;
+        var rookSprites = ReferenceRegistry.Instance.MySpritesStorage.RookGraphicData;
+        _renderer.sprite = ColorCode == "w" ? rookSprites.WhiteSprite : rookSprites.BlackSprite;
     }
 }

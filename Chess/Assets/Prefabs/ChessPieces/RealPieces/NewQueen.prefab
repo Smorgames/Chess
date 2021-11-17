@@ -13,10 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 2657499752382702067}
-  _whiteSprite: {fileID: 4271928469194566216, guid: 5193023d2654b714db0bfe64a6d53a11,
-    type: 3}
-  _blackSprite: {fileID: 8239140532275945989, guid: 5193023d2654b714db0bfe64a6d53a11,
-    type: 3}
 --- !u!1001 &2582612771940642191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,7 +34,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 4271928469194566216, guid: 5193023d2654b714db0bfe64a6d53a11,
+      objectReference: {fileID: -9123985352547874406, guid: 87c9967d1a8d25842b8543ac786fc34f,
         type: 3}
     - target: {fileID: 519635037056732284, guid: 5ab262a3a0172854eb42489d4c4065b7,
         type: 3}
