@@ -5,6 +5,8 @@ public class Bishop : UniversallyMovingPiece
 {
     public override string TypeCode => "b";
 
+    private static Vector3 _effectOffset = new Vector3(0f, 0.065f, 0f);
+
     public override void UpdateSupposedMoves(Square squareWithPiece)
     {
         SupposedMoves.Clear();
@@ -12,9 +14,12 @@ public class Bishop : UniversallyMovingPiece
         SupposedMoves = IterativelyAddedSquares(squareWithPiece, directions);
     }
     
-    protected override void SetSprite()
+    protected override void SetGraphics()
     {
-        var bishopSprites = ReferenceRegistry.Instance.MySpritesStorage.BishopGraphicData;
-        _renderer.sprite = ColorCode == "w" ? bishopSprites.WhiteSprite : bishopSprites.BlackSprite;
+        var isWhite = ColorCode == "w";
+        var bishopGraphicData = ReferenceRegistry.Instance.MySpritesStorage.BishopGraphicData;
+        _renderer.sprite = isWhite ? bishopGraphicData.WhiteSprite : bishopGraphicData.BlackSprite;
+        var effect = isWhite ? bishopGraphicData.WhiteEffects : bishopGraphicData.BlackEffects;
+        InitializeVisualEffect(effect);
     }
 }

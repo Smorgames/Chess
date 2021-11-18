@@ -5,6 +5,8 @@ public class Queen : UniversallyMovingPiece
 {
     public override string TypeCode => "q";
 
+    private static Vector3 _effectOffset = new Vector3(0f, 0.055f, 0f);
+
     public override void UpdateSupposedMoves(Square squareWithPiece)
     {
         SupposedMoves.Clear();
@@ -12,9 +14,12 @@ public class Queen : UniversallyMovingPiece
         SupposedMoves = IterativelyAddedSquares(squareWithPiece, directions);
     }
 
-    protected override void SetSprite()
+    protected override void SetGraphics()
     {
-        var queenSprites = ReferenceRegistry.Instance.MySpritesStorage.QueenGraphicData;
-        _renderer.sprite = ColorCode == "w" ? queenSprites.WhiteSprite : queenSprites.BlackSprite;
+        var isWhite = ColorCode == "w";
+        var queenGraphicData = ReferenceRegistry.Instance.MySpritesStorage.QueenGraphicData;
+        _renderer.sprite = isWhite ? queenGraphicData.WhiteSprite : queenGraphicData.BlackSprite;
+        var effect = isWhite ? queenGraphicData.WhiteEffects : queenGraphicData.BlackEffects;
+        InitializeVisualEffect(effect);
     }
 }

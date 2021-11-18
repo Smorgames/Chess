@@ -33,10 +33,12 @@ public class King : UniversallyMovingPiece
                 SupposedMoves.Add(castlingMove.KingSquare);
     }
     
-    protected override void SetSprite()
+    protected override void SetGraphics()
     {
-        var kingSprites = ReferenceRegistry.Instance.MySpritesStorage.KingGraphicData;
-        _renderer.sprite = ColorCode == "w" ? kingSprites.WhiteSprite : kingSprites.BlackSprite;
+        var kingGrapgicData = ReferenceRegistry.Instance.MySpritesStorage.KingGraphicData;
+        _renderer.sprite = ColorCode == "w" ? kingGrapgicData.WhiteSprite : kingGrapgicData.BlackSprite;
+        var effect = ColorCode == "w" ? kingGrapgicData.WhiteEffects : kingGrapgicData.BlackEffects;
+        InitializeVisualEffect(effect);
     }
 }
 

@@ -53,9 +53,11 @@ public class Pawn : Piece
             supposedSquaresForMove.Add(square);
     }
 
-    protected override void SetSprite()
+    protected override void SetGraphics()
     {
-        var pawnSprites = ReferenceRegistry.Instance.MySpritesStorage.PawnGraphicData;
-        _renderer.sprite = ColorCode == "w" ? pawnSprites.WhiteSprite : pawnSprites.BlackSprite;
+        var pawnGrapgicData = ReferenceRegistry.Instance.MySpritesStorage.PawnGraphicData;
+        _renderer.sprite = ColorCode == "w" ? pawnGrapgicData.WhiteSprite : pawnGrapgicData.BlackSprite;
+        var effect = ColorCode == "w" ? pawnGrapgicData.WhiteEffects : pawnGrapgicData.BlackEffects;
+        InitializeVisualEffect(effect);
     }
 }

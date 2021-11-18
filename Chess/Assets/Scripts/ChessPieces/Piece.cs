@@ -30,10 +30,20 @@ public abstract class Piece : MonoBehaviour
         if (colorCode == "w" || colorCode == "b")
             ColorCode = colorCode;
         IsFirstMove = isFirstMove;
-        SetSprite();
+        SetGraphics();
     }
 
-    protected abstract void SetSprite();
+    protected abstract void SetGraphics();
+
+    protected void InitializeVisualEffect(GameObject effect) => InitializeVisualEffect(effect, Vector3.zero);
+
+    protected void InitializeVisualEffect(GameObject effect, Vector3 offset)
+    {
+        var effectInstance = Instantiate(effect, transform.position, Quaternion.identity);
+        effectInstance.transform.parent = gameObject.transform;
+
+        effectInstance.transform.localPosition = Vector3.zero + offset;
+    }
 
     public abstract void UpdateSupposedMoves(Square squareWithPiece);
 

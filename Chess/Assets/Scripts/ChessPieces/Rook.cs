@@ -5,6 +5,8 @@ public class Rook : UniversallyMovingPiece
 {
     public override string TypeCode => "r";
 
+    private static Vector3 _effectOffset = new Vector3(0f, 0.035f, 0f);
+
     public override void UpdateSupposedMoves(Square squareWithPiece)
     {
         SupposedMoves.Clear();
@@ -12,9 +14,12 @@ public class Rook : UniversallyMovingPiece
         SupposedMoves = IterativelyAddedSquares(squareWithPiece, directions, true);
     }
     
-    protected override void SetSprite()
+    protected override void SetGraphics()
     {
-        var rookSprites = ReferenceRegistry.Instance.MySpritesStorage.RookGraphicData;
-        _renderer.sprite = ColorCode == "w" ? rookSprites.WhiteSprite : rookSprites.BlackSprite;
+        var isWhite = ColorCode == "w";
+        var rookGrapgicData = ReferenceRegistry.Instance.MySpritesStorage.RookGraphicData;
+        _renderer.sprite = isWhite ? rookGrapgicData.WhiteSprite : rookGrapgicData.BlackSprite;
+        var effect = isWhite ? rookGrapgicData.WhiteEffects : rookGrapgicData.BlackEffects;
+        InitializeVisualEffect(effect);
     }
 }

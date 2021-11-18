@@ -411,43 +411,55 @@ MonoBehaviour:
       type: 3}
     BlackSprite: {fileID: -2455635294200822801, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    WhiteEffects: {fileID: 0}
-    BlackEffects: {fileID: 0}
+    WhiteEffects: {fileID: 3226351892682098809, guid: daf0eebd68b9b7748b9a48ec72e329a9,
+      type: 3}
+    BlackEffects: {fileID: 1251117418973573001, guid: 99e91d69b64833645a33ac827d03270d,
+      type: 3}
   _rookGraphicData:
     WhiteSprite: {fileID: 4167902192646684152, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
     BlackSprite: {fileID: 8722082921441630010, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    WhiteEffects: {fileID: 0}
-    BlackEffects: {fileID: 0}
+    WhiteEffects: {fileID: 2704361581053408540, guid: 20c1c521e056d0b4b8a2941b930fc8ec,
+      type: 3}
+    BlackEffects: {fileID: 6750113038406108902, guid: 8dd010a250baa2941923347008035614,
+      type: 3}
   _knightGraphicData:
     WhiteSprite: {fileID: -8243608473562641220, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
     BlackSprite: {fileID: -5029045998188158733, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    WhiteEffects: {fileID: 0}
-    BlackEffects: {fileID: 0}
+    WhiteEffects: {fileID: 1230580702755704683, guid: 25d0ad93f67e13b4bbf35dd1c855da90,
+      type: 3}
+    BlackEffects: {fileID: 8049405433405334401, guid: fe7b777495045a340ab7d09836ad783f,
+      type: 3}
   _bishopGraphicData:
     WhiteSprite: {fileID: -4209293873126123158, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
     BlackSprite: {fileID: 2489323302343023830, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    WhiteEffects: {fileID: 0}
-    BlackEffects: {fileID: 0}
+    WhiteEffects: {fileID: 9050584846769676626, guid: 0b788fa88b394874a8a71642e5192760,
+      type: 3}
+    BlackEffects: {fileID: 5810259905695953897, guid: 16697b35a73b4b34e94f162b707504d2,
+      type: 3}
   _queenGraphicData:
     WhiteSprite: {fileID: 1747114032200019052, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
     BlackSprite: {fileID: -9123985352547874406, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    WhiteEffects: {fileID: 0}
-    BlackEffects: {fileID: 0}
+    WhiteEffects: {fileID: 4136128614058955939, guid: 7dc82bae92234c64993290055778b395,
+      type: 3}
+    BlackEffects: {fileID: 955481593728291502, guid: faabaddb21438ff4d932c54d994fd494,
+      type: 3}
   _kingGraphicData:
     WhiteSprite: {fileID: -6185609143308591411, guid: fff55a0fe08ca8447866708ff1ce7371,
       type: 3}
     BlackSprite: {fileID: -6801229620481291038, guid: 87c9967d1a8d25842b8543ac786fc34f,
       type: 3}
-    WhiteEffects: {fileID: 0}
-    BlackEffects: {fileID: 0}
+    WhiteEffects: {fileID: 9003613925835790798, guid: 9aacf90da42a7b74ba3e298fc73c0989,
+      type: 3}
+    BlackEffects: {fileID: 8450424908231759687, guid: a5d50a6bd1dc9614e96e9304a17d9488,
+      type: 3}
 --- !u!1 &365984377
 GameObject:
   m_ObjectHideFlags: 0

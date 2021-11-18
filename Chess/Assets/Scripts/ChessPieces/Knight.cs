@@ -20,9 +20,11 @@ public class Knight : UniversallyMovingPiece
         SupposedMoves = OneDirectionOneMove(squareWithPiece, directions);
     }
     
-    protected override void SetSprite()
+    protected override void SetGraphics()
     {
-        var knightSprites = ReferenceRegistry.Instance.MySpritesStorage.KnightGraphicData;
-        _renderer.sprite = ColorCode == "w" ? knightSprites.WhiteSprite : knightSprites.BlackSprite;
+        var knightGraphicData = ReferenceRegistry.Instance.MySpritesStorage.KnightGraphicData;
+        _renderer.sprite = ColorCode == "w" ? knightGraphicData.WhiteSprite : knightGraphicData.BlackSprite;
+        var effect = ColorCode == "w" ? knightGraphicData.WhiteEffects : knightGraphicData.BlackEffects;
+        InitializeVisualEffect(effect);
     }
 }
