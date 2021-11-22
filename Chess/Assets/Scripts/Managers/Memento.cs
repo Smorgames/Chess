@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Memento : MonoBehaviour
@@ -18,24 +16,7 @@ public class Memento : MonoBehaviour
     #endregion
 
     private Stack<ChessCode> _gameStates = new Stack<ChessCode>();
-    private Stack<List<MoveCache>> _cachedMoves = new Stack<List<MoveCache>>();
-
     private bool _needRememberGameState = false;
-    
-    public void AddMove(List<MoveCache> movesOnThisTurn) => _cachedMoves.Push(movesOnThisTurn);
-
-    public void UndoMove()
-    {
-        var moves = _cachedMoves.Pop();
-
-        foreach (var move in moves)
-        {
-            
-        }
-
-        _needRememberGameState = false;
-        Game.Instance.ChangeTurnOrder();
-    }
 
     private void AddCurrentState(object s, TurnOrderEventArgs a)
     {

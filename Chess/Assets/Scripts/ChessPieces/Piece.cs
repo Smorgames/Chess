@@ -80,10 +80,9 @@ public abstract class Piece : MonoBehaviour
         _renderer.color = color;
     }
     
-    public void Death()
-    {
-        Destroy(gameObject);
-    }
+    public void Death() => Destroy(gameObject);
+
+    public void FlipPiece() => transform.localRotation = transform.localRotation * Quaternion.Euler(new Vector3(0f, 0f, 180f));
 }
 
 public class PieceMovedEventArgs : EventArgs
